@@ -1,0 +1,66 @@
+Command: cmake -G Ninja -B /home/hase/Projekte/thetys/esp32/build -DPYTHON_DEPS_CHECKED=1 -DPYTHON=/home/hase/.espressif/python_env/idf6.0_py3.12_env/bin/python -DESP_PLATFORM=1 -DIDF_TARGET=esp32s3 -DCCACHE_ENABLE=False /home/hase/Projekte/thetys/esp32
+-- Found Git: /usr/bin/git (found version "2.54.0")
+-- Component directory /usr/share/esp-idf/components/mqtt does not contain a CMakeLists.txt file. No component will be added
+-- git rev-parse returned 'Schwerwiegend: Kein Git-Repository (oder irgendeines der Elternverzeichnisse): .git'
+-- Minimal build - OFF
+-- The C compiler identification is GNU 15.2.0
+-- The CXX compiler identification is GNU 15.2.0
+-- The ASM compiler identification is GNU
+-- Found assembler: /home/hase/.espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /home/hase/.espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /home/hase/.espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32s3-elf-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Building ESP-IDF components for target esp32s3
+-- ESP-TEE is currently supported only on the esp32c6;esp32h2;esp32c5;esp32c61 SoCs
+-- KCONFIG_REPORT_VERBOSITY not set, using default
+-- Project sdkconfig file /home/hase/Projekte/thetys/esp32/sdkconfig
+-- Compiler supported targets: xtensa-esp-elf
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- App "thetys" version: 7b543b3
+-- Found Python3: /home/hase/.espressif/python_env/idf6.0_py3.12_env/bin/python (found version "3.12.13") found components: Interpreter
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS
+-- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS - Success
+-- Setting up mbedtls configuration
+-- Linkage type is PUBLIC
+-- Adding linker script /usr/share/esp-idf/components/esp_hal_wdt/esp32s3/rom.wdt.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_system/ld/esp32s3/memory.ld.in
+--   -> Preprocessing .in script: /usr/share/esp-idf/components/esp_system/ld/esp32s3/memory.ld.in
+-- Adding linker script /usr/share/esp-idf/components/esp_system/ld/esp32s3/sections.ld.in
+--   -> Preprocessing .in script: /usr/share/esp-idf/components/esp_system/ld/esp32s3/sections.ld.in
+--   -> Applying ldgen processing: /home/hase/Projekte/thetys/esp32/build/esp-idf/esp_system/ld/sections.ld.in
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.api.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.bt_funcs.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libgcc.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.version.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_master.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_50.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_smp.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_dtm.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_test.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_scan.ld
+-- Adding linker script /usr/share/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libc.ld
+-- Adding linker script /usr/share/esp-idf/components/soc/esp32s3/ld/esp32s3.peripherals.ld
+-- Component idf::esp_trace will be linked with -Wl,--whole-archive
+-- Components: app_trace app_update bootloader bootloader_support bt cmock console cxx driver efuse esp-tls esp_adc esp_app_format esp_blockdev esp_blockdev_util esp_bootloader_format esp_coex esp_common esp_driver_ana_cmpr esp_driver_bitscrambler esp_driver_cam esp_driver_dac esp_driver_dma esp_driver_gpio esp_driver_gptimer esp_driver_i2c esp_driver_i2s esp_driver_i3c esp_driver_isp esp_driver_jpeg esp_driver_ledc esp_driver_mcpwm esp_driver_parlio esp_driver_pcnt esp_driver_ppa esp_driver_rmt esp_driver_sd_intf esp_driver_sdio esp_driver_sdm esp_driver_sdmmc esp_driver_sdspi esp_driver_spi esp_driver_touch_sens esp_driver_tsens esp_driver_twai esp_driver_uart esp_driver_usb_serial_jtag esp_eth esp_event esp_gdbstub esp_hal_ana_cmpr esp_hal_ana_conv esp_hal_cam esp_hal_clock esp_hal_dma esp_hal_gpio esp_hal_gpspi esp_hal_i2c esp_hal_i2s esp_hal_ieee802154 esp_hal_jpeg esp_hal_lcd esp_hal_ledc esp_hal_mcpwm esp_hal_mspi esp_hal_parlio esp_hal_pcnt esp_hal_pmu esp_hal_ppa esp_hal_rmt esp_hal_rtc_timer esp_hal_sd esp_hal_security esp_hal_timg esp_hal_touch_sens esp_hal_twai esp_hal_uart esp_hal_usb esp_hal_wdt esp_hid esp_http_client esp_http_server esp_https_ota esp_https_server esp_hw_support esp_lcd esp_libc esp_local_ctrl esp_mm esp_netif esp_netif_stack esp_partition esp_phy esp_pm esp_psram esp_ringbuf esp_rom esp_security esp_stdio esp_system esp_timer esp_trace esp_usb_cdc_rom_console esp_wifi espcoredump esptool_py fatfs freertos hal heap http_parser idf_test ieee802154 log lwip main mbedtls nvs_flash nvs_sec_provider openthread partition_table perfmon protobuf-c protocomm pthread rt sdmmc soc spi_flash spiffs tcp_transport ulp unity vfs wear_levelling wpa_supplicant xtensa
+-- Component paths: /usr/share/esp-idf/components/app_trace /usr/share/esp-idf/components/app_update /usr/share/esp-idf/components/bootloader /usr/share/esp-idf/components/bootloader_support /usr/share/esp-idf/components/bt /usr/share/esp-idf/components/cmock /usr/share/esp-idf/components/console /usr/share/esp-idf/components/cxx /usr/share/esp-idf/components/driver /usr/share/esp-idf/components/efuse /usr/share/esp-idf/components/esp-tls /usr/share/esp-idf/components/esp_adc /usr/share/esp-idf/components/esp_app_format /usr/share/esp-idf/components/esp_blockdev /usr/share/esp-idf/components/esp_blockdev_util /usr/share/esp-idf/components/esp_bootloader_format /usr/share/esp-idf/components/esp_coex /usr/share/esp-idf/components/esp_common /usr/share/esp-idf/components/esp_driver_ana_cmpr /usr/share/esp-idf/components/esp_driver_bitscrambler /usr/share/esp-idf/components/esp_driver_cam /usr/share/esp-idf/components/esp_driver_dac /usr/share/esp-idf/components/esp_driver_dma /usr/share/esp-idf/components/esp_driver_gpio /usr/share/esp-idf/components/esp_driver_gptimer /usr/share/esp-idf/components/esp_driver_i2c /usr/share/esp-idf/components/esp_driver_i2s /usr/share/esp-idf/components/esp_driver_i3c /usr/share/esp-idf/components/esp_driver_isp /usr/share/esp-idf/components/esp_driver_jpeg /usr/share/esp-idf/components/esp_driver_ledc /usr/share/esp-idf/components/esp_driver_mcpwm /usr/share/esp-idf/components/esp_driver_parlio /usr/share/esp-idf/components/esp_driver_pcnt /usr/share/esp-idf/components/esp_driver_ppa /usr/share/esp-idf/components/esp_driver_rmt /usr/share/esp-idf/components/esp_driver_sd_intf /usr/share/esp-idf/components/esp_driver_sdio /usr/share/esp-idf/components/esp_driver_sdm /usr/share/esp-idf/components/esp_driver_sdmmc /usr/share/esp-idf/components/esp_driver_sdspi /usr/share/esp-idf/components/esp_driver_spi /usr/share/esp-idf/components/esp_driver_touch_sens /usr/share/esp-idf/components/esp_driver_tsens /usr/share/esp-idf/components/esp_driver_twai /usr/share/esp-idf/components/esp_driver_uart /usr/share/esp-idf/components/esp_driver_usb_serial_jtag /usr/share/esp-idf/components/esp_eth /usr/share/esp-idf/components/esp_event /usr/share/esp-idf/components/esp_gdbstub /usr/share/esp-idf/components/esp_hal_ana_cmpr /usr/share/esp-idf/components/esp_hal_ana_conv /usr/share/esp-idf/components/esp_hal_cam /usr/share/esp-idf/components/esp_hal_clock /usr/share/esp-idf/components/esp_hal_dma /usr/share/esp-idf/components/esp_hal_gpio /usr/share/esp-idf/components/esp_hal_gpspi /usr/share/esp-idf/components/esp_hal_i2c /usr/share/esp-idf/components/esp_hal_i2s /usr/share/esp-idf/components/esp_hal_ieee802154 /usr/share/esp-idf/components/esp_hal_jpeg /usr/share/esp-idf/components/esp_hal_lcd /usr/share/esp-idf/components/esp_hal_ledc /usr/share/esp-idf/components/esp_hal_mcpwm /usr/share/esp-idf/components/esp_hal_mspi /usr/share/esp-idf/components/esp_hal_parlio /usr/share/esp-idf/components/esp_hal_pcnt /usr/share/esp-idf/components/esp_hal_pmu /usr/share/esp-idf/components/esp_hal_ppa /usr/share/esp-idf/components/esp_hal_rmt /usr/share/esp-idf/components/esp_hal_rtc_timer /usr/share/esp-idf/components/esp_hal_sd /usr/share/esp-idf/components/esp_hal_security /usr/share/esp-idf/components/esp_hal_timg /usr/share/esp-idf/components/esp_hal_touch_sens /usr/share/esp-idf/components/esp_hal_twai /usr/share/esp-idf/components/esp_hal_uart /usr/share/esp-idf/components/esp_hal_usb /usr/share/esp-idf/components/esp_hal_wdt /usr/share/esp-idf/components/esp_hid /usr/share/esp-idf/components/esp_http_client /usr/share/esp-idf/components/esp_http_server /usr/share/esp-idf/components/esp_https_ota /usr/share/esp-idf/components/esp_https_server /usr/share/esp-idf/components/esp_hw_support /usr/share/esp-idf/components/esp_lcd /usr/share/esp-idf/components/esp_libc /usr/share/esp-idf/components/esp_local_ctrl /usr/share/esp-idf/components/esp_mm /usr/share/esp-idf/components/esp_netif /usr/share/esp-idf/components/esp_netif_stack /usr/share/esp-idf/components/esp_partition /usr/share/esp-idf/components/esp_phy /usr/share/esp-idf/components/esp_pm /usr/share/esp-idf/components/esp_psram /usr/share/esp-idf/components/esp_ringbuf /usr/share/esp-idf/components/esp_rom /usr/share/esp-idf/components/esp_security /usr/share/esp-idf/components/esp_stdio /usr/share/esp-idf/components/esp_system /usr/share/esp-idf/components/esp_timer /usr/share/esp-idf/components/esp_trace /usr/share/esp-idf/components/esp_usb_cdc_rom_console /usr/share/esp-idf/components/esp_wifi /usr/share/esp-idf/components/espcoredump /usr/share/esp-idf/components/esptool_py /usr/share/esp-idf/components/fatfs /usr/share/esp-idf/components/freertos /usr/share/esp-idf/components/hal /usr/share/esp-idf/components/heap /usr/share/esp-idf/components/http_parser /usr/share/esp-idf/components/idf_test /usr/share/esp-idf/components/ieee802154 /usr/share/esp-idf/components/log /usr/share/esp-idf/components/lwip /home/hase/Projekte/thetys/esp32/main /usr/share/esp-idf/components/mbedtls /usr/share/esp-idf/components/nvs_flash /usr/share/esp-idf/components/nvs_sec_provider /usr/share/esp-idf/components/openthread /usr/share/esp-idf/components/partition_table /usr/share/esp-idf/components/perfmon /usr/share/esp-idf/components/protobuf-c /usr/share/esp-idf/components/protocomm /usr/share/esp-idf/components/pthread /usr/share/esp-idf/components/rt /usr/share/esp-idf/components/sdmmc /usr/share/esp-idf/components/soc /usr/share/esp-idf/components/spi_flash /usr/share/esp-idf/components/spiffs /usr/share/esp-idf/components/tcp_transport /usr/share/esp-idf/components/ulp /usr/share/esp-idf/components/unity /usr/share/esp-idf/components/vfs /usr/share/esp-idf/components/wear_levelling /usr/share/esp-idf/components/wpa_supplicant /usr/share/esp-idf/components/xtensa
+-- Configuring done (9.6s)
+-- Generating done (1.0s)
+-- Build files have been written to: /home/hase/Projekte/thetys/esp32/build
