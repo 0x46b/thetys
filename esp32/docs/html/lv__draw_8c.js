@@ -1,0 +1,28 @@
+var lv__draw_8c =
+[
+    [ "_draw_info", "lv__draw_8c.html#a6f815efdcf93fa0550a49d03a50be4cb", null ],
+    [ "lv_draw_add_task", "lv__draw_8c.html#ab0a0fed723c8db50b48498546c49a138", null ],
+    [ "lv_draw_create_unit", "lv__draw_8c.html#ab7c58b87e84d6b99117fecfc06fcdc0a", null ],
+    [ "lv_draw_deinit", "lv__draw_8c.html#abae9b3bd61497855c3a82103494725e5", null ],
+    [ "lv_draw_dispatch", "lv__draw_8c.html#ade7067f07c7dd3deccb45341f1dbc73c", null ],
+    [ "lv_draw_dispatch_layer", "lv__draw_8c.html#aff7f92a1652f288cdcf6a36fbdcc37b9", null ],
+    [ "lv_draw_dispatch_request", "lv__draw_8c.html#a80d5afeb89b766f10b979b8d84edef7e", null ],
+    [ "lv_draw_dispatch_wait_for_request", "lv__draw_8c.html#a7658d15481d2b2cf850334cb7c21b1a4", null ],
+    [ "lv_draw_finalize_task_creation", "lv__draw_8c.html#a12c0ac3d02721b0d5f67e2909380b629", null ],
+    [ "lv_draw_get_available_task", "lv__draw_8c.html#a98289fd41b3eee7b45a82d5de98a64f8", null ],
+    [ "lv_draw_get_dependent_count", "lv__draw_8c.html#a767d50b395e78963dbcdf681ba508256", null ],
+    [ "lv_draw_get_next_available_task", "lv__draw_8c.html#a0017206c19b6e5638394dcb8d228d758", null ],
+    [ "lv_draw_get_unit_count", "lv__draw_8c.html#abdee089a93a2c95ef95f4fe1d1b5a17b", null ],
+    [ "lv_draw_init", "lv__draw_8c.html#af7a40ccee4c55b76a524fb3c212235db", null ],
+    [ "lv_draw_layer_alloc_buf", "lv__draw_8c.html#ad080a3d4c6749f0c14cb6663b4bbdab0", null ],
+    [ "lv_draw_layer_create", "lv__draw_8c.html#a3480658deee9911061b2028c2468b6a9", null ],
+    [ "lv_draw_layer_go_to_xy", "lv__draw_8c.html#aea1279b7e7689bc47e9a2fdadf781251", null ],
+    [ "lv_draw_layer_init", "lv__draw_8c.html#a7ba610970e2db71ddec45aee5cdaef22", null ],
+    [ "lv_draw_task_get_area", "lv__draw_8c.html#a3656a459a67c1661b7b961bc1fdfa811", null ],
+    [ "lv_draw_task_get_draw_dsc", "lv__draw_8c.html#a3fba4bcbc80f7e746466e14e3e72251b", null ],
+    [ "lv_draw_task_get_type", "lv__draw_8c.html#a582475e78238456a2b3d2fb847181a89", null ],
+    [ "lv_draw_unit_send_event", "lv__draw_8c.html#a494feb06a7e196f8e2f83ac6772ec84b", null ],
+    [ "lv_draw_wait_for_finish", "lv__draw_8c.html#a5b5f81213c9e45fa5dc1da2b7d806a30", null ],
+    [ "lv_layer_init", "lv__draw_8c.html#ab4e4ee072b53cb1800246db23b612fd5", null ],
+    [ "lv_layer_reset", "lv__draw_8c.html#aaedb7247ea42675ad8cb5f631fc87d59", null ]
+];

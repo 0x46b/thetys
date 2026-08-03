@@ -1,0 +1,27 @@
+var structlv__draw__label__dsc__t =
+[
+    [ "align", "structlv__draw__label__dsc__t.html#a9b7080030f72c3be101d4e9edb6e5184", null ],
+    [ "bidi_dir", "structlv__draw__label__dsc__t.html#abe2adda5a5740fb935f35844d8d31eab", null ],
+    [ "color", "structlv__draw__label__dsc__t.html#aef0d153803da81fbd6003fc9d8662e46", null ],
+    [ "decor", "structlv__draw__label__dsc__t.html#a45a6cb7bc0a6b35328adb1b514585bd5", null ],
+    [ "flag", "structlv__draw__label__dsc__t.html#aee20c2e9a2b746881cc89b08158c4025", null ],
+    [ "font", "structlv__draw__label__dsc__t.html#a846bcee134a6c08c52938de4b2a34b98", null ],
+    [ "has_bided", "structlv__draw__label__dsc__t.html#acc896700f337ab869621810af9adc6de", null ],
+    [ "hint", "structlv__draw__label__dsc__t.html#a38ba8ddb58b8701e23f07d836ed2df90", null ],
+    [ "letter_space", "structlv__draw__label__dsc__t.html#ab16dcaffc0987b87d9f623c0bd1f77f2", null ],
+    [ "line_space", "structlv__draw__label__dsc__t.html#abbf62ee132bd47b75361aaa275a733b1", null ],
+    [ "ofs_x", "structlv__draw__label__dsc__t.html#a45690b1600793a4847d71cf09fba3707", null ],
+    [ "ofs_y", "structlv__draw__label__dsc__t.html#a9c4f6b43882056dc0cfcccdbc450a858", null ],
+    [ "opa", "structlv__draw__label__dsc__t.html#abb00c9386bab32dd992382c759ce4ce5", null ],
+    [ "outline_stroke_opa", "structlv__draw__label__dsc__t.html#a46073d2d65e8dc6c16686f0af34c3519", null ],
+    [ "rotation", "structlv__draw__label__dsc__t.html#adefca2f0dfb1983c9dc09e4d89499741", null ],
+    [ "sel_bg_color", "structlv__draw__label__dsc__t.html#a41aac61fbc84b8de806da3713f035218", null ],
+    [ "sel_color", "structlv__draw__label__dsc__t.html#aa94c26d8e379ed3f3bd7abfb3f0f5927", null ],
+    [ "sel_end", "structlv__draw__label__dsc__t.html#a3cfe9a2f3e5874804e5e4ce9c5420e26", null ],
+    [ "sel_start", "structlv__draw__label__dsc__t.html#acf0be75256a81a24a07daf2f435abcb4", null ],
+    [ "text", "structlv__draw__label__dsc__t.html#a16343090e80c4472521560f30113d96c", null ],
+    [ "text_length", "structlv__draw__label__dsc__t.html#a1081df889e3efb790e32fa36dc146c21", null ],
+    [ "text_local", "structlv__draw__label__dsc__t.html#a7cbe5e01e5c212fc4fd3b0b35c9f47c9", null ],
+    [ "text_size", "structlv__draw__label__dsc__t.html#a7a3347ef29d19456b7aa0bb3c16bf58f", null ],
+    [ "text_static", "structlv__draw__label__dsc__t.html#ad96033db3469ba363263adc9a07f1c19", null ]
+];

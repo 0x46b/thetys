@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['pack_0',['How to Create CMSIS-Pack',['../dir_3a676821c214cfaa59c997e8472fa8e1.html#autotoc_md89',1,'']]],
+  ['pages_1',['Providing Links to API Pages',['../dir_463b85786adff4b4da2ea12c2990a7c9.html#autotoc_md45',1,'']]],
+  ['pc_2',['PC',['../lv__draw__nema__gfx_8c.html#autotoc_md141',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx_8h.html#autotoc_md143',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx__arc_8c.html#autotoc_md145',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx__border_8c.html#autotoc_md147',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx__fill_8c.html#autotoc_md149',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx__img_8c.html#autotoc_md151',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx__label_8c.html#autotoc_md153',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx__layer_8c.html#autotoc_md155',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx__line_8c.html#autotoc_md157',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx__triangle_8c.html#autotoc_md159',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx__utils_8c.html#autotoc_md161',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__draw__nema__gfx__utils_8h.html#autotoc_md163',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__nema__gfx__path_8c.html#autotoc_md165',1,'Copyright (c) 2008-24 Think Silicon Single Member PC'],['../lv__nema__gfx__path_8h.html#autotoc_md167',1,'Copyright (c) 2008-24 Think Silicon Single Member PC']]],
+  ['performance_20tests_3',['Performance Tests',['../dir_8431eb0d0d0b4115dd07d7a2475d3d35.html#autotoc_md190',1,'']]],
+  ['pikascript_20binding_20for_20lvgl_4',['PikaScript Binding for LVGL',['../dir_7481db6d537ea5d2e2eb9dbce13ca7f2.html#autotoc_md97',1,'']]],
+  ['plataformas_20compatíveis_5',['📦️ Plataformas compatíveis',['../md_managed__components_2lvgl____lvgl_2docs_2README__pt__BR.html#autotoc_md69',1,'']]],
+  ['platform_20support_6',['📦️ Platform Support',['../dir_2fdfbf37d75ca188ed896a3a27a4d79e.html#autotoc_md107',1,'']]],
+  ['player_7',['Music player',['../dir_d71d4e1067ef3d7874cac8084acd066c.html#autotoc_md13',1,'']]],
+  ['player_20demo_8',['Music player demo',['../dir_15a954b39f34bcd2a6ee92accfd1b6b7.html#autotoc_md3',1,'']]],
+  ['pledge_9',['Our Pledge',['../md_managed__components_2lvgl____lvgl_2docs_2CODE__OF__CONDUCT.html#autotoc_md22',1,'']]],
+  ['post_20questions_20here_10',['Post questions here',['../dir_48d7874f16c1e21fc55c75e1c26462c5.html#autotoc_md176',1,'']]],
+  ['pro_11',['Pro',['../md_managed__components_2lvgl____lvgl_2docs_2README__he.html#autotoc_md49',1,'🚀 עורך LVGL Pro'],['../md_managed__components_2lvgl____lvgl_2docs_2README__pt__BR.html#autotoc_md70',1,'🚀 Editor LVGL Pro']]],
+  ['pro_20エディター_12',['🚀 LVGL Pro エディター',['../md_managed__components_2lvgl____lvgl_2docs_2README__jp.html#autotoc_md60',1,'']]],
+  ['pro_20编辑器_13',['🚀 LVGL Pro 编辑器',['../md_managed__components_2lvgl____lvgl_2docs_2README__zh.html#autotoc_md81',1,'']]],
+  ['pro_20editor_14',['🚀 LVGL Pro Editor',['../dir_2fdfbf37d75ca188ed896a3a27a4d79e.html#autotoc_md108',1,'']]],
+  ['projects_15',['Add the examples to your projects',['../dir_d71d4e1067ef3d7874cac8084acd066c.html#autotoc_md9',1,'']]],
+  ['providing_20links_20to_20api_20pages_16',['Providing Links to API Pages',['../dir_463b85786adff4b4da2ea12c2990a7c9.html#autotoc_md45',1,'']]],
+  ['py_17',['Using spectrum.py',['../dir_15a954b39f34bcd2a6ee92accfd1b6b7.html#autotoc_md7',1,'']]],
+  ['py_20and_20lv_5fimage_5fheader_5fcache_20py_20image_20cache_20support_18',['5. lv_image_cache.py and lv_image_header_cache.py - Image Cache Support',['../dir_2e4736d246885d80bf7009c8e815a02c.html#autotoc_md122',1,'']]],
+  ['py_20cache_20entry_20support_19',['3. lv_cache_entry.py - Cache Entry Support',['../dir_2e4736d246885d80bf7009c8e815a02c.html#autotoc_md120',1,'']]],
+  ['py_20cache_20system_20support_20',['2. lv_cache.py - Cache System Support',['../dir_2e4736d246885d80bf7009c8e815a02c.html#autotoc_md119',1,'']]],
+  ['py_20image_20cache_20support_21',['5. lv_image_cache.py and lv_image_header_cache.py - Image Cache Support',['../dir_2e4736d246885d80bf7009c8e815a02c.html#autotoc_md122',1,'']]],
+  ['py_20lru_20cache_20with_20rb_20tree_20support_22',['4. lv_cache_lru_rb.py - LRU Cache with RB Tree Support',['../dir_2e4736d246885d80bf7009c8e815a02c.html#autotoc_md121',1,'']]],
+  ['py_20red_20black_20tree_20support_23',['1. lv_rb.py - Red-Black Tree Support',['../dir_2e4736d246885d80bf7009c8e815a02c.html#autotoc_md118',1,'']]]
+];

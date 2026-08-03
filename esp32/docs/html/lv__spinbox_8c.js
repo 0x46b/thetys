@@ -1,0 +1,28 @@
+var lv__spinbox_8c =
+[
+    [ "lv_spinbox_bind_value", "lv__spinbox_8c.html#a517673e42cb9ecf0c521ccffa90e05d9", null ],
+    [ "lv_spinbox_create", "lv__spinbox_8c.html#ae156852c002d8612263fed8cea095ca1", null ],
+    [ "lv_spinbox_decrement", "lv__spinbox_8c.html#a096c73fcbbd794745544efaaf34e723e", null ],
+    [ "lv_spinbox_get_dec_point_pos", "lv__spinbox_8c.html#a1b5f7b97d70b3b11f16ab68dbfe67d60", null ],
+    [ "lv_spinbox_get_digit_count", "lv__spinbox_8c.html#ae97fccb5bdb4d1184d9a59550f2e81fd", null ],
+    [ "lv_spinbox_get_digit_step_direction", "lv__spinbox_8c.html#ad9a9d60d165169453b3b5acd6f3d30bc", null ],
+    [ "lv_spinbox_get_max_value", "lv__spinbox_8c.html#abd60d546caa4634ec8b9e1f8944d6b7f", null ],
+    [ "lv_spinbox_get_min_value", "lv__spinbox_8c.html#a642dd9c59e319d155d431396604f3758", null ],
+    [ "lv_spinbox_get_rollover", "lv__spinbox_8c.html#a798aa2746ee6f103f6e557f5c53b1a2a", null ],
+    [ "lv_spinbox_get_step", "lv__spinbox_8c.html#a0c8339e63ef3ab378555424b40f90880", null ],
+    [ "lv_spinbox_get_value", "lv__spinbox_8c.html#a2d2482626b8e38a8a43c462c71216381", null ],
+    [ "lv_spinbox_increment", "lv__spinbox_8c.html#aae97fc287c6a1d5662ea79d21aef8d09", null ],
+    [ "lv_spinbox_set_cursor_pos", "lv__spinbox_8c.html#a10b7df31ab61bcbd7e0b73abd1f2d0ca", null ],
+    [ "lv_spinbox_set_dec_point_pos", "lv__spinbox_8c.html#a975f24aa72438cf7bfee3666f4e1ac78", null ],
+    [ "lv_spinbox_set_digit_count", "lv__spinbox_8c.html#a7e5c7c0b9777e8b2e86c0d9a540b9ae4", null ],
+    [ "lv_spinbox_set_digit_format", "lv__spinbox_8c.html#a1c4d9f640f430bfa23e43a4355ada8f1", null ],
+    [ "lv_spinbox_set_digit_step_direction", "lv__spinbox_8c.html#a20cbdd839e4371a6e83bd23b8a2eb948", null ],
+    [ "lv_spinbox_set_max_value", "lv__spinbox_8c.html#a891e10d66dd2e173a37c8bc8f64b7883", null ],
+    [ "lv_spinbox_set_min_value", "lv__spinbox_8c.html#a22129260d872c3ead44d4ded4ba9a95a", null ],
+    [ "lv_spinbox_set_range", "lv__spinbox_8c.html#abe2786c5d0a0253b0982152a21920082", null ],
+    [ "lv_spinbox_set_rollover", "lv__spinbox_8c.html#ae3ae6dc2f0d1d76c24224df682b603cd", null ],
+    [ "lv_spinbox_set_step", "lv__spinbox_8c.html#af2de1a90294ad884715505ad82e8751f", null ],
+    [ "lv_spinbox_set_value", "lv__spinbox_8c.html#ab90a300653e93e33a46af74a50806578", null ],
+    [ "lv_spinbox_step_next", "lv__spinbox_8c.html#ae5ae4be8fcc42c0dd119cc8744707536", null ],
+    [ "lv_spinbox_step_prev", "lv__spinbox_8c.html#a5e5b134aabc06c96be42ec328112784a", null ]
+];

@@ -1,0 +1,27 @@
+var lv__timer_8h =
+[
+    [ "lv_timer_cb_t", "lv__timer_8h.html#abe734badf4cb07f041541ba627282c7f", null ],
+    [ "lv_timer_handler_resume_cb_t", "lv__timer_8h.html#a0735c7731e190c96870582eda3c2c6ab", null ],
+    [ "lv_timer_create", "lv__timer_8h.html#a9f92d3830e2336b96d0459199b87ff18", null ],
+    [ "lv_timer_create_basic", "lv__timer_8h.html#a59810b0483766ce41193ce562f2c7889", null ],
+    [ "lv_timer_delete", "lv__timer_8h.html#a23535f9f44d85d2ad1fe660b0fb09fda", null ],
+    [ "lv_timer_enable", "lv__timer_8h.html#a20104d9b90d04c1c63e4974baaf930b3", null ],
+    [ "lv_timer_get_idle", "lv__timer_8h.html#a9a3fbf26ce231b757959563590108cfa", null ],
+    [ "lv_timer_get_next", "lv__timer_8h.html#a8cadfeccdc0ea47f6c0f0875e58d47f1", null ],
+    [ "lv_timer_get_paused", "lv__timer_8h.html#a741cc5b89cafa5e4d68f28b85ba87e23", null ],
+    [ "lv_timer_get_time_until_next", "lv__timer_8h.html#a7a13e9fadcaaa0098b9e379b35d85785", null ],
+    [ "lv_timer_get_user_data", "lv__timer_8h.html#a685b05b74d44a85138aa756f6d978ac6", null ],
+    [ "lv_timer_handler", "lv__timer_8h.html#adb5cfb35b8a8ffe081b95c92b29c7c8c", null ],
+    [ "lv_timer_handler_run_in_period", "lv__timer_8h.html#a5ca8c2c66eed4dd317e6111319e4544b", null ],
+    [ "lv_timer_handler_set_resume_cb", "lv__timer_8h.html#ad9e61e87da50c72666feae74db216192", null ],
+    [ "lv_timer_pause", "lv__timer_8h.html#a90e10e2ab69ab89747b9b20face7f038", null ],
+    [ "lv_timer_periodic_handler", "lv__timer_8h.html#a4acaa2a1a10dd3efc5c36730557f90e9", null ],
+    [ "lv_timer_ready", "lv__timer_8h.html#a346ed206bc41f346e2f29f2991dc0703", null ],
+    [ "lv_timer_reset", "lv__timer_8h.html#ab1d0f47b0ce4cc897f99fe7426a3b252", null ],
+    [ "lv_timer_resume", "lv__timer_8h.html#a25ed72d3306a02d08e65f9f265f6958c", null ],
+    [ "lv_timer_set_auto_delete", "lv__timer_8h.html#ae33a5d38af71c423fd473a8a1ee183c7", null ],
+    [ "lv_timer_set_cb", "lv__timer_8h.html#a26a85f864c0b682f69fde9f34aa132a7", null ],
+    [ "lv_timer_set_period", "lv__timer_8h.html#adf9e813ac9c28319d45db10e78f06d9c", null ],
+    [ "lv_timer_set_repeat_count", "lv__timer_8h.html#a30eaae235dd52aa13491dc2aab28905e", null ],
+    [ "lv_timer_set_user_data", "lv__timer_8h.html#a1e373dc827d48321692b3f8c6fd86451", null ]
+];

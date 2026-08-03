@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['g_0',['g',['../struct__color__var__t.html#a8cf17d727651616de6f2b79ef32170cd',1,'_color_var_t']]],
+  ['gesture_5fmin_5fdistance_1',['gesture_min_distance',['../struct__lv__indev__t.html#a1ca7a3730a6183041428d68991701e90',1,'_lv_indev_t']]],
+  ['gesture_5fmin_5fvelocity_2',['gesture_min_velocity',['../struct__lv__indev__t.html#a64b1de483604f9bfa6ae5597bdfd0bab',1,'_lv_indev_t']]],
+  ['get_5fcb_3',['get_cb',['../struct__lv__cache__class__t.html#ab9e23c9d1f7c9bf1678194834d6c9721',1,'_lv_cache_class_t']]],
+  ['get_5fglyph_5fbitmap_4',['get_glyph_bitmap',['../struct__lv__font__t.html#ad2b3a70050af70546de38632dbf41a1d',1,'_lv_font_t']]],
+  ['get_5fglyph_5fdsc_5',['get_glyph_dsc',['../struct__lv__font__t.html#a009b68f85e1a4041ddaae54c3ef1d514',1,'_lv_font_t']]],
+  ['get_5fvalue_5fcb_6',['get_value_cb',['../struct__lv__anim__t.html#aa5566cd2f9db3f4aba698304eabcea1b',1,'_lv_anim_t']]],
+  ['get_5fvictim_5fcb_7',['get_victim_cb',['../struct__lv__cache__class__t.html#af6ad8853a83306d956936919462836e4',1,'_lv_cache_class_t']]],
+  ['gid_8',['gid',['../structlv__font__glyph__dsc__t.html#ab1b42971f750af78334409f2d6762932',1,'lv_font_glyph_dsc_t']]],
+  ['glyph_5fbitmap_9',['glyph_bitmap',['../structlv__font__fmt__txt__dsc__t.html#a216354425f4f78412e8a0f0555a03d99',1,'lv_font_fmt_txt_dsc_t']]],
+  ['glyph_5fdata_10',['glyph_data',['../struct__lv__draw__glyph__dsc__t.html#a7d37e26488524d84c6de8a2aa89fac57',1,'_lv_draw_glyph_dsc_t']]],
+  ['glyph_5fdsc_11',['glyph_dsc',['../structlv__font__fmt__txt__dsc__t.html#a117e2ab99274e67d1ba77041fd300e5d',1,'lv_font_fmt_txt_dsc_t']]],
+  ['glyph_5fid_5fofs_5flist_12',['glyph_id_ofs_list',['../structlv__font__fmt__txt__cmap__t.html#a1b4756c367189d621a942f8c55d61deb',1,'lv_font_fmt_txt_cmap_t']]],
+  ['glyph_5fid_5fstart_13',['glyph_id_start',['../structlv__font__fmt__txt__cmap__t.html#ad3debcf3beaceeb7648bcafed553c4a0',1,'lv_font_fmt_txt_cmap_t']]],
+  ['glyph_5fids_5fsize_14',['glyph_ids_size',['../structlv__font__fmt__txt__kern__pair__t.html#a975afbb908ff1b230e224dc9d495dc46',1,'lv_font_fmt_txt_kern_pair_t']]],
+  ['glyphs_15',['glyphs',['../structnema__vg__font__range__t.html#ae658f41b38cc86f6da0e015549119c09',1,'nema_vg_font_range_t']]],
+  ['grad_16',['grad',['../structlv__draw__fill__dsc__t.html#a52024b2cc7170e611bb4895f7da67900',1,'lv_draw_fill_dsc_t::grad'],['../structlv__draw__triangle__dsc__t.html#a52024b2cc7170e611bb4895f7da67900',1,'lv_draw_triangle_dsc_t::grad']]],
+  ['green_17',['green',['../structvg__lite__color__ramp.html#a1524e0224c0a0862db0b2a0e0807035a',1,'vg_lite_color_ramp']]],
+  ['group_18',['group',['../struct__lv__indev__t.html#ae1887692b056fb64ae0068e93df1924f',1,'_lv_indev_t']]],
+  ['group_5fdef_19',['group_def',['../struct__lv__obj__class__t.html#aae4fe8c72c6bbb3f12ffc795daedd9a2',1,'_lv_obj_class_t']]]
+];
