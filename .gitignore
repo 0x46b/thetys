@@ -9,3 +9,22 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+
+.pytest_cache/
+__pycache__/
+
+# esp-idf built binaries
+/esp32/build/
+/esp32/build_*_*/
+/esp32/sdkconfig
+
+# idf-ci build run output
+build_summary_*.xml
+app_info_*.txt
+size_info_*.txt
+
+# pytest-embedded log folder
+/esp32/pytest_embedded_log/
+
+# idf-component-manager output
+/esp32/dependencies.lock
