@@ -4,11 +4,10 @@
 /*! @file
 Methods for handling a dynamic-array of sensor-configurations
 */
-
 #include <esp_log.h>
 #include <stdint.h>
 
-static const char *TAG = "sensor_configuration";
+static const char *CONF_TAG = "sensor_configuration";
 
 /*! Result-type to be able to determine the result of an operation */
 typedef enum SENSOR_CONFIGURATION_RESULT {
@@ -32,7 +31,7 @@ typedef struct sensor_calibration_data {
                             the sensor is in a glass of water */
 } sensor_calibration_data;
 
-/*! Configuration for one sensor */
+/*! Configuration for a sensor */
 typedef struct sensor_configuration {
   uint32_t sensor_id;   /*!< The sensor-id */
   uint32_t sensor_gpio; /*!< The GPIO where the sensor is attached*/

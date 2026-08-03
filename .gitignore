@@ -17,7 +17,7 @@ __pycache__/
 /esp32/build/
 /esp32/build_*_*/
 /esp32/sdkconfig
-
+/esp32/managed_components
 # idf-ci build run output
 build_summary_*.xml
 app_info_*.txt

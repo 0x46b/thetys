@@ -12,7 +12,8 @@ var sensor__configuration_8h =
       [ "UNKNOWN_ERROR", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6a8216aa4b3a817cdf8c15ed32aa946e83", null ],
       [ "LOW_MEMORY", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6a5e6773aca1e8d24fef37c73568fd6b1d", null ],
       [ "IO_ERROR", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6a03e7594315ad355f2f280c7271b0f6e4", null ],
-      [ "UNKNOWN_SENSOR_ID", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6ae8eafb20529f2a7200455f31700356c6", null ]
+      [ "UNKNOWN_SENSOR_ID", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6ae8eafb20529f2a7200455f31700356c6", null ],
+      [ "UNINITIALIZED", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6af096820742c38363e9d6c33e7c932780", null ]
     ] ],
     [ "free_configurations", "sensor__configuration_8h.html#acd6ea760dee3b9748762c5159174fbfd", null ],
     [ "init_configurations", "sensor__configuration_8h.html#af5a570ad138f6ab55e6beec009797b42", null ],
