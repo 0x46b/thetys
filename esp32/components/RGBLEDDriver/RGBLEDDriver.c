@@ -6,14 +6,14 @@
 #include <stdint.h>
 
 static led_strip_handle_t led_strip;
-static uint32_t current_brightness;
+static uint32_t current_brightness_factor;
 static bool initialized = false;
 
 static const char *TAG = "RGBLEDDriver";
 
 void led_drv_initialize(void) {
-  gpio_reset_pin(CONFIG_RGB_LED_GPIO);
-  gpio_set_direction(CONFIG_RGB_LED_GPIO, GPIO_MODE_OUTPUT);
+  ESP_ERROR_CHECK(gpio_reset_pin(CONFIG_RGB_LED_GPIO));
+  ESP_ERROR_CHECK(gpio_set_direction(CONFIG_RGB_LED_GPIO, GPIO_MODE_OUTPUT));
 
   led_strip_config_t strip_config = {
       .strip_gpio_num = CONFIG_RGB_LED_GPIO,
@@ -27,7 +27,7 @@ void led_drv_initialize(void) {
 
   ESP_ERROR_CHECK(
       led_strip_new_rmt_device(&strip_config, &rmt_config, &led_strip));
-  led_strip_clear(led_strip);
+  ESP_ERROR_CHECK(led_strip_clear(led_strip));
   initialized = true;
   ESP_LOGI(TAG, "Successfully initialized RGB-LED at GPIO %i",
            CONFIG_RGB_LED_GPIO);
@@ -39,8 +39,10 @@ void led_drv_set_color(uint32_t red, uint32_t green, uint32_t blue) {
                   "led_drv_initialize() first!");
     return;
   }
-  led_strip_set_pixel(led_strip, 0, red, green, blue);
-  led_strip_refresh(led_strip);
+  ESP_ERROR_CHECK(led_strip_set_pixel(
+      led_strip, 0, red * current_brightness_factor,
+      green * current_brightness_factor, blue * current_brightness_factor));
+  ESP_ERROR_CHECK(led_strip_refresh(led_strip));
   ESP_LOGI(TAG, "Changed color to (%i, %i, %i)", red, green, blue);
 }
 
@@ -50,7 +52,7 @@ void led_drv_set_brightness(uint32_t brightness) {
                   "led_drv_initialize() first!");
     return;
   }
-  current_brightness = brightness;
+  current_brightness_factor = 255 / brightness;
   ESP_LOGI(TAG, "Changed brightness to %i", brightness);
 }
 
@@ -60,6 +62,10 @@ void led_drv_off() {
                   "led_drv_initialize() first!");
     return;
   }
-  led_strip_clear(led_strip);
+  ESP_ERROR_CHECK(led_strip_clear(led_strip));
   ESP_LOGI(TAG, "Set LED off");
+}
+
+void led_drv_set_to(rgb_color color) {
+  led_drv_set_color(color.red, color.green, color.blue);
 }

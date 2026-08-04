@@ -3,6 +3,7 @@
 #include <esp_log.h>
 #include <math.h>
 #include <sdkconfig.h>
+#include <stdint.h>
 
 static const char *CALIB_TAG = "Calibration";
 
@@ -93,7 +94,7 @@ CALIB_RESULT get_calibration_factor(sensor_configuration sensor_conf,
                                     uint32_t number_of_samples,
                                     float *calibration_factor) {
   float sensor_reading_sum = 0;
-  float current_sensor_reading = 0;
+  uint32_t current_sensor_reading = 0;
   float *sensor_samples = malloc(number_of_samples * sizeof(float));
 
   if (sensor_samples == NULL) {
@@ -109,9 +110,15 @@ CALIB_RESULT get_calibration_factor(sensor_configuration sensor_conf,
     return CALIB_UNINITIALIZED_PARAM;
   }
 
+  SENSOR_RESULT result;
+
   for (uint32_t sample_no = 0; sample_no < CONFIG_NUM_CALIBRATION_SAMPLES;
        sample_no++) {
-    current_sensor_reading = sensor_drv_read(sensor_conf.sensor_gpio);
+    result = sensor_drv_read(sensor_conf.sensor_gpio, &current_sensor_reading);
+    if (result != SENSOR_SUCCESS) {
+      ESP_LOGE(CALIB_TAG, "Error while reading sample");
+      abort();
+    }
     sensor_samples[sample_no] = current_sensor_reading;
     sensor_reading_sum += current_sensor_reading;
   }

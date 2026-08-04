@@ -1,0 +1,18 @@
+menu "Humidity Sensor"
+choice
+    prompt "Select sensor attentuation"
+    default ADC_ATTEN_DB_11
+    help
+        This option selects the attentuation for reading the sensor. It depends on the voltage range of the sensor. See the esp documentation for "ADC attentuation" for more information.
+
+    config ADC_ATTEN_DB_0
+         bool SENSOR_ATTEN_0
+    config ADC_ATTEN_DB_2_5
+         bool SENSOR_ATTEN_2_5
+    config ADC_ATTEN_DB_6
+         bool SENSOR_ATTEN_6
+    config ADC_ATTEN_DB_11
+         bool SENSOR_ATTEN_11
+
+endchoice
+endmenu
