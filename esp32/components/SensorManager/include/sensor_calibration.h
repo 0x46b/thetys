@@ -6,8 +6,6 @@
 #include "sensor_configuration.h"
 #include <stdint.h>
 
-static const char *CALIB_TAG = "Calibration";
-
 /*! Result codes for calibration routines
  */
 typedef enum CALIB_RESULT {

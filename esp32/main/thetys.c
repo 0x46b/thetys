@@ -1,10 +1,14 @@
+#include "RGBLEDDriver.h"
 #include "SensorManager.h"
 #include <esp_log.h>
 #include <sdkconfig.h>
 
-static const char *TAG = "MAIN";
+static const char *TAG = "app_main";
 
 void app_main(void) {
+  led_drv_initialize();
+  led_drv_set_color(0, 0, 12);
+
   initialize(CONFIG_MAX_SENSOR_COUNT);
   ESP_LOGI(TAG, "Initialized sensor-configuration for %i sensors",
            CONFIG_MAX_SENSOR_COUNT);
@@ -15,4 +19,5 @@ void app_main(void) {
   calibrate_air(10);
   calibrate_water(10);
   read_sensor_data(10, &reading);
+  led_drv_set_color(0, 50, 50);
 }

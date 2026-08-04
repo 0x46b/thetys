@@ -1,0 +1,7 @@
+menu "RGB LED"
+     config RGB_LED_GPIO
+     	    int "GPIO for controlling the on-board RGB-LED"
+	    default 48
+     help
+     "GPIO where the RGB-LED is connected"
+endmenu

@@ -4,13 +4,14 @@
 #include <sdkconfig.h>
 #include <stdint.h>
 
-static sensor_configuration_data *sensor_configurations;
+static const char *SMGR_TAG = "SensorManager";
+static sensor_configuration_data sensor_configurations;
 
-uint32_t get_next_free_id() { return sensor_configurations->last_id++; }
+uint32_t get_next_free_id() { return sensor_configurations.last_id + 1; }
 
 SMGR_RESULT initialize(uint32_t number_of_sensors) {
   SENSOR_CONFIGURATION_RESULT result =
-      init_configurations(sensor_configurations, number_of_sensors);
+      init_configurations(&sensor_configurations, number_of_sensors);
   switch (result) {
   case SUCCESS:
     ESP_LOGI(SMGR_TAG, "Successfully initialized configurations for %i sensors",
@@ -50,12 +51,12 @@ SMGR_RESULT add_sensor(uint32_t sensor_pin) {
                                      }};
 
   SENSOR_CONFIGURATION_RESULT result =
-      insert_configuration(sensor_configurations, new_sensor);
+      insert_configuration(&sensor_configurations, new_sensor);
 
   switch (result) {
   case SUCCESS:
-    sensor_configurations->last_id = sensor_id;
-    ESP_LOGI(SMGR_TAG, "Successfully registered sensor with GPIO %i to Id %id",
+    sensor_configurations.last_id = sensor_id;
+    ESP_LOGI(SMGR_TAG, "Successfully registered sensor with GPIO %i to Id %i",
              sensor_pin, sensor_id);
     return SMGR_SUCCESS;
   case LOW_MEMORY:

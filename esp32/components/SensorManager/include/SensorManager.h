@@ -6,8 +6,6 @@ Methods for managing the humidity-sensors
 
 #include <stdint.h>
 
-static const char *SMGR_TAG = "SensorManager";
-
 /*! Operation result codes */
 typedef enum SMGR_RESULT {
   SMGR_SUCCESS = 0,  /*!< Everything went as expected */

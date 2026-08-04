@@ -2,17 +2,18 @@
 #include "include/sensor_configuration.h"
 #include <stdlib.h>
 
+static const char *CONF_TAG = "sensor_configuration";
+
 SENSOR_CONFIGURATION_RESULT
 init_configurations(sensor_configuration_data *configs, size_t initialSize) {
   ESP_LOGI(CONF_TAG, "Initializing array for %i sensors.", initialSize);
-  sensor_configuration *new_array =
-      malloc(initialSize * sizeof(sensor_configuration));
-  if (new_array == NULL) {
+  configs->configurations = malloc(initialSize * sizeof(sensor_configuration));
+
+  if (configs->configurations == NULL) {
     ESP_LOGE(CONF_TAG, "Malloc failed!");
     return LOW_MEMORY;
   }
 
-  configs->configurations = new_array;
   configs->used = 0;
   configs->size = initialSize;
 

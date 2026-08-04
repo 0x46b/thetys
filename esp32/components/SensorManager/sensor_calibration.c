@@ -4,6 +4,8 @@
 #include <math.h>
 #include <sdkconfig.h>
 
+static const char *CALIB_TAG = "Calibration";
+
 CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples,
                            float *cleaned_samples,
                            uint32_t *number_of_cleaned_samples) {

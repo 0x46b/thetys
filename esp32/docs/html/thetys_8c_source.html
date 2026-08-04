@@ -92,28 +92,39 @@ $(function(){initNavTree('thetys_8c_source.html','',''); });
   <div class="headertitle"><div class="title">thetys.c</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="SensorManager_8h.html">SensorManager.h</a>&quot;</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;esp_log.h&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;sdkconfig.h&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *TAG = <span class="stringliteral">&quot;MAIN&quot;</span>;</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keywordtype">void</span> app_main(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>  <a class="code hl_function" href="SensorManager_8h.html#a460658e7c400b2bd5f6c724b11408e37">initialize</a>(CONFIG_MAX_SENSOR_COUNT);</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>  ESP_LOGI(TAG, <span class="stringliteral">&quot;Initialized sensor-configuration for %i&quot;</span>,</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>           CONFIG_MAX_SENSOR_COUNT);</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>  <a class="code hl_function" href="SensorManager_8h.html#aac6590e29e21d0c0ce91013df7c756d3">add_sensor</a>(10);</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>  <a class="code hl_function" href="SensorManager_8h.html#aac6590e29e21d0c0ce91013df7c756d3">add_sensor</a>(11);</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  <a class="code hl_struct" href="structsensor__reading.html">sensor_reading</a> reading;</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>  <span class="comment">// calibrate_air(10);</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>  <span class="comment">// calibrate_water(10);</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>  <a class="code hl_function" href="SensorManager_8h.html#abf56763dfd85c0d00e24010457dcd7ed">read_sensor_data</a>(10, &amp;reading);</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>}</div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="RGBLEDDriver_8h.html">RGBLEDDriver.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="SensorManager_8h.html">SensorManager.h</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;esp_log.h&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;sdkconfig.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *TAG = <span class="stringliteral">&quot;app_main&quot;</span>;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keywordtype">void</span> app_main(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>  <a class="code hl_function" href="RGBLEDDriver_8h.html#a02d8f7d18fbff843c43adccad669ebe9">led_drv_initialize</a>();</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>  <a class="code hl_function" href="RGBLEDDriver_8h.html#afdaac789ab8e3c04a6fe78d657a057cc">led_drv_set_color</a>(0, 0, 12);</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>  <a class="code hl_function" href="SensorManager_8h.html#a460658e7c400b2bd5f6c724b11408e37">initialize</a>(CONFIG_MAX_SENSOR_COUNT);</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  ESP_LOGI(TAG, <span class="stringliteral">&quot;Initialized sensor-configuration for %i sensors&quot;</span>,</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>           CONFIG_MAX_SENSOR_COUNT);</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>  <a class="code hl_function" href="SensorManager_8h.html#aac6590e29e21d0c0ce91013df7c756d3">add_sensor</a>(10);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>  <a class="code hl_function" href="SensorManager_8h.html#aac6590e29e21d0c0ce91013df7c756d3">add_sensor</a>(11);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>  <a class="code hl_struct" href="structsensor__reading.html">sensor_reading</a> reading;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>  <a class="code hl_function" href="SensorManager_8h.html#a443955be6e93ce2e288b9a634a663220">calibrate_air</a>(10);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>  <a class="code hl_function" href="SensorManager_8h.html#a36b7f5c2acf2b5f2f9bdf86c3723fc63">calibrate_water</a>(10);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  <a class="code hl_function" href="SensorManager_8h.html#abf56763dfd85c0d00e24010457dcd7ed">read_sensor_data</a>(10, &amp;reading);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <a class="code hl_function" href="RGBLEDDriver_8h.html#afdaac789ab8e3c04a6fe78d657a057cc">led_drv_set_color</a>(0, 50, 50);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>}</div>
+<div class="ttc" id="aRGBLEDDriver_8h_html"><div class="ttname"><a href="RGBLEDDriver_8h.html">RGBLEDDriver.h</a></div></div>
+<div class="ttc" id="aRGBLEDDriver_8h_html_a02d8f7d18fbff843c43adccad669ebe9"><div class="ttname"><a href="RGBLEDDriver_8h.html#a02d8f7d18fbff843c43adccad669ebe9">led_drv_initialize</a></div><div class="ttdeci">void led_drv_initialize(void)</div><div class="ttdef"><b>Definition</b> <a href="RGBLEDDriver_8c_source.html#l00014">RGBLEDDriver.c:14</a></div></div>
+<div class="ttc" id="aRGBLEDDriver_8h_html_afdaac789ab8e3c04a6fe78d657a057cc"><div class="ttname"><a href="RGBLEDDriver_8h.html#afdaac789ab8e3c04a6fe78d657a057cc">led_drv_set_color</a></div><div class="ttdeci">void led_drv_set_color(uint32_t red, uint32_t green, uint32_t blue)</div><div class="ttdef"><b>Definition</b> <a href="RGBLEDDriver_8c_source.html#l00036">RGBLEDDriver.c:36</a></div></div>
 <div class="ttc" id="aSensorManager_8h_html"><div class="ttname"><a href="SensorManager_8h.html">SensorManager.h</a></div></div>
-<div class="ttc" id="aSensorManager_8h_html_a460658e7c400b2bd5f6c724b11408e37"><div class="ttname"><a href="SensorManager_8h.html#a460658e7c400b2bd5f6c724b11408e37">initialize</a></div><div class="ttdeci">SMGR_RESULT initialize(uint32_t number_of_sensors)</div><div class="ttdef"><b>Definition</b> <a href="SensorManager_8c_source.html#l00011">SensorManager.c:11</a></div></div>
-<div class="ttc" id="aSensorManager_8h_html_aac6590e29e21d0c0ce91013df7c756d3"><div class="ttname"><a href="SensorManager_8h.html#aac6590e29e21d0c0ce91013df7c756d3">add_sensor</a></div><div class="ttdeci">SMGR_RESULT add_sensor(uint32_t sensor_pin)</div><div class="ttdef"><b>Definition</b> <a href="SensorManager_8c_source.html#l00042">SensorManager.c:42</a></div></div>
-<div class="ttc" id="aSensorManager_8h_html_abf56763dfd85c0d00e24010457dcd7ed"><div class="ttname"><a href="SensorManager_8h.html#abf56763dfd85c0d00e24010457dcd7ed">read_sensor_data</a></div><div class="ttdeci">SMGR_RESULT read_sensor_data(uint32_t sensor_id, sensor_reading *reading)</div><div class="ttdef"><b>Definition</b> <a href="SensorManager_8c_source.html#l00028">SensorManager.c:28</a></div></div>
-<div class="ttc" id="astructsensor__reading_html"><div class="ttname"><a href="structsensor__reading.html">sensor_reading</a></div><div class="ttdef"><b>Definition</b> <a href="SensorManager_8h_source.html#l00024">SensorManager.h:24</a></div></div>
+<div class="ttc" id="aSensorManager_8h_html_a36b7f5c2acf2b5f2f9bdf86c3723fc63"><div class="ttname"><a href="SensorManager_8h.html#a36b7f5c2acf2b5f2f9bdf86c3723fc63">calibrate_water</a></div><div class="ttdeci">SMGR_RESULT calibrate_water(uint32_t sensor_id)</div><div class="ttdef"><b>Definition</b> <a href="SensorManager_8c_source.html#l00075">SensorManager.c:75</a></div></div>
+<div class="ttc" id="aSensorManager_8h_html_a443955be6e93ce2e288b9a634a663220"><div class="ttname"><a href="SensorManager_8h.html#a443955be6e93ce2e288b9a634a663220">calibrate_air</a></div><div class="ttdeci">SMGR_RESULT calibrate_air(uint32_t sensor_id)</div><div class="ttdef"><b>Definition</b> <a href="SensorManager_8c_source.html#l00073">SensorManager.c:73</a></div></div>
+<div class="ttc" id="aSensorManager_8h_html_a460658e7c400b2bd5f6c724b11408e37"><div class="ttname"><a href="SensorManager_8h.html#a460658e7c400b2bd5f6c724b11408e37">initialize</a></div><div class="ttdeci">SMGR_RESULT initialize(uint32_t number_of_sensors)</div><div class="ttdef"><b>Definition</b> <a href="SensorManager_8c_source.html#l00012">SensorManager.c:12</a></div></div>
+<div class="ttc" id="aSensorManager_8h_html_aac6590e29e21d0c0ce91013df7c756d3"><div class="ttname"><a href="SensorManager_8h.html#aac6590e29e21d0c0ce91013df7c756d3">add_sensor</a></div><div class="ttdeci">SMGR_RESULT add_sensor(uint32_t sensor_pin)</div><div class="ttdef"><b>Definition</b> <a href="SensorManager_8c_source.html#l00043">SensorManager.c:43</a></div></div>
+<div class="ttc" id="aSensorManager_8h_html_abf56763dfd85c0d00e24010457dcd7ed"><div class="ttname"><a href="SensorManager_8h.html#abf56763dfd85c0d00e24010457dcd7ed">read_sensor_data</a></div><div class="ttdeci">SMGR_RESULT read_sensor_data(uint32_t sensor_id, sensor_reading *reading)</div><div class="ttdef"><b>Definition</b> <a href="SensorManager_8c_source.html#l00029">SensorManager.c:29</a></div></div>
+<div class="ttc" id="astructsensor__reading_html"><div class="ttname"><a href="structsensor__reading.html">sensor_reading</a></div><div class="ttdef"><b>Definition</b> <a href="SensorManager_8h_source.html#l00022">SensorManager.h:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

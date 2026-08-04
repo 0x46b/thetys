@@ -7,8 +7,6 @@ Methods for handling a dynamic-array of sensor-configurations
 #include <esp_log.h>
 #include <stdint.h>
 
-static const char *CONF_TAG = "sensor_configuration";
-
 /*! Result-type to be able to determine the result of an operation */
 typedef enum SENSOR_CONFIGURATION_RESULT {
   SUCCESS = 0, /*!< Everything was fine, operation successfull*/
