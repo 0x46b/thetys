@@ -1,4 +1,4 @@
-menu "SENSORS"
+menu "Humidity Sensors"
      config MAX_SENSOR_COUNT
      	    int "Maximum number of sensors used"
      	    default 8
@@ -10,4 +10,17 @@ menu "SENSORS"
 	    default 50
 	    help
 		Calibration is done due many readings, which gets averaged. This is the number of readings to take per calibration
+
+     config SENSOR_POLLING_TIME_IN_MS
+    	   int "Polling time for the sensors in ms"
+	   default 60000
+	   help
+		This configures the time between the sensor readings in milliseconds
+
+    config SENSOR_POLLING_CORE
+     	   int "Core the polling task should run on"
+	   default 1
+	   range 0 1
+	   help
+		The task for the sensor-polling will get executed on this CPU-core
 endmenu

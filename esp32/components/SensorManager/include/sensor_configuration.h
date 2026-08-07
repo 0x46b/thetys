@@ -41,8 +41,6 @@ typedef struct sensor_configuration {
 typedef struct sensor_configuration_data {
   sensor_configuration
       *configurations; /*!< Dynamic array of all known sensor_configurations */
-  uint32_t last_id;    /*!< Last given id, will be used by add_sensor to
-                          automatically set an unused id */
   uint32_t size;       /*!< Current size of the array (how much memory we have
                           allocated) */
   uint32_t used;       /*!< Number of used configurations */

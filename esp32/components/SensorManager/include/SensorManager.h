@@ -6,6 +6,8 @@ Methods for managing the humidity-sensors
 
 #include <stdint.h>
 
+#define SENSOR_READING_CORE 1
+
 /*! Operation result codes */
 typedef enum SMGR_RESULT {
   SMGR_SUCCESS = 0,  /*!< Everything went as expected */
@@ -29,14 +31,16 @@ typedef struct sensor_reading {
  * @return SMGR_RESULT::SMGR_SUCCESS Configurations successfully initialized
  * @return SMGR_RESULT::SMGR_CATASTROPHIC_FAILURE Something went terribly wrong
  */
-SMGR_RESULT initialize(uint32_t number_of_sensors);
+SMGR_RESULT sensor_mgr_initialize(uint32_t number_of_sensors);
 
 /*! Adds a sensor to the sensor-manager for monitoring
  * @param sensor_pin The GPIO where the sensor is attached to
  * @return SMGR_RESULT::SMGR_SUCCESS Sensor added successfully
  * @return SMGR_RESULT::SMGR_CATASTROPHIC_FAILURE Something went terribly wrong
  */
-SMGR_RESULT add_sensor(uint32_t sensor_pin);
+SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_pin);
+
+SMGR_RESULT sensor_mgr_subscribe(void (*callback)(uint32_t, uint32_t));
 
 /*! Starts calibration for air-measurement
  * To calibrate the sensor we need to measure different "environments" to be
@@ -72,5 +76,13 @@ SMGR_RESULT calibrate_water(uint32_t sensor_id);
  * @return SMGR_RESULT::SMGR_IO_ERROR We could not read from the sensor
  * hardware-wise (Note: reading will not get initialized)
  */
-SMGR_RESULT read_sensor_data(uint32_t sensor_id, sensor_reading *reading);
+SMGR_RESULT sensor_manager_read_sensor(uint32_t sensor_id,
+                                       sensor_reading *reading);
+
+/*! Starts an RTOS-Task polling all registered sensors and updating the values.
+ *
+ * The time between the readings is configured through menuconfig under
+"Components->Humidity Sensors->SENSOR_POLLING_TIME"
+*/
+SMGR_RESULT start_sensor_polling_task(void);
 #endif

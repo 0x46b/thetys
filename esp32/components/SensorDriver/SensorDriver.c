@@ -16,6 +16,7 @@ esp_err_t initialize_adc_driver() {
       .ulp_mode = ADC_ULP_MODE_DISABLE,
   };
   ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config1, &adc1_handle));
+  ESP_LOGI(TAG, "ADC driver initialized");
   return ESP_OK;
 }
 
@@ -27,6 +28,7 @@ esp_err_t initialize_channel(adc_channel_t sensor_channel) {
   ESP_ERROR_CHECK(
       adc_oneshot_config_channel(adc1_handle, sensor_channel, &config));
 
+  ESP_LOGI(TAG, "ADC Channel configured");
   return ESP_OK;
 }
 
@@ -48,7 +50,7 @@ SENSOR_RESULT sensor_drv_initialize(uint32_t sensor_gpio) {
   }
 
   initialize_channel(sensor_channel);
-
+  ESP_LOGI(TAG, "ADC for GPIO %i initialized", sensor_gpio);
   return SENSOR_SUCCESS;
 }
 
@@ -61,8 +63,15 @@ SENSOR_RESULT sensor_drv_read(uint32_t sensor_gpio, uint32_t *sensor_value) {
     return SENSOR_ERROR;
   }
 
+  if (adc1_handle == NULL) {
+    ESP_LOGE(TAG,
+             "ADC handle is null. Please call sensor_drv_initialize() first");
+    return SENSOR_ERROR;
+  }
+
   ESP_ERROR_CHECK(
       adc_oneshot_io_to_channel(sensor_gpio, &sensor_unit_id, &sensor_channel));
+  ESP_LOGI(TAG, "Resolved GPIO %i to Channel %i", sensor_gpio, sensor_channel);
 
   if (sensor_unit_id == ADC_UNIT_2) {
     ESP_LOGE(TAG, "Only ADC 1 is allowed (GPIO 32..39)");
