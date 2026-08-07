@@ -1,0 +1,20 @@
+#ifndef DEFINITIONS_H
+#define DEFINITIONS_H
+
+#ifndef LCD_HOST
+#define LCD_HOST SPI2_HOST
+#endif // LCD_HOST
+
+#ifndef DISP_WIDTH
+#define DISP_WIDTH 320
+#endif // DISP_WIDTH
+
+#ifndef DISP_HEIGHT
+#define DISP_HEIGHT 240
+#endif // DISP_HEIGHT
+
+#ifndef LVGL_DRAW_BUF_LINES
+#define LVGL_DRAW_BUF_LINES 40
+#endif // LVGL_DRAW_BUF_LINES
+
+#endif // DEFINITIONS_H
