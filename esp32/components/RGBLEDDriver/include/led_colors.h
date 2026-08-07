@@ -9,15 +9,15 @@ typedef struct rgb_color {
   uint32_t blue;
 } rgb_color;
 
-#define WHITE {255, 255, 255}
-#define RED {255, 0, 0}
-#define GREEN {0, 255, 0}
-#define BLUE {0, 0, 255}
-#define YELLOW {255, 255, 0}
-#define CYAN {0, 255, 255}
-#define MAGENTA {255, 0, 255}
-#define ORANGE {255, 90, 0}
-#define PURPLE {255, 65, 255}
-#define PINK {255, 25, 125}
+extern const rgb_color WHITE;
+extern const rgb_color RED;
+extern const rgb_color GREEN;
+extern const rgb_color BLUE;
+extern const rgb_color YELLOW;
+extern const rgb_color CYAN;
+extern const rgb_color MAGENTA;
+extern const rgb_color ORANGE;
+extern const rgb_color PURPLE;
+extern const rgb_color PINK;
 
-#endif // RGB_COLORS_H
+#endif // LED_COLORS_H

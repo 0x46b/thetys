@@ -2,16 +2,39 @@
 #include <driver/gpio.h>
 #include <esp_log.h>
 #include <led_strip.h>
+#include <math.h>
 #include <sdkconfig.h>
 #include <stdint.h>
 
 static led_strip_handle_t led_strip;
-static uint32_t current_brightness_factor;
+static uint32_t current_brightness_factor = 1;
 static bool initialized = false;
 
 static const char *TAG = "RGBLEDDriver";
 
+uint8_t gamma_correct(uint8_t input_value) {
+  if (input_value == 0)
+    return 0;
+
+  const float gamma = 2.2f;
+
+  float normalized = (float)input_value / 255.0f;
+  float corrected = powf(normalized, gamma);
+
+  return (uint8_t)(corrected * 255.0f + 0.5f);
+}
+
+uint32_t apply_brightness(uint32_t channel) {
+  return gamma_correct(channel * current_brightness_factor / 255);
+}
+
 void led_drv_initialize(void) {
+  if (initialized) {
+    ESP_LOGW(TAG, "RGBLEDDriver already initialized: Recurring calls to "
+                  "led_drv_initialize() will get ignored.");
+    return;
+  }
+
   ESP_ERROR_CHECK(gpio_reset_pin(CONFIG_RGB_LED_GPIO));
   ESP_ERROR_CHECK(gpio_set_direction(CONFIG_RGB_LED_GPIO, GPIO_MODE_OUTPUT));
 
@@ -39,9 +62,9 @@ void led_drv_set_color(uint32_t red, uint32_t green, uint32_t blue) {
                   "led_drv_initialize() first!");
     return;
   }
-  ESP_ERROR_CHECK(led_strip_set_pixel(
-      led_strip, 0, red * current_brightness_factor,
-      green * current_brightness_factor, blue * current_brightness_factor));
+  ESP_ERROR_CHECK(led_strip_set_pixel(led_strip, 0, apply_brightness(red),
+                                      apply_brightness(green),
+                                      apply_brightness(blue)));
   ESP_ERROR_CHECK(led_strip_refresh(led_strip));
   ESP_LOGI(TAG, "Changed color to (%i, %i, %i)", red, green, blue);
 }
@@ -52,7 +75,7 @@ void led_drv_set_brightness(uint32_t brightness) {
                   "led_drv_initialize() first!");
     return;
   }
-  current_brightness_factor = 255 / brightness;
+  current_brightness_factor = brightness;
   ESP_LOGI(TAG, "Changed brightness to %i", brightness);
 }
 
