@@ -23,5 +23,5 @@ typedef struct ui_lcd_gpio_config {
 } ui_lcd_gpio_config;
 
 UI_RESULT ui_initialize(ui_lcd_gpio_config config);
-UI_RESULT ui_start(void);
+
 #endif // UI_H

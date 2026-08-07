@@ -1,4 +1,4 @@
-#include "UI.h"
+#include "ScreenDriver.h"
 #include "definitions.h"
 #include "esp_lcd_ili9341_init_cmds_1.h"
 #include "misc/lv_color.h"
@@ -89,7 +89,7 @@ UI_RESULT ui_start(void) {
     lv_demo_benchmark();
     lvgl_port_unlock();
   } else {
-    ESP_LOGE("UI", "LVGL-Lock konnte nicht akquiriert werden!");
+    ESP_LOGE(TAG, "LVGL-Lock could not get acquired!");
     return UI_LVGL_LOCK_FAILED;
   }
   return UI_SUCCESS;

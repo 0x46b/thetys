@@ -1,4 +1,4 @@
 idf_component_register(
-  SRCS "UI.c"
-  PRIV_REQUIRES espressif__esp_lvgl_port esp_driver_spi espressif__esp_lcd_ili9341
+  SRCS "ui.c" "screens.c" "images.c" "styles.c" "vars.c" "thetys_ui.c"
+  PRIV_REQUIRES ScreenDriver
   INCLUDE_DIRS "include")
