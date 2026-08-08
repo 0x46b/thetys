@@ -97,3 +97,13 @@ esp_err_t sensor_data_reset() {
   ESP_LOGI(TAG, "Samples reset");
   return ESP_OK;
 }
+
+esp_err_t get_data_for_sensor(uint32_t sensor_id, uint32_t *sample) {
+  if (sensor_id > sensor_samples.used) {
+    ESP_LOGE(TAG, "No data for sensor %i", sensor_id);
+    return ESP_ERR_INVALID_ARG;
+  }
+
+  *sample = sensor_samples.samples[sensor_id];
+  return ESP_OK;
+}

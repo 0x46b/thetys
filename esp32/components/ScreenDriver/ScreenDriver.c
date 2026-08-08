@@ -83,14 +83,3 @@ UI_RESULT ui_initialize(ui_lcd_gpio_config config) {
 
   return UI_SUCCESS;
 }
-
-UI_RESULT ui_start(void) {
-  if (lvgl_port_lock(0)) {
-    lv_demo_benchmark();
-    lvgl_port_unlock();
-  } else {
-    ESP_LOGE(TAG, "LVGL-Lock could not get acquired!");
-    return UI_LVGL_LOCK_FAILED;
-  }
-  return UI_SUCCESS;
-}

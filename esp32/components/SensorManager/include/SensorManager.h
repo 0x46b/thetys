@@ -6,8 +6,6 @@ Methods for managing the humidity-sensors
 
 #include <stdint.h>
 
-#define SENSOR_READING_CORE 1
-
 /*! Operation result codes */
 typedef enum SMGR_RESULT {
   SMGR_SUCCESS = 0,  /*!< Everything went as expected */

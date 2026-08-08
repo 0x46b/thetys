@@ -34,6 +34,10 @@ SMGR_RESULT sensor_mgr_initialize(uint32_t number_of_sensors) {
   };
 }
 
+uint32_t get_humidity(uint32_t raw_value) {
+  return (4095 - raw_value) / 4095 * raw_value;
+}
+
 SMGR_RESULT sensor_manager_read_sensor(uint32_t sensor_id,
                                        sensor_reading *reading) {
   if (reading == NULL) {
@@ -41,10 +45,13 @@ SMGR_RESULT sensor_manager_read_sensor(uint32_t sensor_id,
     return SMGR_UNKNOWN_ERROR;
   }
 
+  uint32_t raw_value;
+  ESP_ERROR_CHECK(get_data_for_sensor(sensor_id, &raw_value));
   reading->sensor_id = sensor_id;
-  reading->humidity_percentage = 0.5;
+  reading->humidity_percentage = get_humidity(raw_value);
 
-  ESP_LOGI(TAG, "Read humidity of %f percent from sensor %i", 0.5, sensor_id);
+  ESP_LOGI(TAG, "Read humidity of %f percent from sensor %i",
+           reading->humidity_percentage, sensor_id);
   return SMGR_SUCCESS;
 }
 
