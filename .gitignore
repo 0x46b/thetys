@@ -28,3 +28,5 @@ size_info_*.txt
 
 # idf-component-manager output
 /esp32/dependencies.lock
+/esp32/test/build
+/esp32/test/managed_components

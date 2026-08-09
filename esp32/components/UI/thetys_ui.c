@@ -6,8 +6,6 @@
 
 UI_RESULT start_thetys_ui() {
   if (lvgl_port_lock(0)) {
-    const lvgl_port_cfg_t lvgl_cfg = ESP_LVGL_PORT_INIT_CONFIG();
-    ESP_ERROR_CHECK(lvgl_port_init(&lvgl_cfg));
     ui_init();
 
     lv_timer_create((lv_timer_cb_t)ui_tick, 20, NULL);

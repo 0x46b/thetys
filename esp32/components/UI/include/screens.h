@@ -24,10 +24,12 @@ typedef struct _objects_t {
     lv_obj_t *obj0__obj0;
     lv_obj_t *obj0__obj1;
     lv_obj_t *obj0__obj2;
+    lv_obj_t *obj0__obj3;
     lv_obj_t *plant_detail_chart;
     lv_obj_t *obj1;
     lv_obj_t *obj2;
     lv_obj_t *obj3;
+    lv_obj_t *obj4;
 } objects_t;
 
 extern objects_t objects;

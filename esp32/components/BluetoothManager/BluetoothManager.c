@@ -4,6 +4,7 @@
 #include "gap.h"
 #include "gatt_svc.h"
 #include "heart_rate.h"
+#include "led_colors.h"
 
 /* Library function declarations */
 void ble_store_config_init(void);
@@ -51,6 +52,8 @@ static void nimble_host_task(void *param) {
   /* Clean up at exit */
   vTaskDelete(NULL);
 }
+
+static void sensor_reading_task(void *param) {}
 
 static void heart_rate_task(void *param) {
   /* Task entry log */
@@ -132,5 +135,6 @@ BLU_RESULT blu_initialize(void) {
     ESP_LOGE(TAG, "failed to create heart rate task");
     return BLU_TASK_CREATION_FAILED;
   }
+  led_drv_set_to(BLUE);
   return BLU_SUCCESS;
 }

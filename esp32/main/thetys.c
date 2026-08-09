@@ -69,6 +69,13 @@ void update_sensor_data(uint32_t sensorId, uint32_t value) {
   ESP_LOGI(TAG, "New sample for sensor %i: %i", sensorId, value);
   if (sensorId == 0) {
     set_var__humidity_level(value);
+    if (value < 60) {
+      set_var__pump_running(true);
+      led_drv_set_to(BLUE);
+    } else {
+      set_var__pump_running(false);
+      led_drv_set_to(GREEN);
+    }
   }
   /* } else { */
   /*   ESP_LOGE("UI", "LVGL-Lock could not get acquired!"); */

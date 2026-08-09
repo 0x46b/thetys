@@ -8,14 +8,33 @@
 #include "RGBLEDDriver.h"
 #include "common.h"
 #include "heart_rate.h"
+#include "host/ble_gatt.h"
+#include "host/ble_hs.h"
+#include "host/ble_uuid.h"
+#include "led_colors.h"
+#include "sensor_data_handler.h"
+#include <stdint.h>
 
 /* Private function declarations */
+static int sensor_data_chr_access(uint16_t conn_handle, uint16_t attr_handle,
+                                  struct ble_gatt_access_ctxt *ctxt, void *arg);
 static int heart_rate_chr_access(uint16_t conn_handle, uint16_t attr_handle,
                                  struct ble_gatt_access_ctxt *ctxt, void *arg);
 static int led_chr_access(uint16_t conn_handle, uint16_t attr_handle,
                           struct ble_gatt_access_ctxt *ctxt, void *arg);
 
 /* Private variables */
+/* Sensor data service*/
+static const ble_uuid16_t sensor_data_svc_uuid = BLE_UUID16_INIT(0x181A);
+
+static uint8_t sensor_data_chr_val[2] = {0};
+static uint16_t sensor_data_chr_val_handle;
+static const ble_uuid16_t sensor_data_chr_uuid = BLE_UUID16_INIT(0x290C);
+
+static uint16_t sensor_data_chr_conn_handle = BLE_HS_CONN_HANDLE_NONE;
+static bool sensor_data_chr_conn_handle_inited = false;
+static bool sensor_data_ind_status = false;
+
 /* Heart rate service */
 static const ble_uuid16_t heart_rate_svc_uuid = BLE_UUID16_INIT(0x180D);
 
@@ -36,6 +55,19 @@ static const ble_uuid128_t led_chr_uuid =
 
 /* GATT services table */
 static const struct ble_gatt_svc_def gatt_svr_svcs[] = {
+    /* sensor data service */
+    {.type = BLE_GATT_SVC_TYPE_PRIMARY,
+     .uuid = &sensor_data_svc_uuid.u,
+     .characteristics =
+         (struct ble_gatt_chr_def[]){
+             {/* sensor data characteristic */
+              .uuid = &sensor_data_chr_uuid.u,
+              .access_cb = sensor_data_chr_access,
+              .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_INDICATE,
+              .val_handle = &sensor_data_chr_val_handle},
+             {
+                 0, /* No more characteristics in this service. */
+             }}},
     /* Heart rate service */
     {.type = BLE_GATT_SVC_TYPE_PRIMARY,
      .uuid = &heart_rate_svc_uuid.u,
@@ -69,6 +101,50 @@ static const struct ble_gatt_svc_def gatt_svr_svcs[] = {
 };
 
 /* Private functions */
+static int sensor_data_chr_access(uint16_t conn_handle, uint16_t attr_handle,
+                                  struct ble_gatt_access_ctxt *ctxt,
+                                  void *arg) {
+  /* Local variables */
+  int rc = 0;
+
+  /* Handle access events */
+  /* Note: Heart rate characteristic is read only */
+  switch (ctxt->op) {
+
+  /* Read characteristic event */
+  case BLE_GATT_ACCESS_OP_READ_CHR:
+    /* Verify connection handle */
+    if (conn_handle != BLE_HS_CONN_HANDLE_NONE) {
+      ESP_LOGI(TAG, "characteristic read; conn_handle=%d attr_handle=%d",
+               conn_handle, attr_handle);
+    } else {
+      ESP_LOGI(TAG, "characteristic read by nimble stack; attr_handle=%d",
+               attr_handle);
+    }
+
+    /* Verify attribute handle */
+    if (attr_handle == sensor_data_chr_val_handle) {
+      /* Update access buffer value */
+      sensor_data_chr_val[1] = get_sensor_data(0);
+      rc = os_mbuf_append(ctxt->om, &sensor_data_chr_val,
+                          sizeof(sensor_data_chr_val));
+      return rc == 0 ? 0 : BLE_ATT_ERR_INSUFFICIENT_RES;
+    }
+    goto error;
+
+  /* Unknown event */
+  default:
+    goto error;
+  }
+
+error:
+  ESP_LOGE(
+      TAG,
+      "unexpected access operation to sensor data characteristic, opcode: %d",
+      ctxt->op);
+  return BLE_ATT_ERR_UNLIKELY;
+}
+
 static int heart_rate_chr_access(uint16_t conn_handle, uint16_t attr_handle,
                                  struct ble_gatt_access_ctxt *ctxt, void *arg) {
   /* Local variables */
@@ -232,6 +308,14 @@ void gatt_svr_subscribe_cb(struct ble_gap_event *event) {
     heart_rate_chr_conn_handle = event->subscribe.conn_handle;
     heart_rate_chr_conn_handle_inited = true;
     heart_rate_ind_status = event->subscribe.cur_indicate;
+    led_drv_set_to(RED);
+  }
+
+  if (event->subscribe.attr_handle == sensor_data_chr_val_handle) {
+    sensor_data_chr_conn_handle = event->subscribe.conn_handle;
+    sensor_data_chr_conn_handle_inited = true;
+    sensor_data_ind_status = event->subscribe.cur_indicate;
+    led_drv_set_to(CYAN);
   }
 }
 
@@ -239,6 +323,14 @@ void gatt_svr_reset_heart_rate_subscription(void) {
   heart_rate_chr_conn_handle = BLE_HS_CONN_HANDLE_NONE;
   heart_rate_chr_conn_handle_inited = false;
   heart_rate_ind_status = false;
+  led_drv_set_to(GREEN);
+}
+
+void gatt_svr_reset_sensor_data_subscription(void) {
+  sensor_data_chr_conn_handle = BLE_HS_CONN_HANDLE_NONE;
+  sensor_data_chr_conn_handle_inited = false;
+  sensor_data_ind_status = false;
+  led_drv_set_to(GREEN);
 }
 
 /*

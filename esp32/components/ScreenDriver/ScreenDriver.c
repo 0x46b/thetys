@@ -1,3 +1,20 @@
+/* Methods for initializing and starting the LCD-Screen.
+ * Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ScreenDriver.h"
 #include "definitions.h"
 #include "esp_lcd_ili9341_init_cmds_1.h"
@@ -52,7 +69,7 @@ UI_RESULT ui_initialize(ui_lcd_gpio_config config) {
   ESP_ERROR_CHECK(esp_lcd_panel_invert_color(panel_handle, false));
   ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(panel_handle, true));
 
-  ESP_LOGI(TAG, "Initializing lvgl");
+  ESP_LOGI(TAG, "Initializing lvgl port");
   const lvgl_port_cfg_t lvgl_cfg = ESP_LVGL_PORT_INIT_CONFIG();
   ESP_ERROR_CHECK(lvgl_port_init(&lvgl_cfg));
 

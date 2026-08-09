@@ -18,28 +18,6 @@ objects_t objects;
 
 lv_obj_t *tick_value_change_obj;
 
-static void event_handler_cb_plant_detail_page_obj1(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target_obj(e);
-        if (tick_value_change_obj != ta) {
-            bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
-            set_var__pump_running(value);
-        }
-    }
-}
-
-static void event_handler_cb_plant_view_obj0(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target_obj(e);
-        if (tick_value_change_obj != ta) {
-            bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
-            set_var__pump_running(value);
-        }
-    }
-}
-
 //
 // Screens
 //
@@ -99,14 +77,13 @@ void create_screen_plant_detail_page() {
         }
         {
             lv_obj_t *obj = lv_bar_create(parent_obj);
-            objects.obj2 = obj;
+            objects.obj1 = obj;
             lv_obj_set_pos(obj, 161, 216);
             lv_obj_set_size(obj, 150, 10);
-            lv_bar_set_range(obj, 0, 4095);
         }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj3 = obj;
+            objects.obj2 = obj;
             lv_obj_set_pos(obj, 9, 10);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_label_set_text(obj, "");
@@ -118,11 +95,27 @@ void create_screen_plant_detail_page() {
             lv_label_set_text_static(obj, "Current humidity");
         }
         {
-            lv_obj_t *obj = lv_switch_create(parent_obj);
-            objects.obj1 = obj;
-            lv_obj_set_pos(obj, 261, 6);
-            lv_obj_set_size(obj, 50, 25);
-            lv_obj_add_event_cb(obj, event_handler_cb_plant_detail_page_obj1, LV_EVENT_ALL, 0);
+            lv_obj_t *obj = lv_animimg_create(parent_obj);
+            objects.obj3 = obj;
+            lv_obj_set_pos(obj, 290, 8);
+            lv_obj_set_size(obj, 20, 20);
+            static const lv_image_dsc_t *images[4] = {
+                &img_pump_frame_1,
+                &img_pump_frame_2,
+                &img_pump_frame_3,
+                &img_pump_frame_2,
+            };
+            lv_animimg_set_src(obj, (const void **)images, 4);
+            lv_animimg_set_duration(obj, 1000);
+            lv_animimg_set_repeat_count(obj, LV_ANIM_REPEAT_INFINITE);
+            lv_animimg_start(obj);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            objects.obj4 = obj;
+            lv_obj_set_pos(obj, 287, 8);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pump_stopped_frame_1);
         }
     }
     
@@ -132,31 +125,44 @@ void create_screen_plant_detail_page() {
 void tick_screen_plant_detail_page() {
     {
         int32_t new_val = get_var__humidity_level();
-        int32_t cur_val = lv_bar_get_value(objects.obj2);
+        int32_t cur_val = lv_bar_get_value(objects.obj1);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj2;
-            lv_bar_set_value(objects.obj2, new_val, LV_ANIM_OFF);
+            tick_value_change_obj = objects.obj1;
+            lv_bar_set_value(objects.obj1, new_val, LV_ANIM_OFF);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = get_var__plant_id();
-        const char *cur_val = lv_label_get_text(objects.obj3);
+        const char *cur_val = lv_label_get_text(objects.obj2);
         if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj2;
+            lv_label_set_text(objects.obj2, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = get_var_pump_stopped();
+        bool cur_val = lv_obj_has_flag(objects.obj3, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
             tick_value_change_obj = objects.obj3;
-            lv_label_set_text(objects.obj3, new_val);
+            if (new_val) {
+                lv_obj_add_flag(objects.obj3, LV_OBJ_FLAG_HIDDEN);
+            } else {
+                lv_obj_remove_flag(objects.obj3, LV_OBJ_FLAG_HIDDEN);
+            }
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = get_var__pump_running();
-        bool cur_val = lv_obj_has_state(objects.obj1, LV_STATE_CHECKED);
+        bool cur_val = lv_obj_has_flag(objects.obj4, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj1;
+            tick_value_change_obj = objects.obj4;
             if (new_val) {
-                lv_obj_add_state(objects.obj1, LV_STATE_CHECKED);
+                lv_obj_add_flag(objects.obj4, LV_OBJ_FLAG_HIDDEN);
             } else {
-                lv_obj_remove_state(objects.obj1, LV_STATE_CHECKED);
+                lv_obj_remove_flag(objects.obj4, LV_OBJ_FLAG_HIDDEN);
             }
             tick_value_change_obj = NULL;
         }
@@ -170,30 +176,39 @@ void create_user_widget_plant_view(lv_obj_t *parent_obj, int startWidgetIndex) {
         lv_obj_t *parent_obj = obj;
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            ((lv_obj_t **)&objects)[startWidgetIndex + 1] = obj;
+            ((lv_obj_t **)&objects)[startWidgetIndex + 0] = obj;
             lv_obj_set_pos(obj, 9, 14);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_label_set_text(obj, "");
         }
         {
-            lv_obj_t *obj = lv_switch_create(parent_obj);
-            ((lv_obj_t **)&objects)[startWidgetIndex + 0] = obj;
-            lv_obj_set_pos(obj, 172, 30);
-            lv_obj_set_size(obj, 50, 25);
-            lv_obj_add_event_cb(obj, event_handler_cb_plant_view_obj0, LV_EVENT_ALL, 0);
-        }
-        {
             lv_obj_t *obj = lv_bar_create(parent_obj);
-            ((lv_obj_t **)&objects)[startWidgetIndex + 2] = obj;
+            ((lv_obj_t **)&objects)[startWidgetIndex + 1] = obj;
             lv_obj_set_pos(obj, 93, 17);
             lv_obj_set_size(obj, 129, 10);
-            lv_bar_set_range(obj, 0, 4095);
         }
         {
-            lv_obj_t *obj = lv_label_create(parent_obj);
-            lv_obj_set_pos(obj, 53, 35);
+            lv_obj_t *obj = lv_animimg_create(parent_obj);
+            ((lv_obj_t **)&objects)[startWidgetIndex + 2] = obj;
+            lv_obj_set_pos(obj, 9, 30);
+            lv_obj_set_size(obj, 20, 20);
+            static const lv_image_dsc_t *images[4] = {
+                &img_pump_frame_1,
+                &img_pump_frame_2,
+                &img_pump_frame_3,
+                &img_pump_frame_2,
+            };
+            lv_animimg_set_src(obj, (const void **)images, 4);
+            lv_animimg_set_duration(obj, 1000);
+            lv_animimg_set_repeat_count(obj, LV_ANIM_REPEAT_INFINITE);
+            lv_animimg_start(obj);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            ((lv_obj_t **)&objects)[startWidgetIndex + 3] = obj;
+            lv_obj_set_pos(obj, 6, 30);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-            lv_label_set_text_static(obj, "Pump running");
+            lv_image_set_src(obj, &img_pump_stopped_frame_1);
         }
     }
 }
@@ -202,32 +217,45 @@ void tick_user_widget_plant_view(int startWidgetIndex) {
     (void)startWidgetIndex;
     {
         const char *new_val = get_var__plant_id();
-        const char *cur_val = lv_label_get_text(((lv_obj_t **)&objects)[startWidgetIndex + 1]);
+        const char *cur_val = lv_label_get_text(((lv_obj_t **)&objects)[startWidgetIndex + 0]);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = ((lv_obj_t **)&objects)[startWidgetIndex + 1];
-            lv_label_set_text(((lv_obj_t **)&objects)[startWidgetIndex + 1], new_val);
-            tick_value_change_obj = NULL;
-        }
-    }
-    {
-        bool new_val = get_var__pump_running();
-        bool cur_val = lv_obj_has_state(((lv_obj_t **)&objects)[startWidgetIndex + 0], LV_STATE_CHECKED);
-        if (new_val != cur_val) {
             tick_value_change_obj = ((lv_obj_t **)&objects)[startWidgetIndex + 0];
-            if (new_val) {
-                lv_obj_add_state(((lv_obj_t **)&objects)[startWidgetIndex + 0], LV_STATE_CHECKED);
-            } else {
-                lv_obj_remove_state(((lv_obj_t **)&objects)[startWidgetIndex + 0], LV_STATE_CHECKED);
-            }
+            lv_label_set_text(((lv_obj_t **)&objects)[startWidgetIndex + 0], new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         int32_t new_val = get_var__humidity_level();
-        int32_t cur_val = lv_bar_get_value(((lv_obj_t **)&objects)[startWidgetIndex + 2]);
+        int32_t cur_val = lv_bar_get_value(((lv_obj_t **)&objects)[startWidgetIndex + 1]);
+        if (new_val != cur_val) {
+            tick_value_change_obj = ((lv_obj_t **)&objects)[startWidgetIndex + 1];
+            lv_bar_set_value(((lv_obj_t **)&objects)[startWidgetIndex + 1], new_val, LV_ANIM_OFF);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = get_var_pump_stopped();
+        bool cur_val = lv_obj_has_flag(((lv_obj_t **)&objects)[startWidgetIndex + 2], LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = ((lv_obj_t **)&objects)[startWidgetIndex + 2];
-            lv_bar_set_value(((lv_obj_t **)&objects)[startWidgetIndex + 2], new_val, LV_ANIM_OFF);
+            if (new_val) {
+                lv_obj_add_flag(((lv_obj_t **)&objects)[startWidgetIndex + 2], LV_OBJ_FLAG_HIDDEN);
+            } else {
+                lv_obj_remove_flag(((lv_obj_t **)&objects)[startWidgetIndex + 2], LV_OBJ_FLAG_HIDDEN);
+            }
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = get_var__pump_running();
+        bool cur_val = lv_obj_has_flag(((lv_obj_t **)&objects)[startWidgetIndex + 3], LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = ((lv_obj_t **)&objects)[startWidgetIndex + 3];
+            if (new_val) {
+                lv_obj_add_flag(((lv_obj_t **)&objects)[startWidgetIndex + 3], LV_OBJ_FLAG_HIDDEN);
+            } else {
+                lv_obj_remove_flag(((lv_obj_t **)&objects)[startWidgetIndex + 3], LV_OBJ_FLAG_HIDDEN);
+            }
             tick_value_change_obj = NULL;
         }
     }

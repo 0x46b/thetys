@@ -15,7 +15,8 @@ extern "C" {
 enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE__PLANT_ID = 0,
     FLOW_GLOBAL_VARIABLE__HUMIDITY_LEVEL = 1,
-    FLOW_GLOBAL_VARIABLE__PUMP_RUNNING = 2
+    FLOW_GLOBAL_VARIABLE__PUMP_RUNNING = 2,
+    FLOW_GLOBAL_VARIABLE_PUMP_STOPPED = 3
 };
 
 // Native global variables
@@ -26,6 +27,8 @@ extern int32_t get_var__humidity_level();
 extern void set_var__humidity_level(int32_t value);
 extern bool get_var__pump_running();
 extern void set_var__pump_running(bool value);
+extern bool get_var_pump_stopped();
+extern void set_var_pump_stopped(bool value);
 
 #ifdef __cplusplus
 }
