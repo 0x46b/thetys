@@ -17,6 +17,7 @@
  */
 #include "SensorManager.h"
 #include "SensorDriver.h"
+#include "sensor_calibration.h"
 #include "sensor_configuration.h"
 #include "sensor_samples.h"
 #include <freertos/FreeRTOS.h>
@@ -26,10 +27,18 @@
 #include <stdint.h>
 
 static const char *TAG = "SensorManager";
-static void (*new_data_callback)(uint32_t, uint32_t);
+static new_measurement_callback on_new_measurement;
+static new_sensor_callback on_new_sensor;
 
-SMGR_RESULT sensor_mgr_subscribe(void (*callback)(uint32_t, uint32_t)) {
-  new_data_callback = callback;
+SMGR_RESULT
+sensor_mgr_subscribe_new_measurement(new_measurement_callback callback) {
+  on_new_measurement = callback;
+  return SMGR_SUCCESS;
+}
+
+SMGR_RESULT
+sensor_mgr_subscribe_new_sensor(new_sensor_callback callback) {
+  on_new_sensor = callback;
   return SMGR_SUCCESS;
 }
 
@@ -48,32 +57,6 @@ SMGR_RESULT sensor_mgr_initialize(uint32_t number_of_sensors) {
     ESP_LOGE(TAG, "Unknown error occured");
     return SMGR_UNKNOWN_ERROR;
   };
-}
-
-uint32_t get_humidity(int32_t raw_value, sensor_calibration_data calibration) {
-  ESP_LOGI(TAG, "Calculating humidity-percentage (adc: %i, air: %i, water: %i)",
-           raw_value, calibration.air_factor, calibration.water_factor);
-  calibration.air_factor = calibration.air_factor;
-  calibration.water_factor = calibration.water_factor;
-
-  long humidity_percentage =
-      (long)(raw_value - calibration.air_factor) * 100 /
-      (calibration.air_factor - calibration.water_factor);
-
-  humidity_percentage = nearbyint(humidity_percentage);
-
-  if (humidity_percentage < 0) {
-    ESP_LOGI(TAG, "Calculated value 'f' < 0, correcting to 0%",
-             humidity_percentage);
-    humidity_percentage = 0;
-  }
-
-  if (humidity_percentage > 100) {
-    ESP_LOGI(TAG, "Calculated value '%f' > 100, correcting to 100%",
-             humidity_percentage);
-    humidity_percentage = 100;
-  }
-  return (int32_t)humidity_percentage;
 }
 
 SMGR_RESULT sensor_manager_read_sensor(uint32_t sensor_id,
@@ -106,13 +89,15 @@ SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_gpio) {
   uint32_t number_of_sensors = 0;
   get_number_of_configurations(&number_of_sensors);
   uint32_t sensor_id = number_of_sensors;
-  sensor_configuration new_sensor = {.sensor_id = sensor_id,
-                                     .sensor_gpio = sensor_gpio,
-                                     .calibration_data = {
-                                         .calibrated = false,
-                                         .air_factor = 4095,
-                                         .water_factor = 2717,
-                                     }};
+  sensor_configuration new_sensor = {
+      .sensor_id = sensor_id,
+      .sensor_gpio = sensor_gpio,
+      .calibration_data = {.calibrated = false,
+                           .air_measurement = 4095,
+                           .water_measurement = 2717,
+                           .air_reference = CONFIG_SENSOR_AIR_REFERENCE_VALUE,
+                           .water_reference =
+                               CONFIG_SENSOR_WATER_REFERENCE_VALUE}};
 
   SENSOR_CONFIGURATION_RESULT result = insert_configuration(new_sensor);
   ESP_ERROR_CHECK(sensor_data_insert(0));
@@ -122,6 +107,9 @@ SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_gpio) {
   case SENSOR_CFG_OK:
     ESP_LOGI(TAG, "Successfully registered sensor with GPIO %i to Id %i",
              sensor_gpio, sensor_id);
+    if (on_new_sensor != NULL) {
+      on_new_sensor(new_sensor);
+    }
     return SMGR_SUCCESS;
   case SENSOR_CFG_LOW_MEMORY:
     ESP_LOGE(TAG, "Could not add sensor: Not enough memory");
@@ -168,9 +156,9 @@ static void sensor_polling_task(void *param) {
       sensor_data_update(value_buffer.sensor_id,
                          value_buffer.humidity_percentage);
 
-      if (new_data_callback != NULL) {
-        new_data_callback(value_buffer.sensor_id,
-                          value_buffer.humidity_percentage);
+      if (on_new_measurement != NULL) {
+        on_new_measurement(value_buffer.sensor_id,
+                           value_buffer.humidity_percentage);
       }
     }
 

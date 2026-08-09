@@ -104,8 +104,8 @@ get_configuration_for_sensor_id(sensor_configuration *sensor_config,
 
   ESP_LOGI(TAG, "Returning config for sensor %i (gpio:%i, air: %i, water:%i)",
            sensor_id, stored_config.sensor_gpio,
-           stored_config.calibration_data.air_factor,
-           stored_config.calibration_data.water_factor);
+           stored_config.calibration_data.air_measurement,
+           stored_config.calibration_data.water_measurement);
   return SENSOR_CFG_OK;
 }
 

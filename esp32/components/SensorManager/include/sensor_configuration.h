@@ -1,4 +1,5 @@
 /*! @file
+ * @todo This should belong to the driver, really...
  * Dynamic store for sensor-configurations. Hold the GPIO and calibration-infos.
  *
  * Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
@@ -42,11 +43,16 @@ typedef enum SENSOR_CONFIGURATION_RESULT {
 typedef struct sensor_calibration_data {
   bool calibrated; /*!< Determines, if the calibration was executed or if these
                       are default values */
-  uint32_t air_factor; /*!< The value that gots measured by calibrate_air if the
-                          sensor is in the air, typically 4095 */
-  uint32_t water_factor; /*!< The value that gots measure by calibrate_water if
-                            the sensor is in a glass of water */
-  uint32_t calibration_factor;
+  uint32_t air_measurement; /*!< The value that gots measured by calibrate_air
+                          if the sensor is in the air, typically 4095 */
+  uint32_t
+      water_measurement;  /*!< The value that gots measure by calibrate_water if
+                        the sensor is in a glass of water */
+  uint32_t air_reference; /*!< Reference value, that we would expect for "no
+                             water" */
+
+  uint32_t
+      water_reference; /*!< Reference value that we expect for "full water" */
 } sensor_calibration_data;
 
 /*! Configuration for a sensor */

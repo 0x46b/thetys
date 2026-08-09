@@ -23,4 +23,12 @@ menu "Humidity Sensors"
 	   range 0 1
 	   help
 		The task for the sensor-polling will get executed on this CPU-core
+
+    config SENSOR_WATER_REFERENCE_VALUE
+    	   int "Raw value that is expected to get from the sensor if submerged in water (=100% humidity)"
+	   default 4095
+
+    config SENSOR_AIR_REFERENCE_VALUE
+           int "Raw value that is expected to get from the sensor if no water at all (=0% humidity)"
+	   default 0
 endmenu

@@ -19,6 +19,7 @@
 #ifndef SENSORMANAGER_H
 #define SENSORMANAGER_H
 
+#include "sensor_configuration.h"
 #include <stdint.h>
 
 /*! Operation result codes */
@@ -39,6 +40,14 @@ typedef struct sensor_reading {
   float humidity_percentage; /*!< The humidity in percentage (0..1) */
 } sensor_reading;
 
+/*! Callback definition for a new data callback. Subscribe via
+ * sensor_mgr_subscribe_new_measurement */
+typedef void (*new_measurement_callback)(uint32_t, uint32_t);
+
+/*! Callback definition for a new sensor callback. Subscribe via
+ * sensor_mgr_subscribe_new_sensor */
+typedef void (*new_sensor_callback)(sensor_configuration);
+
 /*! Initializes the sensor-manager.
  * Sets the correct data-directions, allocates memory etc.
  * @return SMGR_RESULT::SMGR_SUCCESS Configurations successfully initialized
@@ -52,8 +61,6 @@ SMGR_RESULT sensor_mgr_initialize(uint32_t number_of_sensors);
  * @return SMGR_RESULT::SMGR_CATASTROPHIC_FAILURE Something went terribly wrong
  */
 SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_pin);
-
-SMGR_RESULT sensor_mgr_subscribe(void (*callback)(uint32_t, uint32_t));
 
 /*! Starts calibration for air-measurement
  * To calibrate the sensor we need to measure different "environments" to be
@@ -98,4 +105,12 @@ SMGR_RESULT sensor_manager_read_sensor(uint32_t sensor_id,
 "Components->Humidity Sensors->SENSOR_POLLING_TIME"
 */
 SMGR_RESULT start_sensor_polling_task(void);
+
+SMGR_RESULT
+sensor_mgr_subscribe_new_sensor(new_sensor_callback callback);
+
+/*! Register callback for calling if new measurements where taken
+ * @param callback  */
+SMGR_RESULT
+sensor_mgr_subscribe_new_measurement(new_measurement_callback callback);
 #endif

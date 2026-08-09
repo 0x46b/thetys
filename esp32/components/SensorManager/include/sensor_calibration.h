@@ -1,4 +1,5 @@
 /*! @file
+ * @todo This should belong to the driver, really...
  * Routines for helping with the sensor-calibration
  * Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
  *
@@ -91,4 +92,5 @@ CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples,
 CALIB_RESULT get_sample_average(float *sample_array, uint32_t number_of_samples,
                                 float *sample_average);
 
+uint32_t get_humidity(int32_t raw_value, sensor_calibration_data calibration);
 #endif // SENSOR_CALIBRATION_H

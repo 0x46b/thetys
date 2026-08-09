@@ -4,6 +4,7 @@
 #include <unity.h>
 static void print_banner(const char *text);
 
+// TODO: Add controlling the RGB_LED for easier overview, if everything went ok
 void app_main(void) {
   /* These are the different ways of running registered tests.
    * In practice, only one of them is usually needed.

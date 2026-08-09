@@ -69,6 +69,7 @@ void update_sensor_data(uint32_t sensorId, uint32_t value) {
   ESP_LOGI(TAG, "New sample for sensor %i: %i", sensorId, value);
   if (sensorId == 0) {
     set_var__humidity_level(value);
+
     if (value < 60) {
       set_var__pump_running(true);
       led_drv_set_to(BLUE);
@@ -95,7 +96,7 @@ void app_main(void) {
     abort();
   }
   sensor_mgr_add_sensor(SENSOR_GPIO);
-  sensor_mgr_subscribe(update_sensor_data);
+  sensor_mgr_subscribe_new_measurement(update_sensor_data);
   // relais_drv_initialize(PUMP_GPIO);
   /* xTaskCreate(pump_task,   // Function that implements the task */
   /*             "Pump-Task", // Text name for the task (for debugging) */
