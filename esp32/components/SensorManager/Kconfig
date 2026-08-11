@@ -1,4 +1,4 @@
-menu "Humidity Sensors"
+menu "Thetys: Humidity Sensors"
      config MAX_SENSOR_COUNT
      	    int "Maximum number of sensors used"
      	    default 8

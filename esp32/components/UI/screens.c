@@ -22,43 +22,30 @@ lv_obj_t *tick_value_change_obj;
 // Screens
 //
 
-void create_screen_main() {
+void create_screen_overview_page() {
     lv_obj_t *obj = lv_obj_create(0);
-    objects.main = obj;
+    objects.overview_page = obj;
     lv_obj_set_pos(obj, 0, 0);
     lv_obj_set_size(obj, 320, 240);
     {
         lv_obj_t *parent_obj = obj;
         {
-            // plant_list
             lv_obj_t *obj = lv_list_create(parent_obj);
-            objects.plant_list = obj;
-            lv_obj_set_pos(obj, 15, 8);
-            lv_obj_set_size(obj, 296, 219);
-            {
-                lv_obj_t *parent_obj = obj;
-                {
-                    lv_obj_t *obj = lv_obj_create(parent_obj);
-                    objects.obj0 = obj;
-                    lv_obj_set_pos(obj, -2, 11);
-                    lv_obj_set_size(obj, 265, 60);
-                    lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_pad_top(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_pad_right(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_pad_bottom(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    create_user_widget_plant_view(obj, 4);
-                }
-            }
+            lv_obj_set_pos(obj, 9, 30);
+            lv_obj_set_size(obj, 302, 197);
+        }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 9, 6);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text_static(obj, "Active sensors:");
         }
     }
     
-    tick_screen_main();
+    tick_screen_overview_page();
 }
 
-void tick_screen_main() {
-    tick_user_widget_plant_view(4);
+void tick_screen_overview_page() {
 }
 
 void create_screen_plant_detail_page() {
@@ -73,30 +60,32 @@ void create_screen_plant_detail_page() {
             lv_obj_t *obj = lv_chart_create(parent_obj);
             objects.plant_detail_chart = obj;
             lv_obj_set_pos(obj, 9, 35);
-            lv_obj_set_size(obj, 301, 166);
+            lv_obj_set_size(obj, 301, 85);
         }
         {
+            // bar_humidity_level
             lv_obj_t *obj = lv_bar_create(parent_obj);
-            objects.obj1 = obj;
-            lv_obj_set_pos(obj, 161, 216);
+            objects.bar_humidity_level = obj;
+            lv_obj_set_pos(obj, 160, 123);
             lv_obj_set_size(obj, 150, 10);
         }
         {
+            // txt_plant_name
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj2 = obj;
+            objects.txt_plant_name = obj;
             lv_obj_set_pos(obj, 9, 10);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-            lv_label_set_text(obj, "");
+            lv_label_set_text_static(obj, "plantname");
         }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            lv_obj_set_pos(obj, 10, 213);
+            lv_obj_set_pos(obj, 9, 120);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_label_set_text_static(obj, "Current humidity");
         }
         {
             lv_obj_t *obj = lv_animimg_create(parent_obj);
-            objects.obj3 = obj;
+            objects.obj0 = obj;
             lv_obj_set_pos(obj, 290, 8);
             lv_obj_set_size(obj, 20, 20);
             static const lv_image_dsc_t *images[4] = {
@@ -112,10 +101,52 @@ void create_screen_plant_detail_page() {
         }
         {
             lv_obj_t *obj = lv_image_create(parent_obj);
-            objects.obj4 = obj;
+            objects.obj1 = obj;
             lv_obj_set_pos(obj, 287, 8);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_image_set_src(obj, &img_pump_stopped_frame_1);
+        }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 9, 221);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text_static(obj, "Configured threshold:");
+        }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 10, 189);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text_static(obj, "Last measurement:");
+        }
+        {
+            // txt_configured_threshold
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.txt_configured_threshold = obj;
+            lv_obj_set_pos(obj, 280, 221);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text_static(obj, "Text");
+        }
+        {
+            // txt_last_measured_at
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.txt_last_measured_at = obj;
+            lv_obj_set_pos(obj, 281, 189);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text_static(obj, "Text");
+        }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 10, 205);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text_static(obj, "Last watering:");
+        }
+        {
+            // txt_last_watered_at
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.txt_last_watered_at = obj;
+            lv_obj_set_pos(obj, 281, 205);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text_static(obj, "Text");
         }
     }
     
@@ -125,44 +156,35 @@ void create_screen_plant_detail_page() {
 void tick_screen_plant_detail_page() {
     {
         int32_t new_val = get_var__humidity_level();
-        int32_t cur_val = lv_bar_get_value(objects.obj1);
+        int32_t cur_val = lv_bar_get_value(objects.bar_humidity_level);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj1;
-            lv_bar_set_value(objects.obj1, new_val, LV_ANIM_OFF);
-            tick_value_change_obj = NULL;
-        }
-    }
-    {
-        const char *new_val = get_var__plant_id();
-        const char *cur_val = lv_label_get_text(objects.obj2);
-        if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj2;
-            lv_label_set_text(objects.obj2, new_val);
+            tick_value_change_obj = objects.bar_humidity_level;
+            lv_bar_set_value(objects.bar_humidity_level, new_val, LV_ANIM_OFF);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = get_var_pump_stopped();
-        bool cur_val = lv_obj_has_flag(objects.obj3, LV_OBJ_FLAG_HIDDEN);
+        bool cur_val = lv_obj_has_flag(objects.obj0, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj3;
+            tick_value_change_obj = objects.obj0;
             if (new_val) {
-                lv_obj_add_flag(objects.obj3, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_add_flag(objects.obj0, LV_OBJ_FLAG_HIDDEN);
             } else {
-                lv_obj_remove_flag(objects.obj3, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_remove_flag(objects.obj0, LV_OBJ_FLAG_HIDDEN);
             }
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = get_var__pump_running();
-        bool cur_val = lv_obj_has_flag(objects.obj4, LV_OBJ_FLAG_HIDDEN);
+        bool cur_val = lv_obj_has_flag(objects.obj1, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj4;
+            tick_value_change_obj = objects.obj1;
             if (new_val) {
-                lv_obj_add_flag(objects.obj4, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_add_flag(objects.obj1, LV_OBJ_FLAG_HIDDEN);
             } else {
-                lv_obj_remove_flag(objects.obj4, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_remove_flag(objects.obj1, LV_OBJ_FLAG_HIDDEN);
             }
             tick_value_change_obj = NULL;
         }
@@ -261,9 +283,45 @@ void tick_user_widget_plant_view(int startWidgetIndex) {
     }
 }
 
+void create_user_widget_sensor_list_item(lv_obj_t *parent_obj, int startWidgetIndex) {
+    (void)startWidgetIndex;
+    lv_obj_t *obj = parent_obj;
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            // plant_name
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            ((lv_obj_t **)&objects)[startWidgetIndex + 0] = obj;
+            lv_obj_set_pos(obj, 11, 15);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text_static(obj, "PlantName");
+        }
+        {
+            lv_obj_t *obj = lv_led_create(parent_obj);
+            ((lv_obj_t **)&objects)[startWidgetIndex + 1] = obj;
+            lv_obj_set_pos(obj, 273, 7);
+            lv_obj_set_size(obj, 32, 32);
+            lv_led_set_color(obj, lv_color_hex(0x19ff00));
+            lv_led_set_brightness(obj, 255);
+        }
+        {
+            // plant_humidity
+            lv_obj_t *obj = lv_bar_create(parent_obj);
+            ((lv_obj_t **)&objects)[startWidgetIndex + 2] = obj;
+            lv_obj_set_pos(obj, 109, 18);
+            lv_obj_set_size(obj, 150, 10);
+            lv_bar_set_value(obj, 25, LV_ANIM_OFF);
+        }
+    }
+}
+
+void tick_user_widget_sensor_list_item(int startWidgetIndex) {
+    (void)startWidgetIndex;
+}
+
 typedef void (*tick_screen_func_t)();
 tick_screen_func_t tick_screen_funcs[] = {
-    tick_screen_main,
+    tick_screen_overview_page,
     tick_screen_plant_detail_page,
 };
 void tick_screen(int screen_index) {
@@ -364,6 +422,6 @@ void create_screens() {
     
     // Initialize screens
     // Create screens
-    create_screen_main();
+    create_screen_overview_page();
     create_screen_plant_detail_page();
 }

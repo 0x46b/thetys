@@ -1,6 +1,10 @@
 {
   "files": [
     "images.c",
+    "images/ui_image_pump_frame_1.c",
+    "images/ui_image_pump_frame_2.c",
+    "images/ui_image_pump_frame_3.c",
+    "images/ui_image_pump_stopped_frame_1.c",
     "include/actions.h",
     "include/fonts.h",
     "include/images.h",

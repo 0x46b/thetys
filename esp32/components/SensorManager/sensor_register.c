@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include "sensor_register.h"
 #include "include/sensor_configuration.h"
 #include "sensor_mgr_type_definitions.h"
-#include "sensor_register.h"
 #include <stdint.h>
 #include <stdlib.h>
 
 static const char *TAG = "sensor_configuration";
-static sensor_configuration_list_T sensor_configurations;
+static sensor_register_T sensor_configurations;
 static bool initialized = false;
 
 SENSOR_REGISTER_RESULT
@@ -32,8 +32,7 @@ sensor_register_initialize(size_t initialSize) {
   }
 
   ESP_LOGI(TAG, "Initializing array for %i sensors.", initialSize);
-  sensor_configurations.configurations =
-      malloc(initialSize * sizeof(sensor_configuration_T));
+  sensor_configurations.configurations = malloc(initialSize * sizeof(sensor_T));
 
   if (sensor_configurations.configurations == NULL) {
     ESP_LOGE(TAG, "Malloc failed!");
@@ -50,8 +49,7 @@ sensor_register_initialize(size_t initialSize) {
 }
 
 SENSOR_REGISTER_RESULT
-sensor_register_insert(sensor_configuration_T element,
-                       sensor_handle_T *handle) {
+sensor_register_insert(sensor_T element, sensor_handle_T *handle) {
   if (!initialized) {
     ESP_LOGE(TAG, "Try to insert into uninitialized array");
     return SENSOR_CFG_UNINITIALIZED;
@@ -63,9 +61,8 @@ sensor_register_insert(sensor_configuration_T element,
     ESP_LOGI(TAG,
              "Not enough space for added sensor_config, resizing from %i to %i",
              sensor_configurations.size, new_size);
-    sensor_configuration_T *new_array =
-        realloc(sensor_configurations.configurations,
-                new_size * sizeof(sensor_configuration_T));
+    sensor_T *new_array = realloc(sensor_configurations.configurations,
+                                  new_size * sizeof(sensor_T));
     if (new_array == NULL) {
       ESP_LOGE(TAG, "Resizing failed");
       return SENSOR_CFG_LOW_MEMORY;
@@ -99,13 +96,12 @@ sensor_register_free() {
 }
 
 SENSOR_REGISTER_RESULT
-sensor_register_fetch(sensor_configuration_T *sensor_config,
-                      sensor_handle_T sensor_handle) {
+sensor_register_fetch(sensor_handle_T sensor_handle, sensor_T *sensor_config) {
   if (sensor_handle > sensor_configurations.used) {
     ESP_LOGE(TAG, "Sensor with id %i is not known", sensor_handle);
     return SENSOR_CFG_UNKNOWN_SENSOR_ID;
   }
-  sensor_configuration_T stored_config =
+  sensor_T stored_config =
       sensor_configurations.configurations[(uint32_t)sensor_handle];
   *sensor_config = stored_config;
 
@@ -116,7 +112,7 @@ sensor_register_fetch(sensor_configuration_T *sensor_config,
   return SENSOR_CFG_OK;
 }
 
-SENSOR_REGISTER_RESULT get_number_of_configurations(uint32_t *count) {
+SENSOR_REGISTER_RESULT sensor_register_get_count(uint32_t *count) {
   if (count == NULL) {
     ESP_LOGE(TAG, "count is null");
     return SENSOR_CFG_UNINITIALIZED;

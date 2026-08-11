@@ -1,4 +1,22 @@
-#include "sensor_calibration.h"
+/*! @file
+ * Methods to help with calibration of capacitive soil humitdity sensors
+ * Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+#include "sensor_mgr_type_definitions.h"
+#include "sensor_register.h"
 #include <SensorDriver.h>
 #include <esp_log.h>
 #include <math.h>
@@ -89,7 +107,7 @@ CALIB_RESULT get_sample_average(float *sample_array, uint32_t number_of_samples,
   return CALIB_SUCCESS;
 }
 
-CALIB_RESULT get_calibration_factor(sensor_configuration sensor_conf,
+CALIB_RESULT get_calibration_factor(sensor_T sensor_conf,
                                     uint32_t number_of_samples,
                                     float *calibration_factor) {
   float sensor_reading_sum = 0;
@@ -100,7 +118,7 @@ CALIB_RESULT get_calibration_factor(sensor_configuration sensor_conf,
     ESP_LOGE(TAG,
              "Couldn't allocate memory for reading %i samples for calibration "
              "of sensor %i",
-             number_of_samples, sensor_conf.sensor_id);
+             number_of_samples, sensor_conf.sensor_gpio);
     return CALIB_LOWMEM;
   }
 
@@ -128,7 +146,8 @@ CALIB_RESULT get_calibration_factor(sensor_configuration sensor_conf,
   return CALIB_SUCCESS;
 }
 
-uint32_t get_humidity(int32_t raw_value, sensor_calibration_data calibration) {
+uint32_t get_humidity(int32_t raw_value,
+                      sensor_calibration_data_T calibration) {
   ESP_LOGI(TAG, "Calculating humidity-percentage (adc: %i, air: %i, water: %i)",
            raw_value, calibration.air_measurement,
            calibration.water_measurement);

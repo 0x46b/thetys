@@ -1,6 +1,5 @@
 /*! @file
  * Dynamic store for sensor-data.
- * @todo replace custom return codes with ESP-defaults.
  * Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,11 +23,11 @@
 #include <esp_err.h>
 #include <stdint.h>
 
-typedef struct sensor_sample_array {
+typedef struct sensor_sample_list_T {
   uint32_t *samples;
   uint32_t size;
   uint32_t used;
-} sensor_sample_array;
+} sensor_sample_list_T;
 
 esp_err_t get_data_for_sensor(uint32_t sensor_id, uint32_t *sample);
 esp_err_t sensor_data_initialize(uint32_t size);

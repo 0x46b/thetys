@@ -1,0 +1,33 @@
+menu "Thetys: UI Settings"
+  config ENABLE_UI
+  bool "Enable/Disable UI on the LCD-screen"
+  default "Enable/Disable UI on the LCD-screen"
+  
+  config NUMBER_OF_HISTORIC_MEASUREMENTS
+  int "Number of historic measurements"
+  default 125
+
+  config LCD_DIN
+  int "GPIO for the LCD DIN/MISO"
+  default 11
+
+  config LCD_CLK
+  int "GPIO for the LCD CLK"
+  default 12
+
+  config LCD_CS
+  int "GPIO for the LCD CS"
+  default 10
+
+  config LCD_DC
+  int "GPIO for the LCD DC"
+  default 9
+
+  config LCD_RST
+  int "GPIO for the LCD RST"
+  default 46
+
+  config LCD_BL
+  int "GPIO for the LCD BL (Backlight)"
+  default 13   
+endmenu

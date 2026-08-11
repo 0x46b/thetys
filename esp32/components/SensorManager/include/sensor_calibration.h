@@ -1,5 +1,4 @@
 /*! @file
- * @todo This should belong to the driver, really...
  * Routines for helping with the sensor-calibration
  * Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
  *
@@ -19,7 +18,8 @@
 #ifndef SENSOR_CALIBRATION_H
 #define SENSOR_CALIBRATION_H
 
-#include "sensor_configuration.h"
+#include "sensor_mgr_type_definitions.h"
+#include "sensor_register.h"
 #include <stdint.h>
 
 /*! Result codes for calibration routines
@@ -45,7 +45,7 @@ hardware-issues
  * @return #CALIB_UNINITIALIZED_PARAM calibration_factor is null (I
 told you so!)
  */
-CALIB_RESULT get_calibration_factor(sensor_configuration sensor_conf,
+CALIB_RESULT get_calibration_factor(sensor_T sensor_conf,
                                     uint32_t number_of_samples,
                                     float *calibration_factor);
 
@@ -59,7 +59,7 @@ it)
 * @return #CALIB_LOWMEM Not enough memory to allocate for all
 samples
 */
-CALIB_RESULT get_calibration_samples(sensor_configuration sensor_conf,
+CALIB_RESULT get_calibration_samples(sensor_T sensor_config,
                                      uint32_t number_of_samples,
                                      float *sample_array);
 
@@ -92,5 +92,5 @@ CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples,
 CALIB_RESULT get_sample_average(float *sample_array, uint32_t number_of_samples,
                                 float *sample_average);
 
-uint32_t get_humidity(int32_t raw_value, sensor_calibration_data calibration);
+uint32_t get_humidity(int32_t raw_value, sensor_calibration_data_T calibration);
 #endif // SENSOR_CALIBRATION_H

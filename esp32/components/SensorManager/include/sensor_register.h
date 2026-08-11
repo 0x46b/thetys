@@ -26,7 +26,7 @@
 #include <stdint.h>
 
 /*! Result-type to be able to determine the result of an operation */
-typedef enum SENSOR_CONFIGURATION_RESULT {
+typedef enum SENSOR_REGISTER_RESULT {
   SENSOR_CFG_OK = 0, /*!< Everything was fine, operation successfull*/
   SENSOR_CFG_ERROR =
       1, /*!< Something went wrong, but we do not know what exactly */
@@ -38,7 +38,7 @@ typedef enum SENSOR_CONFIGURATION_RESULT {
   SENSOR_CFG_INITIALIZATION_ERROR =
       6, /*!< Dynamic array could not get initialized correctly */
   SENSOR_CFG_PARAMETER_NULL = 7, /*!< Parameter is null */
-} SENSOR_CONFIGURATION_RESULT;
+} SENSOR_REGISTER_RESULT;
 
 /*! Calibration data used for calculating the humidity-percentage */
 typedef struct sensor_calibration_data_T {
@@ -58,19 +58,20 @@ typedef struct sensor_calibration_data_T {
 
 /*! Configuration for a sensor */
 typedef struct sensor_T {
+  sensor_handle_T handle;
   uint32_t sensor_gpio; /*!< The GPIO where the sensor is attached*/
   sensor_calibration_data_T
       calibration_data; /*!< Calibration data for the sensor */
-} sensor_configuration_T;
+} sensor_T;
 
 /*! Dynamic list to be able to attach/remove sensors dynamically */
 typedef struct sensor_register_T {
-  sensor_configuration_T
+  sensor_T
       *configurations; /*!< Dynamic array of all known sensor_configurations */
   uint32_t size;       /*!< Current size of the array (how much memory we have
                           allocated) */
   uint32_t used;       /*!< Number of used configurations */
-} sensor_configuration_list_T;
+} sensor_register_T;
 
 /*! Initializes the dynamic-configuration array by allocating enough memory and
  * setting initial values
@@ -80,7 +81,7 @@ typedef struct sensor_register_T {
  * @return SENSOR_CFG_LOW_MEMORY Not enough memory to allocate
  * enough space for initialSize-elements
  */
-SENSOR_CONFIGURATION_RESULT
+SENSOR_REGISTER_RESULT
 sensor_register_initialize(size_t initialSize);
 
 /*! Inserts a configuration into the dynamic-array
@@ -92,14 +93,14 @@ sensor_register_initialize(size_t initialSize);
  * @return SENSOR_CFG_UNINITIALIZED Array is not initialized,
  * call init_configurations first
  */
-SENSOR_CONFIGURATION_RESULT
-sensor_register_insert(sensor_configuration_T element, sensor_handle_T *handle);
+SENSOR_REGISTER_RESULT
+sensor_register_insert(sensor_T element, sensor_handle_T *handle);
 
 /*! Resets the dynamic array, frees all memory for the stored configurations
  * @return SENSOR_CFG_OK The configuration got reset
  * successfully
  */
-SENSOR_CONFIGURATION_RESULT
+SENSOR_REGISTER_RESULT
 sensor_register_free();
 
 /*! Gets the configuration for a registered sensor with the id sensor_id
@@ -109,12 +110,11 @@ sensor_register_free();
  * @returns SENSOR_CFG_UNKNOWN_SENSOR_ID Sensor with the given id is not known
  * (NOTE: sensor-ids start with 0)
  */
-SENSOR_CONFIGURATION_RESULT
-sensor_register_fetch(sensor_configuration_T *sensor_config,
-                      sensor_handle_T sensor_id);
+SENSOR_REGISTER_RESULT
+sensor_register_fetch(sensor_handle_T sensor_handle, sensor_T *sensor_config);
 
 /*! Gets the count of currently registered sensors
  * @param[out] The number of registered sensors
  */
-SENSOR_CONFIGURATION_RESULT get_number_of_configurations(uint32_t *count);
+SENSOR_REGISTER_RESULT sensor_register_get_count(uint32_t *count);
 #endif // SENSOR_CONFIGURATION_H

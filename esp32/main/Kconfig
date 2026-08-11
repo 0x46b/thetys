@@ -1,4 +1,0 @@
-menu "Thetys watering system"
-     config ENABLE_UI
-     	    bool "Enable/Disable UI on the LCD-screen"
-endmenu

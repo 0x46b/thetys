@@ -35,7 +35,7 @@ void ui_init() {
         
         lvgl_port_unlock();
     }
-    loadScreen(SCREEN_ID_MAIN);
+    loadScreen(SCREEN_ID_OVERVIEW_PAGE);
 
 }
 

@@ -18,7 +18,7 @@
 #include "SensorManager.h"
 #include "SensorDriver.h"
 #include "sensor_calibration.h"
-#include "sensor_configuration.h"
+#include "sensor_register.h"
 #include "sensor_samples.h"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -27,23 +27,27 @@
 #include <stdint.h>
 
 static const char *TAG = "SensorManager";
-static new_measurement_callback on_new_measurement;
-static new_sensor_callback on_new_sensor;
+static new_measurement_callback_t on_new_measurement;
+static new_sensor_callback_t on_new_sensor;
 
 SMGR_RESULT
-sensor_mgr_subscribe_new_measurement(new_measurement_callback callback) {
+sensor_mgr_subscribe_new_measurement(new_measurement_callback_t callback) {
+  if (on_new_measurement != NULL) {
+    ESP_LOGE(TAG, "Callback for new measurements is already assigned");
+    return SMGR_CALLBACK_ALREADY_ASSIGNED;
+  }
   on_new_measurement = callback;
   return SMGR_SUCCESS;
 }
 
 SMGR_RESULT
-sensor_mgr_subscribe_new_sensor(new_sensor_callback callback) {
+sensor_mgr_subscribe_new_sensor(new_sensor_callback_t callback) {
   on_new_sensor = callback;
   return SMGR_SUCCESS;
 }
 
 SMGR_RESULT sensor_mgr_initialize(uint32_t number_of_sensors) {
-  SENSOR_CONFIGURATION_RESULT result = init_configurations(number_of_sensors);
+  SENSOR_REGISTER_RESULT result = sensor_register_initialize(number_of_sensors);
   ESP_ERROR_CHECK(sensor_data_initialize(number_of_sensors));
   switch (result) {
   case SENSOR_CFG_OK:
@@ -59,38 +63,37 @@ SMGR_RESULT sensor_mgr_initialize(uint32_t number_of_sensors) {
   };
 }
 
-SMGR_RESULT sensor_manager_read_sensor(uint32_t sensor_id,
-                                       sensor_reading *reading) {
+SMGR_RESULT sensor_manager_read_sensor(uint32_t sensor_handle,
+                                       sensor_reading_T *reading) {
   if (reading == NULL) {
     ESP_LOGE(TAG, "Parameter 'reading' was not initialized");
     return SMGR_UNKNOWN_ERROR;
   }
-  sensor_configuration sensor_config;
-  if (get_configuration_for_sensor_id(&sensor_config, sensor_id) !=
-      SENSOR_CFG_OK) {
-    ESP_LOGE(TAG, "Could not retrieve configuration for sensor %i", sensor_id);
+  sensor_T sensor;
+  if (sensor_register_fetch(sensor_handle, &sensor) != SENSOR_CFG_OK) {
+    ESP_LOGE(TAG, "Could not retrieve configuration for sensor %i",
+             sensor_handle);
     abort();
   }
 
   uint32_t raw_value;
-  ESP_ERROR_CHECK(sensor_drv_read(sensor_config.sensor_gpio, &raw_value));
+  ESP_ERROR_CHECK(sensor_drv_read(sensor.sensor_gpio, &raw_value));
 
-  reading->sensor_id = sensor_id;
+  reading->sensor_id = sensor_handle;
   reading->humidity_percentage =
-      get_humidity(raw_value, sensor_config.calibration_data);
+      get_humidity(raw_value, sensor.calibration_data);
 
   ESP_LOGI(TAG, "Read humidity of %f percent from sensor %i",
-           reading->humidity_percentage, sensor_id);
+           reading->humidity_percentage, sensor_handle);
   return SMGR_SUCCESS;
 }
 
 //*********** TODO: Replace hard-coded calibration! ************** //
-SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_gpio) {
+SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_gpio,
+                                  sensor_handle_T *sensor_handle) {
   uint32_t number_of_sensors = 0;
-  get_number_of_configurations(&number_of_sensors);
-  uint32_t sensor_id = number_of_sensors;
-  sensor_configuration new_sensor = {
-      .sensor_id = sensor_id,
+  sensor_register_get_count(&number_of_sensors);
+  sensor_T new_sensor = {
       .sensor_gpio = sensor_gpio,
       .calibration_data = {.calibrated = false,
                            .air_measurement = 4095,
@@ -99,17 +102,20 @@ SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_gpio) {
                            .water_reference =
                                CONFIG_SENSOR_WATER_REFERENCE_VALUE}};
 
-  SENSOR_CONFIGURATION_RESULT result = insert_configuration(new_sensor);
-  ESP_ERROR_CHECK(sensor_data_insert(0));
-  sensor_drv_initialize(sensor_gpio);
+  SENSOR_REGISTER_RESULT result =
+      sensor_register_insert(new_sensor, sensor_handle);
 
   switch (result) {
   case SENSOR_CFG_OK:
-    ESP_LOGI(TAG, "Successfully registered sensor with GPIO %i to Id %i",
-             sensor_gpio, sensor_id);
+    ESP_LOGI(TAG, "Successfully registered sensor [Handle: %i, GPIO: %i]",
+             *sensor_handle, sensor_gpio);
+    ESP_ERROR_CHECK(sensor_data_insert(0));
+    sensor_drv_initialize(sensor_gpio);
+
     if (on_new_sensor != NULL) {
       on_new_sensor(new_sensor);
     }
+
     return SMGR_SUCCESS;
   case SENSOR_CFG_LOW_MEMORY:
     ESP_LOGE(TAG, "Could not add sensor: Not enough memory");
@@ -122,14 +128,10 @@ SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_gpio) {
   }
 }
 
-SMGR_RESULT calibrate_air(uint32_t sensor_id) { return SMGR_SUCCESS; }
-
-SMGR_RESULT calibrate_water(uint32_t sensor_id) { return SMGR_SUCCESS; }
-
 static void sensor_polling_task(void *param) {
-  sensor_reading value_buffer;
+  sensor_reading_T value_buffer;
   uint32_t sensor_count = 0;
-  if (SENSOR_CFG_OK != get_number_of_configurations(&sensor_count)) {
+  if (SENSOR_CFG_OK != sensor_register_get_count(&sensor_count)) {
     ESP_LOGE(TAG, "Could not retrieve number of sensors");
 
     vTaskDelete(NULL);
@@ -157,8 +159,7 @@ static void sensor_polling_task(void *param) {
                          value_buffer.humidity_percentage);
 
       if (on_new_measurement != NULL) {
-        on_new_measurement(value_buffer.sensor_id,
-                           value_buffer.humidity_percentage);
+        on_new_measurement(value_buffer);
       }
     }
 
@@ -167,7 +168,7 @@ static void sensor_polling_task(void *param) {
   vTaskDelete(NULL);
 }
 
-SMGR_RESULT start_sensor_polling_task(void) {
+SMGR_RESULT sensor_mgr_start_polling_task(void) {
   BaseType_t result;
   result =
       xTaskCreatePinnedToCore(sensor_polling_task, "Sensor polling", 4 * 1024,

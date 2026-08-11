@@ -4252,12 +4252,6 @@ CONFIG_WL_SECTOR_SIZE=4096
 # end of Wear Levelling
 
 #
-# Thetys watering system
-#
-CONFIG_ENABLE_UI=y
-# end of Thetys watering system
-
-#
 # RGB LED
 #
 # default:
@@ -4278,7 +4272,7 @@ CONFIG_ADC_ATTEN_DB_11=y
 # end of Humidity Sensor Driver
 
 #
-# Humidity Sensors
+# Thetys: Humidity Sensors
 #
 CONFIG_MAX_SENSOR_COUNT=2
 # default:
@@ -4290,7 +4284,27 @@ CONFIG_SENSOR_POLLING_CORE=1
 CONFIG_SENSOR_WATER_REFERENCE_VALUE=4095
 # default:
 CONFIG_SENSOR_AIR_REFERENCE_VALUE=0
-# end of Humidity Sensors
+# end of Thetys: Humidity Sensors
+
+#
+# Thetys: UI Settings
+#
+CONFIG_ENABLE_UI=y
+# default:
+CONFIG_NUMBER_OF_HISTORIC_MEASUREMENTS=125
+# default:
+CONFIG_LCD_DIN=11
+# default:
+CONFIG_LCD_CLK=12
+# default:
+CONFIG_LCD_CS=10
+# default:
+CONFIG_LCD_DC=9
+# default:
+CONFIG_LCD_RST=46
+# default:
+CONFIG_LCD_BL=13
+# end of Thetys: UI Settings
 
 #
 # CMake Utilities

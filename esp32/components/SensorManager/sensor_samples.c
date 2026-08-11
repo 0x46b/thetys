@@ -7,7 +7,7 @@
 static const char *TAG = "Sensor Samples";
 
 static SemaphoreHandle_t sample_mutex;
-static sensor_sample_array sensor_samples;
+static sensor_sample_list_T sensor_samples;
 
 esp_err_t sensor_data_initialize(uint32_t initialSize) {
   if (sensor_samples.samples != NULL) {

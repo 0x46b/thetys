@@ -6,6 +6,8 @@
 #include "heart_rate.h"
 #include "led_colors.h"
 
+static new_plant_callback_t new_plant_callback;
+
 /* Library function declarations */
 void ble_store_config_init(void);
 
@@ -14,6 +16,17 @@ static void on_stack_reset(int reason);
 static void on_stack_sync(void);
 static void nimble_host_config_init(void);
 static void nimble_host_task(void *param);
+
+BLU_RESULT blue_subscribe_new_plant(new_plant_callback_t callback) {
+  if (new_plant_callback != NULL) {
+    ESP_LOGE(TAG, "Callback already subscribed!");
+    return BLU_CALLBACK_ALREADY_SUBSCRIBED;
+  }
+
+  new_plant_callback = callback;
+
+  return BLU_OK;
+}
 
 /* Private functions */
 /*
@@ -136,5 +149,5 @@ BLU_RESULT blu_initialize(void) {
     return BLU_TASK_CREATION_FAILED;
   }
   led_drv_set_to(BLUE);
-  return BLU_SUCCESS;
+  return BLU_OK;
 }
