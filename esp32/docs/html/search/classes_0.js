@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['sensor_5fcalibration_5fdata_0',['sensor_calibration_data',['../structsensor__calibration__data.html',1,'']]],
-  ['sensor_5fconfiguration_1',['sensor_configuration',['../structsensor__configuration.html',1,'']]],
-  ['sensor_5fconfiguration_5fdata_2',['sensor_configuration_data',['../structsensor__configuration__data.html',1,'']]],
-  ['sensor_5freading_3',['sensor_reading',['../structsensor__reading.html',1,'']]]
+  ['_5fext_5ffont_5fdesc_5ft_0',['_ext_font_desc_t',['../struct__ext__font__desc__t.html',1,'']]],
+  ['_5fext_5fimg_5fdesc_5ft_1',['_ext_img_desc_t',['../struct__ext__img__desc__t.html',1,'']]],
+  ['_5fobjects_5ft_2',['_objects_t',['../struct__objects__t.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['last_5fid_0',['last_id',['../structsensor__configuration__data.html#aa0d5b97c0f92744733a364e804391bda',1,'sensor_configuration_data']]]
+  ['is_5factive_0',['is_active',['../structplant__T.html#a407c3efba665d276a38229f905bef352',1,'plant_T']]]
 ];

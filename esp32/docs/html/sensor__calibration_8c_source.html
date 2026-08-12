@@ -92,154 +92,192 @@ $(function(){initNavTree('sensor__calibration_8c_source.html','',''); });
   <div class="headertitle"><div class="title">sensor_calibration.c</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="sensor__calibration_8h.html">sensor_calibration.h</a>&quot;</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;<a class="code" href="SensorDriver_8h.html">SensorDriver.h</a>&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;esp_log.h&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;math.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;sdkconfig.h&gt;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *CALIB_TAG = <span class="stringliteral">&quot;Calibration&quot;</span>;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="foldopen" id="foldopen00009" data-start="{" data-end="}">
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="sensor__calibration_8h.html#a9bce349e363b7834aa4e5c08f8790c3e">    9</a></span><a class="code hl_enumeration" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9">CALIB_RESULT</a> <a class="code hl_function" href="sensor__calibration_8h.html#a9bce349e363b7834aa4e5c08f8790c3e">clean_samples</a>(<span class="keywordtype">float</span> *sample_array, uint32_t number_of_samples,</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>                           <span class="keywordtype">float</span> *cleaned_samples,</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>                           uint32_t *number_of_cleaned_samples) {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>  <span class="keywordflow">if</span> (sample_array == NULL) {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    ESP_LOGE(CALIB_TAG, <span class="stringliteral">&quot;sample_array is NULL&quot;</span>);</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9aeba8022ed162bff0e700ba884f987d6a">CALIB_UNINITIALIZED_PARAM</a>;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>  }</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>  <span class="keywordflow">if</span> (number_of_cleaned_samples == NULL) {</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    ESP_LOGE(CALIB_TAG, <span class="stringliteral">&quot;number_of_cleaned_samples is NULL&quot;</span>);</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9aeba8022ed162bff0e700ba884f987d6a">CALIB_UNINITIALIZED_PARAM</a>;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>  }</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <span class="keywordflow">if</span> (number_of_samples &lt;= 0) {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="comment">// Do something, I dunno?</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  }</div>
+<a href="sensor__calibration_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*! @file</span></div>
+<div class="line"><span class="lineno">    2</span><span class="comment"> * Methods to help with calibration of capacitive soil humitdity sensors</span></div>
+<div class="line"><span class="lineno">    3</span><span class="comment"> * Copyright (C) 2026 Sebastian Murschall &lt;sebastian.murschall@gmail.com&gt;</span></div>
+<div class="line"><span class="lineno">    4</span><span class="comment"> *</span></div>
+<div class="line"><span class="lineno">    5</span><span class="comment"> * This program is free software: you can redistribute it and/or modify</span></div>
+<div class="line"><span class="lineno">    6</span><span class="comment"> * it under the terms of the GNU General Public License as published by</span></div>
+<div class="line"><span class="lineno">    7</span><span class="comment"> * the Free Software Foundation, either version 3 of the License, or</span></div>
+<div class="line"><span class="lineno">    8</span><span class="comment"> * (at your option) any later version.</span></div>
+<div class="line"><span class="lineno">    9</span><span class="comment"> *</span></div>
+<div class="line"><span class="lineno">   10</span><span class="comment"> * This program is distributed in the hope that it will be useful,</span></div>
+<div class="line"><span class="lineno">   11</span><span class="comment"> * but WITHOUT ANY WARRANTY; without even the implied warranty of</span></div>
+<div class="line"><span class="lineno">   12</span><span class="comment"> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span></div>
+<div class="line"><span class="lineno">   13</span><span class="comment"> * GNU General Public License for more details.</span></div>
+<div class="line"><span class="lineno">   14</span><span class="comment"> *</span></div>
+<div class="line"><span class="lineno">   15</span><span class="comment"> * You should have received a copy of the GNU General Public License</span></div>
+<div class="line"><span class="lineno">   16</span><span class="comment"> * along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><span class="lineno">   17</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#</span><span class="preprocessor">include</span> <a class="code" href="sensor__mgr__type__definitions_8h.html" title="Typedefinitions used in the SensorManager Copyright (C) 2026 Sebastian Murschall sebastian....">&quot;sensor_mgr_type_definitions.h&quot;</a></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#</span><span class="preprocessor">include</span> <a class="code" href="sensor__register_8h.html">&quot;sensor_register.h&quot;</a></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">SensorDriver</span><span class="preprocessor">.</span><span class="preprocessor">h</span><span class="preprocessor">&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">esp_log</span><span class="preprocessor">.</span><span class="preprocessor">h</span><span class="preprocessor">&gt;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">math</span><span class="preprocessor">.</span><span class="preprocessor">h</span><span class="preprocessor">&gt;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">sdkconfig</span><span class="preprocessor">.</span><span class="preprocessor">h</span><span class="preprocessor">&gt;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">stdint</span><span class="preprocessor">.</span><span class="preprocessor">h</span><span class="preprocessor">&gt;</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  <span class="keywordtype">double</span> variance = 0.0;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  <span class="keywordtype">double</span> standard_deviation = 0.0;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  <span class="keywordtype">float</span> average = 0.0;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  <a class="code hl_enumeration" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9">CALIB_RESULT</a> result =</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>      <a class="code hl_function" href="sensor__calibration_8h.html#aba98e406dce566c2a41c8ec83ecfe452">get_sample_average</a>(sample_array, number_of_samples, &amp;average);</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <span class="keywordflow">if</span> (result != <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9a6c71e6ab52abbbb49ce15a6c98b99a21">CALIB_SUCCESS</a>) {</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    ESP_LOGE(CALIB_TAG, <span class="stringliteral">&quot;Something went very wrong here?&quot;</span>);</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">return</span> result;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  }</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; number_of_samples; i++) {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    variance += pow(sample_array[i] - average, 2);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *TAG = <span class="stringliteral">&quot;Calibration&quot;</span>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="}">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="sensor__calibration_8c.html#a9bce349e363b7834aa4e5c08f8790c3e">   28</a></span><a class="code hl_function" href="sensor__calibration_8c.html#a9bce349e363b7834aa4e5c08f8790c3e">CALIB_RESULT</a> <a class="code hl_function" href="sensor__calibration_8c.html#a9bce349e363b7834aa4e5c08f8790c3e">clean_samples</a>(<span class="keywordtype">float</span> *sample_array, uint32_t number_of_samples,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                           <span class="keywordtype">float</span> *cleaned_samples,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                           uint32_t *number_of_cleaned_samples) {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="keywordflow">if</span> (sample_array == NULL) {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    ESP_LOGE(TAG, <span class="stringliteral">&quot;sample_array is NULL&quot;</span>);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">return</span> CALIB_UNINITIALIZED_PARAM;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="keywordflow">if</span> (number_of_cleaned_samples == NULL) {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    ESP_LOGE(TAG, <span class="stringliteral">&quot;number_of_cleaned_samples is NULL&quot;</span>);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">return</span> CALIB_UNINITIALIZED_PARAM;</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  }</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  standard_deviation = sqrt(variance / number_of_samples);</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="keywordtype">float</span> *buffer = malloc(number_of_samples * <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>));</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <span class="keywordflow">if</span> (buffer == NULL) {</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    ESP_LOGE(CALIB_TAG,</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>             <span class="stringliteral">&quot;Could not allocate enough memory for the return-values&quot;</span>);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9a1c4d5f9458e968d4502656363ca832ae">CALIB_LOWMEM</a>;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  }</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  <span class="keywordtype">int</span> target_index = 0;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; number_of_samples; i++) {</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">double</span> difference = fabs(sample_array[i] - average);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordflow">if</span> (difference &lt;= (2.0 * standard_deviation)) {</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>      buffer[target_index] = sample_array[i];</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>      target_index++;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keywordflow">if</span> (number_of_samples &lt;= 0) {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="comment">// Do something, I dunno?</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  <span class="keywordtype">double</span> variance = 0.0;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <span class="keywordtype">double</span> standard_deviation = 0.0;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keywordtype">float</span> average = 0.0;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  CALIB_RESULT result =</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>      get_sample_average(sample_array, number_of_samples, &amp;average);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <span class="keywordflow">if</span> (result != CALIB_SUCCESS) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    ESP_LOGE(TAG, <span class="stringliteral">&quot;Something went very wrong here?&quot;</span>);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; number_of_samples; i++) {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    variance += pow(sample_array[i] - average, 2);</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  }</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  *number_of_cleaned_samples = target_index + 1;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  cleaned_samples = malloc(*number_of_cleaned_samples * <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>));</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  memcpy(cleaned_samples, buffer, *number_of_cleaned_samples * <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>));</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  free(buffer);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  ESP_LOGI(CALIB_TAG, <span class="stringliteral">&quot;Removed %i samples (%i clean samples total)&quot;</span>,</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>           (number_of_samples - *number_of_cleaned_samples),</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>           *number_of_cleaned_samples);</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9a6c71e6ab52abbbb49ce15a6c98b99a21">CALIB_SUCCESS</a>;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}</div>
-</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="foldopen" id="foldopen00071" data-start="{" data-end="}">
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="sensor__calibration_8h.html#aba98e406dce566c2a41c8ec83ecfe452">   71</a></span><a class="code hl_enumeration" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9">CALIB_RESULT</a> <a class="code hl_function" href="sensor__calibration_8h.html#aba98e406dce566c2a41c8ec83ecfe452">get_sample_average</a>(<span class="keywordtype">float</span> *sample_array, uint32_t number_of_samples,</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                                <span class="keywordtype">float</span> *sample_average) {</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  <span class="keywordflow">if</span> (sample_array == NULL) {</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    ESP_LOGE(CALIB_TAG, <span class="stringliteral">&quot;sample_array is NULL&quot;</span>);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9aeba8022ed162bff0e700ba884f987d6a">CALIB_UNINITIALIZED_PARAM</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  standard_deviation = sqrt(variance / number_of_samples);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordtype">float</span> *buffer = malloc(number_of_samples * <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>));</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="keywordflow">if</span> (buffer == NULL) {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    ESP_LOGE(TAG, <span class="stringliteral">&quot;Could not allocate enough memory for the return-values&quot;</span>);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">return</span> CALIB_LOWMEM;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <span class="keywordtype">int</span> target_index = 0;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; number_of_samples; i++) {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordtype">double</span> difference = fabs(sample_array[i] - average);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordflow">if</span> (difference &lt;= (2.0 * standard_deviation)) {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>      buffer[target_index] = sample_array[i];</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>      target_index++;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    }</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  }</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>  <span class="keywordflow">if</span> (sample_average == NULL) {</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    ESP_LOGE(CALIB_TAG, <span class="stringliteral">&quot;sample_average is NULL&quot;</span>);</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9aeba8022ed162bff0e700ba884f987d6a">CALIB_UNINITIALIZED_PARAM</a>;</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  }</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>  <span class="keywordtype">double</span> sum = 0.0;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; number_of_samples; i++) {</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    sum += sample_array[i];</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  }</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  *sample_average = sum / number_of_samples;</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>  <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9a6c71e6ab52abbbb49ce15a6c98b99a21">CALIB_SUCCESS</a>;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>}</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>  *number_of_cleaned_samples = target_index + 1;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  cleaned_samples = malloc(*number_of_cleaned_samples * <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>));</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  memcpy(cleaned_samples, buffer, *number_of_cleaned_samples * <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>));</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  free(buffer);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>  ESP_LOGI(TAG, <span class="stringliteral">&quot;Removed %i samples (%i clean samples total)&quot;</span>,</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>           (number_of_samples - *number_of_cleaned_samples),</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>           *number_of_cleaned_samples);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  <span class="keywordflow">return</span> CALIB_SUCCESS;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>}</div>
 </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="sensor__calibration_8h.html#a723ff171357cf7204464b9fdf4beb741">   92</a></span><a class="code hl_enumeration" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9">CALIB_RESULT</a> <a class="code hl_function" href="sensor__calibration_8h.html#a723ff171357cf7204464b9fdf4beb741">get_calibration_factor</a>(<a class="code hl_struct" href="structsensor__configuration.html">sensor_configuration</a> sensor_conf,</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                                    uint32_t number_of_samples,</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                                    <span class="keywordtype">float</span> *calibration_factor) {</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>  <span class="keywordtype">float</span> sensor_reading_sum = 0;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  <span class="keywordtype">float</span> current_sensor_reading = 0;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  <span class="keywordtype">float</span> *sensor_samples = malloc(number_of_samples * <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>));</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  <span class="keywordflow">if</span> (sensor_samples == NULL) {</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    ESP_LOGE(CALIB_TAG,</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>             <span class="stringliteral">&quot;Couldn&#39;t allocate memory for reading %i samples for calibration &quot;</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>             <span class="stringliteral">&quot;of sensor %i&quot;</span>,</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>             number_of_samples, sensor_conf.<a class="code hl_variable" href="structsensor__configuration.html#a20cd8a0b6a1b72ea3574d2104480d90a">sensor_id</a>);</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9a1c4d5f9458e968d4502656363ca832ae">CALIB_LOWMEM</a>;</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  }</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  <span class="keywordflow">if</span> (calibration_factor == NULL) {</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    ESP_LOGD(CALIB_TAG, <span class="stringliteral">&quot;Parameter calibration_factor is NULL&quot;</span>);</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9aeba8022ed162bff0e700ba884f987d6a">CALIB_UNINITIALIZED_PARAM</a>;</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  }</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  <span class="keywordflow">for</span> (uint32_t sample_no = 0; sample_no &lt; CONFIG_NUM_CALIBRATION_SAMPLES;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>       sample_no++) {</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    current_sensor_reading = sensor_drv_read(sensor_conf.<a class="code hl_variable" href="structsensor__configuration.html#a932950c63c18276495d15b86b046f956">sensor_gpio</a>);</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    sensor_samples[sample_no] = current_sensor_reading;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    sensor_reading_sum += current_sensor_reading;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  }</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  *calibration_factor = sensor_reading_sum / number_of_samples;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>  free(sensor_samples);</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9a6c71e6ab52abbbb49ce15a6c98b99a21">CALIB_SUCCESS</a>;</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>}</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="foldopen" id="foldopen00089" data-start="{" data-end="}">
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="sensor__calibration_8c.html#aba98e406dce566c2a41c8ec83ecfe452">   89</a></span><a class="code hl_function" href="sensor__calibration_8c.html#aba98e406dce566c2a41c8ec83ecfe452">CALIB_RESULT</a> <a class="code hl_function" href="sensor__calibration_8c.html#aba98e406dce566c2a41c8ec83ecfe452">get_sample_average</a>(<span class="keywordtype">float</span> *sample_array, uint32_t number_of_samples,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                                <span class="keywordtype">float</span> *sample_average) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  <span class="keywordflow">if</span> (sample_array == NULL) {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    ESP_LOGE(TAG, <span class="stringliteral">&quot;sample_array is NULL&quot;</span>);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">return</span> CALIB_UNINITIALIZED_PARAM;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  }</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  <span class="keywordflow">if</span> (sample_average == NULL) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    ESP_LOGE(TAG, <span class="stringliteral">&quot;sample_average is NULL&quot;</span>);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">return</span> CALIB_UNINITIALIZED_PARAM;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  <span class="keywordtype">double</span> sum = 0.0;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; number_of_samples; i++) {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    sum += sample_array[i];</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>  }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  *sample_average = sum / number_of_samples;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  <span class="keywordflow">return</span> CALIB_SUCCESS;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>}</div>
 </div>
-<div class="ttc" id="aSensorDriver_8h_html"><div class="ttname"><a href="SensorDriver_8h.html">SensorDriver.h</a></div></div>
-<div class="ttc" id="asensor__calibration_8h_html"><div class="ttname"><a href="sensor__calibration_8h.html">sensor_calibration.h</a></div></div>
-<div class="ttc" id="asensor__calibration_8h_html_a723ff171357cf7204464b9fdf4beb741"><div class="ttname"><a href="sensor__calibration_8h.html#a723ff171357cf7204464b9fdf4beb741">get_calibration_factor</a></div><div class="ttdeci">CALIB_RESULT get_calibration_factor(sensor_configuration sensor_conf, uint32_t number_of_samples, float *calibration_factor)</div><div class="ttdef"><b>Definition</b> <a href="#l00092">sensor_calibration.c:92</a></div></div>
-<div class="ttc" id="asensor__calibration_8h_html_a9bce349e363b7834aa4e5c08f8790c3e"><div class="ttname"><a href="sensor__calibration_8h.html#a9bce349e363b7834aa4e5c08f8790c3e">clean_samples</a></div><div class="ttdeci">CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples, float *cleaned_samples, uint32_t *number_of_cleaned_samples)</div><div class="ttdef"><b>Definition</b> <a href="#l00009">sensor_calibration.c:9</a></div></div>
-<div class="ttc" id="asensor__calibration_8h_html_aba98e406dce566c2a41c8ec83ecfe452"><div class="ttname"><a href="sensor__calibration_8h.html#aba98e406dce566c2a41c8ec83ecfe452">get_sample_average</a></div><div class="ttdeci">CALIB_RESULT get_sample_average(float *sample_array, uint32_t number_of_samples, float *sample_average)</div><div class="ttdef"><b>Definition</b> <a href="#l00071">sensor_calibration.c:71</a></div></div>
-<div class="ttc" id="asensor__calibration_8h_html_ac202b639b5fd5e72a9c1e7a7d377ddb9"><div class="ttname"><a href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9">CALIB_RESULT</a></div><div class="ttdeci">CALIB_RESULT</div><div class="ttdef"><b>Definition</b> <a href="sensor__calibration_8h_source.html#l00011">sensor_calibration.h:11</a></div></div>
-<div class="ttc" id="asensor__calibration_8h_html_ac202b639b5fd5e72a9c1e7a7d377ddb9a1c4d5f9458e968d4502656363ca832ae"><div class="ttname"><a href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9a1c4d5f9458e968d4502656363ca832ae">CALIB_LOWMEM</a></div><div class="ttdeci">@ CALIB_LOWMEM</div><div class="ttdef"><b>Definition</b> <a href="sensor__calibration_8h_source.html#l00013">sensor_calibration.h:13</a></div></div>
-<div class="ttc" id="asensor__calibration_8h_html_ac202b639b5fd5e72a9c1e7a7d377ddb9a6c71e6ab52abbbb49ce15a6c98b99a21"><div class="ttname"><a href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9a6c71e6ab52abbbb49ce15a6c98b99a21">CALIB_SUCCESS</a></div><div class="ttdeci">@ CALIB_SUCCESS</div><div class="ttdef"><b>Definition</b> <a href="sensor__calibration_8h_source.html#l00012">sensor_calibration.h:12</a></div></div>
-<div class="ttc" id="asensor__calibration_8h_html_ac202b639b5fd5e72a9c1e7a7d377ddb9aeba8022ed162bff0e700ba884f987d6a"><div class="ttname"><a href="sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9aeba8022ed162bff0e700ba884f987d6a">CALIB_UNINITIALIZED_PARAM</a></div><div class="ttdeci">@ CALIB_UNINITIALIZED_PARAM</div><div class="ttdef"><b>Definition</b> <a href="sensor__calibration_8h_source.html#l00015">sensor_calibration.h:15</a></div></div>
-<div class="ttc" id="astructsensor__configuration_html"><div class="ttname"><a href="structsensor__configuration.html">sensor_configuration</a></div><div class="ttdef"><b>Definition</b> <a href="sensor__configuration_8h_source.html#l00033">sensor_configuration.h:33</a></div></div>
-<div class="ttc" id="astructsensor__configuration_html_a20cd8a0b6a1b72ea3574d2104480d90a"><div class="ttname"><a href="structsensor__configuration.html#a20cd8a0b6a1b72ea3574d2104480d90a">sensor_configuration::sensor_id</a></div><div class="ttdeci">uint32_t sensor_id</div><div class="ttdef"><b>Definition</b> <a href="sensor__configuration_8h_source.html#l00034">sensor_configuration.h:34</a></div></div>
-<div class="ttc" id="astructsensor__configuration_html_a932950c63c18276495d15b86b046f956"><div class="ttname"><a href="structsensor__configuration.html#a932950c63c18276495d15b86b046f956">sensor_configuration::sensor_gpio</a></div><div class="ttdeci">uint32_t sensor_gpio</div><div class="ttdef"><b>Definition</b> <a href="sensor__configuration_8h_source.html#l00035">sensor_configuration.h:35</a></div></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="foldopen" id="foldopen00110" data-start="{" data-end="}">
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="sensor__calibration_8c.html#a652b9585c7709d4e0ddcb5eb2d9faedd">  110</a></span><a class="code hl_function" href="sensor__calibration_8c.html#a652b9585c7709d4e0ddcb5eb2d9faedd">CALIB_RESULT</a> <a class="code hl_function" href="sensor__calibration_8c.html#a652b9585c7709d4e0ddcb5eb2d9faedd">get_calibration_factor</a>(sensor_T sensor_conf,</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                                    uint32_t number_of_samples,</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                                    <span class="keywordtype">float</span> *calibration_factor) {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  <span class="keywordtype">float</span> sensor_reading_sum = 0;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  uint32_t current_sensor_reading = 0;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  <span class="keywordtype">float</span> *sensor_samples = malloc(number_of_samples * <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>));</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  <span class="keywordflow">if</span> (sensor_samples == NULL) {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    ESP_LOGE(TAG,</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>             <span class="stringliteral">&quot;Couldn&#39;t allocate memory for reading %i samples for calibration &quot;</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>             <span class="stringliteral">&quot;of sensor %i&quot;</span>,</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>             number_of_samples, sensor_conf<a class="code hl_variable" href="structsensor__T.html#a932950c63c18276495d15b86b046f956">.</a><a class="code hl_variable" href="structsensor__T.html#a932950c63c18276495d15b86b046f956">sensor_gpio</a>);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordflow">return</span> CALIB_LOWMEM;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>  }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>  <span class="keywordflow">if</span> (calibration_factor == NULL) {</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    ESP_LOGD(TAG, <span class="stringliteral">&quot;Parameter calibration_factor is NULL&quot;</span>);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordflow">return</span> CALIB_UNINITIALIZED_PARAM;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  }</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  SENSOR_RESULT result;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>  <span class="keywordflow">for</span> (uint32_t sample_no = 0; sample_no &lt; CONFIG_NUM_CALIBRATION_SAMPLES;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>       sample_no++) {</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    result = sensor_drv_read(sensor_conf<a class="code hl_variable" href="structsensor__T.html#a932950c63c18276495d15b86b046f956">.</a><a class="code hl_variable" href="structsensor__T.html#a932950c63c18276495d15b86b046f956">sensor_gpio</a>, &amp;current_sensor_reading);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordflow">if</span> (result != SENSOR_SUCCESS) {</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>      ESP_LOGE(TAG, <span class="stringliteral">&quot;Error while reading sample&quot;</span>);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>      abort();</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    }</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    sensor_samples[sample_no] = current_sensor_reading;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    sensor_reading_sum += current_sensor_reading;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>  }</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>  *calibration_factor = sensor_reading_sum / number_of_samples;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>  free(sensor_samples);</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>  <span class="keywordflow">return</span> CALIB_SUCCESS;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>}</div>
+</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>uint32_t get_humidity(int32_t raw_value,</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                      sensor_calibration_data_T calibration) {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  ESP_LOGI(TAG, <span class="stringliteral">&quot;Calculating humidity-percentage (adc: %i, air: %i, water: %i)&quot;</span>,</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>           raw_value, calibration<a class="code hl_variable" href="structsensor__calibration__data__T.html#a887e4bc9c8a32adcb1ba2dae1c2071b4">.</a><a class="code hl_variable" href="structsensor__calibration__data__T.html#a887e4bc9c8a32adcb1ba2dae1c2071b4">air_measurement</a>,</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>           calibration<a class="code hl_variable" href="structsensor__calibration__data__T.html#a6989ed9d17fda3526795d61118cb5d39">.</a><a class="code hl_variable" href="structsensor__calibration__data__T.html#a6989ed9d17fda3526795d61118cb5d39">water_measurement</a>);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>  <span class="keywordtype">float</span> humidity_float =</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>      (<span class="keywordtype">float</span>)(raw_value - calibration<a class="code hl_variable" href="structsensor__calibration__data__T.html#a887e4bc9c8a32adcb1ba2dae1c2071b4">.</a><a class="code hl_variable" href="structsensor__calibration__data__T.html#a887e4bc9c8a32adcb1ba2dae1c2071b4">air_measurement</a>) * 100.0f /</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>      (<span class="keywordtype">float</span>)(calibration<a class="code hl_variable" href="structsensor__calibration__data__T.html#a6989ed9d17fda3526795d61118cb5d39">.</a><a class="code hl_variable" href="structsensor__calibration__data__T.html#a6989ed9d17fda3526795d61118cb5d39">water_measurement</a> - calibration<a class="code hl_variable" href="structsensor__calibration__data__T.html#a887e4bc9c8a32adcb1ba2dae1c2071b4">.</a><a class="code hl_variable" href="structsensor__calibration__data__T.html#a887e4bc9c8a32adcb1ba2dae1c2071b4">air_measurement</a>);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>  <span class="keywordtype">float</span> rounded_float = nearbyintf(humidity_float);</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>  <span class="keywordflow">if</span> (rounded_float &lt; 0.0f) {</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    rounded_float = 0.0f;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (rounded_float &gt; 100.0f) {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    rounded_float = 100.0f;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>  }</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>  <span class="keywordflow">return</span> (uint32_t)rounded_float;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>}</div>
+<div class="ttc" id="asensor__calibration_8c_html_a652b9585c7709d4e0ddcb5eb2d9faedd"><div class="ttname"><a href="sensor__calibration_8c.html#a652b9585c7709d4e0ddcb5eb2d9faedd">get_calibration_factor</a></div><div class="ttdeci">CALIB_RESULT get_calibration_factor(sensor_T sensor_conf, uint32_t number_of_samples, float *calibration_factor)</div><div class="ttdoc">Reads number_of_samples samples from the sensor with sensor_id, cleans the readings and returns the a...</div><div class="ttdef"><b>Definition</b> <a href="#l00110">sensor_calibration.c:110</a></div></div>
+<div class="ttc" id="asensor__calibration_8c_html_a9bce349e363b7834aa4e5c08f8790c3e"><div class="ttname"><a href="sensor__calibration_8c.html#a9bce349e363b7834aa4e5c08f8790c3e">clean_samples</a></div><div class="ttdeci">CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples, float *cleaned_samples, uint32_t *number_of_cleaned_samples)</div><div class="ttdoc">Takes an array of samples and cleans it from possible runaways.</div><div class="ttdef"><b>Definition</b> <a href="#l00028">sensor_calibration.c:28</a></div></div>
+<div class="ttc" id="asensor__calibration_8c_html_aba98e406dce566c2a41c8ec83ecfe452"><div class="ttname"><a href="sensor__calibration_8c.html#aba98e406dce566c2a41c8ec83ecfe452">get_sample_average</a></div><div class="ttdeci">CALIB_RESULT get_sample_average(float *sample_array, uint32_t number_of_samples, float *sample_average)</div><div class="ttdoc">Takes an array of samples and calculates the average.</div><div class="ttdef"><b>Definition</b> <a href="#l00089">sensor_calibration.c:89</a></div></div>
+<div class="ttc" id="astructsensor__T_html_a932950c63c18276495d15b86b046f956"><div class="ttname"><a href="structsensor__T.html#a932950c63c18276495d15b86b046f956">sensor_T::sensor_gpio</a></div><div class="ttdeci">uint32_t sensor_gpio</div><div class="ttdoc">The GPIO where the sensor is attached.</div><div class="ttdef"><b>Definition</b> <a href="sensor__register_8h_source.html#l00062">sensor_register.h:62</a></div></div>
+<div class="ttc" id="astructsensor__calibration__data__T_html_a6989ed9d17fda3526795d61118cb5d39"><div class="ttname"><a href="structsensor__calibration__data__T.html#a6989ed9d17fda3526795d61118cb5d39">sensor_calibration_data_T::water_measurement</a></div><div class="ttdeci">uint32_t water_measurement</div><div class="ttdoc">The value that gots measure by calibrate_water if the sensor is in a glass of water.</div><div class="ttdef"><b>Definition</b> <a href="sensor__register_8h_source.html#l00050">sensor_register.h:50</a></div></div>
+<div class="ttc" id="astructsensor__calibration__data__T_html_a887e4bc9c8a32adcb1ba2dae1c2071b4"><div class="ttname"><a href="structsensor__calibration__data__T.html#a887e4bc9c8a32adcb1ba2dae1c2071b4">sensor_calibration_data_T::air_measurement</a></div><div class="ttdeci">uint32_t air_measurement</div><div class="ttdoc">The value that gots measured by calibrate_air if the sensor is in the air, typically 4095.</div><div class="ttdef"><b>Definition</b> <a href="sensor__register_8h_source.html#l00047">sensor_register.h:47</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>components</b></li><li class="navelem"><b>SensorManager</b></li><li class="navelem"><b>sensor_calibration.c</b></li>
+    <li class="navelem"><b>components</b></li><li class="navelem"><b>SensorManager</b></li><li class="navelem"><a href="sensor__calibration_8c.html">sensor_calibration.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

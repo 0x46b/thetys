@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['add_5fsensor_0',['add_sensor',['../SensorManager_8h.html#aac6590e29e21d0c0ce91013df7c756d3',1,'SensorManager.c']]],
-  ['air_5ffactor_1',['air_factor',['../structsensor__calibration__data.html#ad8e92d866cd678c4e0a89f6b2f9306ad',1,'sensor_calibration_data']]]
+  ['_5fext_5ffont_5fdesc_5ft_0',['_ext_font_desc_t',['../struct__ext__font__desc__t.html',1,'']]],
+  ['_5fext_5fimg_5fdesc_5ft_1',['_ext_img_desc_t',['../struct__ext__img__desc__t.html',1,'']]],
+  ['_5fobjects_5ft_2',['_objects_t',['../struct__objects__t.html',1,'']]]
 ];

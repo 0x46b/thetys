@@ -18,18 +18,10 @@
 #ifndef SENSOR_CALIBRATION_H
 #define SENSOR_CALIBRATION_H
 
+#include "esp_err.h"
 #include "sensor_mgr_type_definitions.h"
 #include "sensor_register.h"
 #include <stdint.h>
-
-/*! Result codes for calibration routines
- */
-typedef enum CALIB_RESULT {
-  CALIB_SUCCESS = 0, /*!< Everything worked */
-  CALIB_LOWMEM = 1,  /*!< Not enough memory */
-  CALIB_IOERROR = 2, /*!< IO-error while trying to read from the sensor  */
-  CALIB_UNINITIALIZED_PARAM = 3 /*!< out-parameter was NULL */
-} CALIB_RESULT;
 
 /*! Reads number_of_samples samples from the sensor with sensor_id, cleans the
  * readings and returns the average in calibration_value
@@ -45,9 +37,9 @@ hardware-issues
  * @return #CALIB_UNINITIALIZED_PARAM calibration_factor is null (I
 told you so!)
  */
-CALIB_RESULT get_calibration_factor(sensor_T sensor_conf,
-                                    uint32_t number_of_samples,
-                                    float *calibration_factor);
+esp_err_t get_calibration_factor(sensor_T sensor_conf,
+                                 uint32_t number_of_samples,
+                                 float *calibration_factor);
 
 /*! Reads number_of_samples from the sensor with sensor_id and returns it in
 sample_array
@@ -59,9 +51,9 @@ it)
 * @return #CALIB_LOWMEM Not enough memory to allocate for all
 samples
 */
-CALIB_RESULT get_calibration_samples(sensor_T sensor_config,
-                                     uint32_t number_of_samples,
-                                     float *sample_array);
+esp_err_t get_calibration_samples(sensor_T sensor_config,
+                                  uint32_t number_of_samples,
+                                  float *sample_array);
 
 /*! Takes an array of samples and cleans it from possible runaways
  *
@@ -76,9 +68,9 @@ CALIB_RESULT get_calibration_samples(sensor_T sensor_config,
  * @return #CALIB_LOWMEM Not enough memory to allocate for all
  * samples
  */
-CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples,
-                           float *cleaned_samples,
-                           uint32_t *number_of_cleaned_samples);
+esp_err_t clean_samples(float *sample_array, uint32_t number_of_samples,
+                        float *cleaned_samples,
+                        uint32_t *number_of_cleaned_samples);
 
 /*! Takes an array of samples and calculates the average
  * @param[in] sample_array Array with all samples
@@ -89,8 +81,8 @@ CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples,
  * @return #CALIB_LOWMEM Not enough memory to allocate for all
  * samples
  */
-CALIB_RESULT get_sample_average(float *sample_array, uint32_t number_of_samples,
-                                float *sample_average);
+esp_err_t get_sample_average(float *sample_array, uint32_t number_of_samples,
+                             float *sample_average);
 
 uint32_t get_humidity(int32_t raw_value, sensor_calibration_data_T calibration);
 #endif // SENSOR_CALIBRATION_H

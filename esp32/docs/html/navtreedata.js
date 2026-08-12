@@ -25,6 +25,7 @@
 var NAVTREE =
 [
   [ "Thetys", "index.html", [
+    [ "Todo List", "todo.html", null ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -48,7 +49,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"BluetoothManager_8c_source.html"
+"BluetoothManager_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

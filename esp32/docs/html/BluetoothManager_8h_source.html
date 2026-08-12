@@ -92,14 +92,52 @@ $(function(){initNavTree('BluetoothManager_8h_source.html','',''); });
   <div class="headertitle"><div class="title">BluetoothManager.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keywordtype">void</span> func(<span class="keywordtype">void</span>);</div>
+<a href="BluetoothManager_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#</span><span class="preprocessor">ifndef</span> <span class="preprocessor">BLUETOOTH_MANAGER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#</span><span class="preprocessor">define</span> <span class="preprocessor">BLUETOOTH_MANAGER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="preprocessor">&lt;</span><span class="preprocessor">stdint</span><span class="preprocessor">.</span><span class="preprocessor">h</span><span class="preprocessor">&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*! @file</span></div>
+<div class="line"><span class="lineno">    6</span><span class="comment"> * Methods for handling connections over bluettoth</span></div>
+<div class="line"><span class="lineno">    7</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/* Return codes for bluetooth-related methods */</span></div>
+<div class="foldopen" id="foldopen00009" data-start="{" data-end="};">
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52">    9</a></span><span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code hl_enumeration" href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52">BLU_RESULT</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52a918fc500d011019f21d27fe2033346f6">   10</a></span>  <a class="code hl_enumvalue" href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52a918fc500d011019f21d27fe2033346f6">BLU_OK</a> = 0, <span class="comment">/*!&lt; Everything went fine */</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52acf8cb801dde40dd5424f206e20a45223">   11</a></span>  <a class="code hl_enumvalue" href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52acf8cb801dde40dd5424f206e20a45223">BLU_INITIALIZATION_ERROR</a> =</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>      1, <span class="comment">/*!&lt; Some of the subsystems failed to initialize */</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52a5541d5d9a70f9f3a16c7f2ee79bb2991">   13</a></span>  <a class="code hl_enumvalue" href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52a5541d5d9a70f9f3a16c7f2ee79bb2991">BLU_TASK_CREATION_FAILED</a> = 2, <span class="comment">/*!&lt; Task initialization failed */</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>  BLU_CALLBACK_ALREADY_SUBSCRIBED = 3,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>} BLU_RESULT;</div>
+</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">typedef</span> <span class="keywordtype">void</span> (*new_plant_callback_t)(<span class="keyword">const</span> <span class="keywordtype">char</span> *plant_name,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                                     uint32_t sensor_gpio, uint32_t pump_gpio,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                                     uint32_t watering_threshold);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">/*! Initializes the bluetooth-subsystem */</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>BLU_RESULT blu_initialize(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>BLU_RESULT blue_subscribe_new_plant(new_plant_callback_t callback);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">/*! Creates a new RTOS task */</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="BluetoothManager_8h.html#a30e0d7fec191f6bf235baf0597e44f3e">   26</a></span>BLU_RESULT <a class="code hl_function" href="BluetoothManager_8h.html#a30e0d7fec191f6bf235baf0597e44f3e">create_task</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#</span><span class="preprocessor">endif</span> <span class="comment">// BLUETOOTH_MANAGER_H</span></div>
+<div class="ttc" id="aBluetoothManager_8h_html_a30e0d7fec191f6bf235baf0597e44f3e"><div class="ttname"><a href="BluetoothManager_8h.html#a30e0d7fec191f6bf235baf0597e44f3e">create_task</a></div><div class="ttdeci">BLU_RESULT create_task(void)</div><div class="ttdoc">Creates a new RTOS task.</div></div>
+<div class="ttc" id="aBluetoothManager_8h_html_aed977eb1661ed14592f48362004c8b52"><div class="ttname"><a href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52">BLU_RESULT</a></div><div class="ttdeci">BLU_RESULT</div><div class="ttdef"><b>Definition</b> BluetoothManager.h:9</div></div>
+<div class="ttc" id="aBluetoothManager_8h_html_aed977eb1661ed14592f48362004c8b52a5541d5d9a70f9f3a16c7f2ee79bb2991"><div class="ttname"><a href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52a5541d5d9a70f9f3a16c7f2ee79bb2991">BLU_TASK_CREATION_FAILED</a></div><div class="ttdeci">@ BLU_TASK_CREATION_FAILED</div><div class="ttdoc">Task initialization failed.</div><div class="ttdef"><b>Definition</b> BluetoothManager.h:13</div></div>
+<div class="ttc" id="aBluetoothManager_8h_html_aed977eb1661ed14592f48362004c8b52a918fc500d011019f21d27fe2033346f6"><div class="ttname"><a href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52a918fc500d011019f21d27fe2033346f6">BLU_OK</a></div><div class="ttdeci">@ BLU_OK</div><div class="ttdoc">Everything went fine.</div><div class="ttdef"><b>Definition</b> BluetoothManager.h:10</div></div>
+<div class="ttc" id="aBluetoothManager_8h_html_aed977eb1661ed14592f48362004c8b52acf8cb801dde40dd5424f206e20a45223"><div class="ttname"><a href="BluetoothManager_8h.html#aed977eb1661ed14592f48362004c8b52acf8cb801dde40dd5424f206e20a45223">BLU_INITIALIZATION_ERROR</a></div><div class="ttdeci">@ BLU_INITIALIZATION_ERROR</div><div class="ttdoc">Some of the subsystems failed to initialize.</div><div class="ttdef"><b>Definition</b> BluetoothManager.h:11</div></div>
+<div class="ttc" id="aRGBLEDDriver_8h_html_a02d8f7d18fbff843c43adccad669ebe9"><div class="ttname"><a href="RGBLEDDriver_8h.html#a02d8f7d18fbff843c43adccad669ebe9">led_drv_initialize</a></div><div class="ttdeci">void led_drv_initialize(void)</div><div class="ttdoc">Initialize the RGB-LED-driver.</div><div class="ttdef"><b>Definition</b> RGBLEDDriver.c:31</div></div>
+<div class="ttc" id="aRGBLEDDriver_8h_html_a7ac4765e86d315aaf68259c619895759"><div class="ttname"><a href="RGBLEDDriver_8h.html#a7ac4765e86d315aaf68259c619895759">led_drv_set_to</a></div><div class="ttdeci">void led_drv_set_to(rgb_color color)</div><div class="ttdoc">Same as led_drv_set_color, but a color struct could be used (So we can predefine colors).</div><div class="ttdef"><b>Definition</b> RGBLEDDriver.c:92</div></div>
+<div class="ttc" id="acommon_8h_html_afc3d101f633a076cc1ca84b85b6224b2"><div class="ttname"><a href="common_8h.html#afc3d101f633a076cc1ca84b85b6224b2">TAG</a></div><div class="ttdeci">#define TAG</div><div class="ttdef"><b>Definition</b> common.h:34</div></div>
+<div class="ttc" id="aheart__rate_8h_html_a00564fda43cedfb39c35c4490ab00de8"><div class="ttname"><a href="heart__rate_8h.html#a00564fda43cedfb39c35c4490ab00de8">HEART_RATE_TASK_PERIOD</a></div><div class="ttdeci">#define HEART_RATE_TASK_PERIOD</div><div class="ttdef"><b>Definition</b> heart_rate.h:14</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>components</b></li><li class="navelem"><b>BluetoothManager</b></li><li class="navelem"><b>include</b></li><li class="navelem"><b>BluetoothManager.h</b></li>
+    <li class="navelem"><b>components</b></li><li class="navelem"><b>BluetoothManager</b></li><li class="navelem"><b>include</b></li><li class="navelem"><a href="BluetoothManager_8h.html">BluetoothManager.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

@@ -1,21 +1,24 @@
 var sensor__configuration_8h =
 [
-    [ "sensor_calibration_data", "structsensor__calibration__data.html", "structsensor__calibration__data" ],
-    [ "sensor_configuration", "structsensor__configuration.html", "structsensor__configuration" ],
-    [ "sensor_configuration_data", "structsensor__configuration__data.html", "structsensor__configuration__data" ],
-    [ "sensor_calibration_data", "sensor__configuration_8h.html#a7002d0ac29fff5d1a86529e0f9976672", null ],
-    [ "sensor_configuration", "sensor__configuration_8h.html#a9f53da019169447f302ebdc8079adf71", null ],
-    [ "sensor_configuration_data", "sensor__configuration_8h.html#a68e6bc86e427e2ec9caa808399c95619", null ],
+    [ "sensor_calibration_data_T", "structsensor__calibration__data__T.html", "structsensor__calibration__data__T" ],
+    [ "sensor_T", "structsensor__T.html", "structsensor__T" ],
+    [ "sensor_register_T", "structsensor__register__T.html", "structsensor__register__T" ],
+    [ "sensor_calibration_data_T", "sensor__configuration_8h.html#a1cbabc210ca4fc514d15ef7927f88e6b", null ],
+    [ "sensor_configuration_list_T", "sensor__configuration_8h.html#ab9205bf4e611e6453b237d56b34f5528", null ],
     [ "SENSOR_CONFIGURATION_RESULT", "sensor__configuration_8h.html#a421d03c974e5b9ae52e84ecdc4d3e882", null ],
+    [ "sensor_configuration_T", "sensor__configuration_8h.html#af931321e672ef5ae764f27098b844f37", null ],
     [ "SENSOR_CONFIGURATION_RESULT", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6", [
-      [ "SUCCESS", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6ac7f69f7c9e5aea9b8f54cf02870e2bf8", null ],
-      [ "UNKNOWN_ERROR", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6a8216aa4b3a817cdf8c15ed32aa946e83", null ],
-      [ "LOW_MEMORY", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6a5e6773aca1e8d24fef37c73568fd6b1d", null ],
-      [ "IO_ERROR", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6a03e7594315ad355f2f280c7271b0f6e4", null ],
-      [ "UNKNOWN_SENSOR_ID", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6ae8eafb20529f2a7200455f31700356c6", null ],
-      [ "UNINITIALIZED", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6af096820742c38363e9d6c33e7c932780", null ]
+      [ "SENSOR_CFG_OK", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6a69eafe46f0e2ee49ffbe088a198b3854", null ],
+      [ "SENSOR_CFG_ERROR", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6ac3c90984a0e3ef4ea32aec3fc1df0fad", null ],
+      [ "SENSOR_CFG_LOW_MEMORY", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6aca27f707c69f530bd9479a1001f235d3", null ],
+      [ "SENSOR_CFG_UNKNOWN_SENSOR_ID", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6aa70b73d32f3b29831f77968c82dd7778", null ],
+      [ "SENSOR_CFG_UNINITIALIZED", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6aadb33add0a3c2974fba3e05600d22766", null ],
+      [ "SENSOR_CFG_INITIALIZATION_ERROR", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6a82312333b426b16ca9f0cc1c31e53162", null ],
+      [ "SENSOR_CFG_PARAMETER_NULL", "sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6a30ba62eacb519d79e4397f6efe580e89", null ]
     ] ],
-    [ "free_configurations", "sensor__configuration_8h.html#acd6ea760dee3b9748762c5159174fbfd", null ],
-    [ "init_configurations", "sensor__configuration_8h.html#af5a570ad138f6ab55e6beec009797b42", null ],
-    [ "insert_configuration", "sensor__configuration_8h.html#abe0d3c2bab4af6f67d436d02be7a0e8c", null ]
+    [ "get_number_of_configurations", "sensor__configuration_8h.html#af5bdbb95f1fb07dcfc5b5187cf3cf9a4", null ],
+    [ "sensor_register_fetch", "sensor__configuration_8h.html#a3a3e8570a981fbe3fa509e8e48f16db3", null ],
+    [ "sensor_register_free", "sensor__configuration_8h.html#a375f0ceb20045d80ba19f9a71819a163", null ],
+    [ "sensor_register_initialize", "sensor__configuration_8h.html#a4fa3764796eafffc3691c31463cfc2c3", null ],
+    [ "sensor_register_insert", "sensor__configuration_8h.html#aebdb2b4488b37d590940d77c0a81d40f", null ]
 ];

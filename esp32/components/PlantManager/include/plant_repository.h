@@ -10,5 +10,6 @@ esp_err_t plant_repo_insert(plant_T plant);
 esp_err_t plant_repo_fetch(plant_handle_T handle, plant_T *plant);
 esp_err_t plant_repo_update(plant_T plant);
 esp_err_t plant_repo_initialize(void);
+esp_err_t plant_repo_free(void);
 
 #endif // PLANT_REPOSITORY_H

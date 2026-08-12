@@ -71,9 +71,7 @@ void app_main(void) {
   /*             NULL // Task handle (use if you want to delete/suspend it
    * later) */
   /* ); */
-  plant_T test_plant =
-      plant_mgr_create_plant("Testpflanze", PUMP_GPIO, SENSOR_GPIO, 50);
-  plant_mgr_add_plant(&test_plant);
+  plant_mgr_add_plant("Testpflanze", SENSOR_GPIO, PUMP_GPIO, 50, NULL);
   plant_mgr_start();
   start_ui();
   led_drv_set_to(GREEN);

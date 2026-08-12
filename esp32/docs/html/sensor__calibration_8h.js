@@ -8,7 +8,7 @@ var sensor__calibration_8h =
       [ "CALIB_UNINITIALIZED_PARAM", "sensor__calibration_8h.html#ac202b639b5fd5e72a9c1e7a7d377ddb9aeba8022ed162bff0e700ba884f987d6a", null ]
     ] ],
     [ "clean_samples", "sensor__calibration_8h.html#a9bce349e363b7834aa4e5c08f8790c3e", null ],
-    [ "get_calibration_factor", "sensor__calibration_8h.html#a723ff171357cf7204464b9fdf4beb741", null ],
-    [ "get_calibration_samples", "sensor__calibration_8h.html#a5a7246eb1f1a5a284fafc505e3506f52", null ],
+    [ "get_calibration_factor", "sensor__calibration_8h.html#a652b9585c7709d4e0ddcb5eb2d9faedd", null ],
+    [ "get_calibration_samples", "sensor__calibration_8h.html#a0715e8be5fd326b31b2ecd4429aafb8a", null ],
     [ "get_sample_average", "sensor__calibration_8h.html#aba98e406dce566c2a41c8ec83ecfe452", null ]
 ];

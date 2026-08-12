@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['water_5ffactor_0',['water_factor',['../structsensor__calibration__data.html#a3a5dca52aeec9b8938ba8f3b020e2f50',1,'sensor_calibration_data']]]
+  ['used_0',['used',['../structsensor__register__T.html#a5e1ebda31e026934b2091d2d0051818a',1,'sensor_register_T']]]
 ];

@@ -1,6 +1,8 @@
 /*! @file
  * API for managing sensors.
- * Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
+ */
+
+/* Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

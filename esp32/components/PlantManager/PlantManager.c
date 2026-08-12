@@ -3,7 +3,7 @@
 #include "RelaisDriver.h"
 #include "SensorDriver.h"
 #include "SensorManager.h"
-#include "data.h"
+#include "plant_mgr_type_definitions.h"
 #include "plant_repository.h"
 #include "relais_types.h"
 #include "sensor_mgr_type_definitions.h"

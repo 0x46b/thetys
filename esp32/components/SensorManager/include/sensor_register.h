@@ -1,8 +1,7 @@
 /*! @file
- * @todo This should belong to the driver, really...
  * Dynamic store for sensor-configurations. Hold the GPIO and calibration-infos.
- *
- * Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
+ */
+/* Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

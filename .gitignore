@@ -30,3 +30,4 @@ size_info_*.txt
 /esp32/dependencies.lock
 /esp32/test/build
 /esp32/test/managed_components
+*.c#

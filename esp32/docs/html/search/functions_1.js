@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['calibrate_5fair_0',['calibrate_air',['../SensorManager_8h.html#a443955be6e93ce2e288b9a634a663220',1,'SensorManager.c']]],
-  ['calibrate_5fwater_1',['calibrate_water',['../SensorManager_8h.html#a36b7f5c2acf2b5f2f9bdf86c3723fc63',1,'SensorManager.c']]],
-  ['clean_5fsamples_2',['clean_samples',['../sensor__calibration_8h.html#a9bce349e363b7834aa4e5c08f8790c3e',1,'sensor_calibration.c']]]
+  ['clean_5fsamples_0',['clean_samples',['../sensor__calibration_8c.html#a9bce349e363b7834aa4e5c08f8790c3e',1,'clean_samples(float *sample_array, uint32_t number_of_samples, float *cleaned_samples, uint32_t *number_of_cleaned_samples):&#160;sensor_calibration.c'],['../sensor__calibration_8h.html#a9bce349e363b7834aa4e5c08f8790c3e',1,'clean_samples(float *sample_array, uint32_t number_of_samples, float *cleaned_samples, uint32_t *number_of_cleaned_samples):&#160;sensor_calibration.c']]],
+  ['create_5ftask_1',['create_task',['../BluetoothManager_8h.html#a30e0d7fec191f6bf235baf0597e44f3e',1,'BluetoothManager.h']]]
 ];

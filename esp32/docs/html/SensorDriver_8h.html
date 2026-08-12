@@ -92,19 +92,37 @@ $(function(){initNavTree('SensorDriver_8h.html','',''); });
   <div class="headertitle"><div class="title">SensorDriver.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Driver for the hardware-sensors Copyright (C) 2026 Sebastian Murschall <a href="#" onclick="location.href='mai'+'lto:'+'seb'+'as'+'tia'+'n.'+'mur'+'sc'+'hal'+'l@'+'gma'+'il'+'.co'+'m'; return false;">sebas<span class="obfuscator">.nosp@m.</span>tian<span class="obfuscator">.nosp@m.</span>.murs<span class="obfuscator">.nosp@m.</span>chal<span class="obfuscator">.nosp@m.</span>l@gma<span class="obfuscator">.nosp@m.</span>il.c<span class="obfuscator">.nosp@m.</span>om</a>.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 </div>
 <p><a href="SensorDriver_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ab0caa70e121cf99be7fa4299cd64d73e" id="r_ab0caa70e121cf99be7fa4299cd64d73e"><td class="memItemLeft"><a id="ab0caa70e121cf99be7fa4299cd64d73e" name="ab0caa70e121cf99be7fa4299cd64d73e"></a>
+typedef enum SENSOR_RESULT&#160;</td><td class="memItemRight"><b>SENSOR_RESULT</b></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a8c277f7f666ca24b7a57e9ec4f1ccdea" id="r_a8c277f7f666ca24b7a57e9ec4f1ccdea"><td class="memItemLeft"><a id="a8c277f7f666ca24b7a57e9ec4f1ccdea" name="a8c277f7f666ca24b7a57e9ec4f1ccdea"></a>enum &#160;</td><td class="memItemRight"><b>SENSOR_RESULT</b> { <b>SENSOR_SUCCESS</b> = 0
+, <b>SENSOR_INVALID_GPIO</b> = 2
+, <b>SENSOR_ERROR</b> = 3
+ }</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7083a724ddd0b14cba931c90f079f854" id="r_a7083a724ddd0b14cba931c90f079f854"><td class="memItemLeft"><a id="a7083a724ddd0b14cba931c90f079f854" name="a7083a724ddd0b14cba931c90f079f854"></a>
-float&#160;</td><td class="memItemRight"><b>sensor_drv_read</b> (uint32_t sensor_gpio)</td></tr>
+<tr class="memitem:a653e8f213272f7ba908067e098dc10a7" id="r_a653e8f213272f7ba908067e098dc10a7"><td class="memItemLeft"><a id="a653e8f213272f7ba908067e098dc10a7" name="a653e8f213272f7ba908067e098dc10a7"></a>
+SENSOR_RESULT&#160;</td><td class="memItemRight"><b>sensor_drv_initialize</b> (uint32_t sensor_gpio)</td></tr>
+<tr class="memitem:a1d911bc5c0c56eaa968ee441a410f486" id="r_a1d911bc5c0c56eaa968ee441a410f486"><td class="memItemLeft"><a id="a1d911bc5c0c56eaa968ee441a410f486" name="a1d911bc5c0c56eaa968ee441a410f486"></a>
+SENSOR_RESULT&#160;</td><td class="memItemRight"><b>sensor_drv_read</b> (uint32_t sensor_gpio, uint32_t *sensor_value)</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Driver for the hardware-sensors </p>
-
-<p class="definition">Definition in file <a class="el" href="SensorDriver_8h_source.html">SensorDriver.h</a>.</p>
+<div class="textblock"><p>Driver for the hardware-sensors Copyright (C) 2026 Sebastian Murschall <a href="#" onclick="location.href='mai'+'lto:'+'seb'+'as'+'tia'+'n.'+'mur'+'sc'+'hal'+'l@'+'gma'+'il'+'.co'+'m'; return false;">sebas<span class="obfuscator">.nosp@m.</span>tian<span class="obfuscator">.nosp@m.</span>.murs<span class="obfuscator">.nosp@m.</span>chal<span class="obfuscator">.nosp@m.</span>l@gma<span class="obfuscator">.nosp@m.</span>il.c<span class="obfuscator">.nosp@m.</span>om</a>. </p>
+<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with this program. If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

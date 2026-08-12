@@ -3,11 +3,98 @@
 #include <esp_log.h>
 #include <nvs.h>
 #include <nvs_flash.h>
+#include <stddef.h>
 
 #define STORAGE_NAMESPACE "plant_data"
 #define PLANT_KEY "plants"
 
 static const char *TAG = "sensor_repository";
+static plant_repository_T plant_repository;
+
+/* Private methods */
+esp_err_t plant_repo_initialize_memory(size_t initial_size) {
+  if (initial_size == 0) {
+    ESP_LOGE(TAG, "Initializing with 0 elements is not allowed.");
+    return ESP_FAIL;
+  }
+
+  ESP_LOGI(TAG, "Initializing array for %i plantss.", initial_size);
+  plant_repository.plants = malloc(initial_size * sizeof(plant_T));
+
+  if (plant_repository.plants == NULL) {
+    ESP_LOGE(TAG, "Malloc failed!");
+    return ESP_ERR_NO_MEM;
+  }
+
+  plant_repository.used = 0;
+  plant_repository.size = initial_size;
+
+  ESP_LOGI(TAG, "Successfully initialized memory for %i plants.", initial_size);
+  return ESP_OK;
+}
+
+bool plant_repo_handle_exists(plant_handle_T handle) {
+  return handle < plant_repository.used;
+}
+
+/* Public methods */
+esp_err_t plant_repo_insert(plant_T plant, plant_handle_T *handle) {
+  if (plant_repository.plants == NULL) {
+    ESP_LOGE(TAG, "Try to insert into uninitialized array");
+    return ESP_ERR_NOT_ALLOWED;
+  }
+
+  if (plant_repository.used == plant_repository.size) {
+    uint32_t new_size = plant_repository.size * 2;
+
+    ESP_LOGI(TAG,
+             "Not enough space for added sensor_config, resizing from %i to %i",
+             plant_repository.size, new_size);
+    plant_T *new_array =
+        realloc(plant_repository.plants, new_size * sizeof(plant_T));
+    if (new_array == NULL) {
+      ESP_LOGE(TAG, "Resizing failed");
+      return ESP_ERR_NO_MEM;
+    }
+    plant_repository.size = new_size;
+    plant_repository.plants = new_array;
+  }
+
+  uint32_t new_index = plant_repository.used;
+  *handle = new_index;
+  plant.handle = new_index;
+  plant_repository.plants[new_index] = plant;
+
+  ESP_LOGI(TAG,
+           "Inserted new plant [Handle: %i, sensor handle: %i, pump handle: "
+           "%i, Threshold: %i](%i used total)",
+           *handle, plant.sensor_handle, plant.pump_handle,
+           plant.watering_threshold, plant_repository.used);
+
+  return ESP_OK;
+}
+
+esp_err_t plant_repo_fetch(plant_handle_T handle, plant_T *plant) {
+  if (!plant_repo_handle_exists(handle)) {
+    ESP_LOGE(TAG, "No plant with handle %i found", handle);
+    return ESP_ERR_NOT_FOUND;
+  }
+
+  *plant = plant_repository.plants[(uint32_t)handle];
+
+  return ESP_OK;
+}
+
+esp_err_t plant_repo_update(plant_T plant) {
+  if (!plant_repo_handle_exists(plant.handle)) {
+    ESP_LOGE(TAG, "No plant with handle %i found", plant.handle);
+    return ESP_ERR_NOT_FOUND;
+  }
+
+  plant_repository.plants[(uint32_t)plant.handle] = plant;
+
+  return ESP_OK;
+}
 
 esp_err_t plant_repo_save_plants(plant_repository_T plan_repository) {
   nvs_handle_t my_handle;
@@ -70,5 +157,15 @@ esp_err_t plant_repo_initialize(void) {
     err = nvs_flash_init();
   }
   ESP_ERROR_CHECK(err);
+  return ESP_OK;
+}
+
+esp_err_t plant_repo_free(void) {
+  free(plant_repository.plants);
+  plant_repository.plants = NULL;
+  plant_repository.used = 0;
+  plant_repository.size = 0;
+
+  ESP_LOGI(TAG, "Reset plants");
   return ESP_OK;
 }

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['add_5fsensor_0',['add_sensor',['../SensorManager_8h.html#aac6590e29e21d0c0ce91013df7c756d3',1,'SensorManager.c']]]
+  ['blu_5finitialize_0',['blu_initialize',['../BluetoothManager_8h.html#afe9a6585791bb6a5bbbba02901c2b3a7',1,'BluetoothManager.c']]]
 ];

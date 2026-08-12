@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['init_5fconfigurations_0',['init_configurations',['../sensor__configuration_8h.html#af5a570ad138f6ab55e6beec009797b42',1,'sensor_configuration.c']]],
-  ['initialize_1',['initialize',['../SensorManager_8h.html#a460658e7c400b2bd5f6c724b11408e37',1,'SensorManager.c']]],
-  ['insert_5fconfiguration_2',['insert_configuration',['../sensor__configuration_8h.html#abe0d3c2bab4af6f67d436d02be7a0e8c',1,'sensor_configuration.c']]]
+  ['plant_5fmgr_5fadd_5fplant_0',['plant_mgr_add_plant',['../PlantManager_8h.html#a566bfa3ca03e89ac6fc73cbd8613cb33',1,'PlantManager.c']]],
+  ['plant_5fmgr_5finitialize_1',['plant_mgr_initialize',['../PlantManager_8h.html#a54a4121f149375a8482c349d6af9c166',1,'PlantManager.c']]],
+  ['plant_5fmgr_5fremove_5fplant_2',['plant_mgr_remove_plant',['../PlantManager_8h.html#a7e6eb867788a5a2740d46f583efc6a2e',1,'PlantManager.c']]],
+  ['plant_5fmgr_5fstart_3',['plant_mgr_start',['../PlantManager_8h.html#a5cba76a7929a40660f0b5e293868bd79',1,'PlantManager.c']]]
 ];

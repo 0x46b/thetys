@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "sensor_mgr_type_definitions.h"
-#include "sensor_register.h"
-#include <SensorDriver.h>
+#include "sensor_calibration.h"
+#include "SensorDriver.h"
+#include <esp_err.h>
 #include <esp_log.h>
 #include <math.h>
 #include <sdkconfig.h>
@@ -25,17 +25,17 @@
 
 static const char *TAG = "Calibration";
 
-CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples,
-                           float *cleaned_samples,
-                           uint32_t *number_of_cleaned_samples) {
+esp_err_t clean_samples(float *sample_array, uint32_t number_of_samples,
+                        float *cleaned_samples,
+                        uint32_t *number_of_cleaned_samples) {
   if (sample_array == NULL) {
     ESP_LOGE(TAG, "sample_array is NULL");
-    return CALIB_UNINITIALIZED_PARAM;
+    return ESP_ERR_INVALID_ARG;
   }
 
   if (number_of_cleaned_samples == NULL) {
     ESP_LOGE(TAG, "number_of_cleaned_samples is NULL");
-    return CALIB_UNINITIALIZED_PARAM;
+    return ESP_ERR_INVALID_ARG;
   }
 
   if (number_of_samples <= 0) {
@@ -45,10 +45,10 @@ CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples,
   double variance = 0.0;
   double standard_deviation = 0.0;
   float average = 0.0;
-  CALIB_RESULT result =
+  esp_err_t result =
       get_sample_average(sample_array, number_of_samples, &average);
 
-  if (result != CALIB_SUCCESS) {
+  if (result != ESP_OK) {
     ESP_LOGE(TAG, "Something went very wrong here?");
     return result;
   }
@@ -62,7 +62,7 @@ CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples,
   float *buffer = malloc(number_of_samples * sizeof(float));
   if (buffer == NULL) {
     ESP_LOGE(TAG, "Could not allocate enough memory for the return-values");
-    return CALIB_LOWMEM;
+    return ESP_ERR_NO_MEM;
   }
 
   int target_index = 0;
@@ -83,19 +83,19 @@ CALIB_RESULT clean_samples(float *sample_array, uint32_t number_of_samples,
   ESP_LOGI(TAG, "Removed %i samples (%i clean samples total)",
            (number_of_samples - *number_of_cleaned_samples),
            *number_of_cleaned_samples);
-  return CALIB_SUCCESS;
+  return ESP_OK;
 }
 
-CALIB_RESULT get_sample_average(float *sample_array, uint32_t number_of_samples,
-                                float *sample_average) {
+esp_err_t get_sample_average(float *sample_array, uint32_t number_of_samples,
+                             float *sample_average) {
   if (sample_array == NULL) {
     ESP_LOGE(TAG, "sample_array is NULL");
-    return CALIB_UNINITIALIZED_PARAM;
+    return ESP_ERR_INVALID_ARG;
   }
 
   if (sample_average == NULL) {
     ESP_LOGE(TAG, "sample_average is NULL");
-    return CALIB_UNINITIALIZED_PARAM;
+    return ESP_ERR_INVALID_ARG;
   }
 
   double sum = 0.0;
@@ -104,12 +104,12 @@ CALIB_RESULT get_sample_average(float *sample_array, uint32_t number_of_samples,
   }
 
   *sample_average = sum / number_of_samples;
-  return CALIB_SUCCESS;
+  return ESP_OK;
 }
 
-CALIB_RESULT get_calibration_factor(sensor_T sensor_conf,
-                                    uint32_t number_of_samples,
-                                    float *calibration_factor) {
+esp_err_t get_calibration_factor(sensor_T sensor_conf,
+                                 uint32_t number_of_samples,
+                                 float *calibration_factor) {
   float sensor_reading_sum = 0;
   uint32_t current_sensor_reading = 0;
   float *sensor_samples = malloc(number_of_samples * sizeof(float));
@@ -119,12 +119,12 @@ CALIB_RESULT get_calibration_factor(sensor_T sensor_conf,
              "Couldn't allocate memory for reading %i samples for calibration "
              "of sensor %i",
              number_of_samples, sensor_conf.sensor_gpio);
-    return CALIB_LOWMEM;
+    return ESP_ERR_NO_MEM;
   }
 
   if (calibration_factor == NULL) {
     ESP_LOGD(TAG, "Parameter calibration_factor is NULL");
-    return CALIB_UNINITIALIZED_PARAM;
+    return ESP_ERR_INVALID_ARG;
   }
 
   SENSOR_RESULT result;
@@ -143,7 +143,7 @@ CALIB_RESULT get_calibration_factor(sensor_T sensor_conf,
   *calibration_factor = sensor_reading_sum / number_of_samples;
 
   free(sensor_samples);
-  return CALIB_SUCCESS;
+  return ESP_OK;
 }
 
 uint32_t get_humidity(int32_t raw_value,

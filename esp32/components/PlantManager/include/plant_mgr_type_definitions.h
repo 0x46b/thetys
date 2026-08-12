@@ -18,7 +18,8 @@ typedef struct plant_T {
 } plant_T;
 
 typedef struct plant_repository_T {
-  plant_T plants[MAX_PLANTS];
+  plant_T *plants;
   uint32_t used;
+  uint32_t size;
 } plant_repository_T;
 #endif // PLANT_DATA_H

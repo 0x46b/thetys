@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['parseerrorcode_0',['ParseErrorCode',['../group__RAPIDJSON__ERRORS.html#ga8d4b32dfc45840bca189ade2bbcb6ba7',1,'error.h']]],
-  ['parseflag_1',['ParseFlag',['../reader_8h.html#ab7be7dabe6ffcba60fad441505583450',1,'reader.h']]],
-  ['pointerparseerrorcode_2',['PointerParseErrorCode',['../group__RAPIDJSON__ERRORS.html#gacb2e274f33e54d91b96e9883a99a98be',1,'error.h']]]
+  ['sensor_5fconfiguration_5fresult_0',['SENSOR_CONFIGURATION_RESULT',['../sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6',1,'sensor_configuration.h']]],
+  ['sensor_5fregister_5fresult_1',['SENSOR_REGISTER_RESULT',['../sensor__register_8h.html#a783ba3d4040b0592e8c3193ec0f56871',1,'sensor_register.h']]],
+  ['smgr_5fresult_2',['SMGR_RESULT',['../sensor__mgr__type__definitions_8h.html#a4e0ef9fac95c5e130af514553e8a4697',1,'sensor_mgr_type_definitions.h']]]
 ];

@@ -1,23 +1,4 @@
 var searchData=
 [
-  ['sensor_5fcalibration_2eh_0',['sensor_calibration.h',['../sensor__calibration_8h.html',1,'']]],
-  ['sensor_5fcalibration_5fdata_1',['sensor_calibration_data',['../structsensor__calibration__data.html',1,'sensor_calibration_data'],['../sensor__configuration_8h.html#a7002d0ac29fff5d1a86529e0f9976672',1,'sensor_calibration_data:&#160;sensor_configuration.h']]],
-  ['sensor_5fconfiguration_2',['sensor_configuration',['../structsensor__configuration.html',1,'sensor_configuration'],['../sensor__configuration_8h.html#a9f53da019169447f302ebdc8079adf71',1,'sensor_configuration:&#160;sensor_configuration.h']]],
-  ['sensor_5fconfiguration_2eh_3',['sensor_configuration.h',['../sensor__configuration_8h.html',1,'']]],
-  ['sensor_5fconfiguration_5fdata_4',['sensor_configuration_data',['../structsensor__configuration__data.html',1,'sensor_configuration_data'],['../sensor__configuration_8h.html#a68e6bc86e427e2ec9caa808399c95619',1,'sensor_configuration_data:&#160;sensor_configuration.h']]],
-  ['sensor_5fconfiguration_5fresult_5',['SENSOR_CONFIGURATION_RESULT',['../sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6',1,'SENSOR_CONFIGURATION_RESULT:&#160;sensor_configuration.h'],['../sensor__configuration_8h.html#a421d03c974e5b9ae52e84ecdc4d3e882',1,'SENSOR_CONFIGURATION_RESULT:&#160;sensor_configuration.h']]],
-  ['sensor_5fgpio_6',['sensor_gpio',['../structsensor__configuration.html#a932950c63c18276495d15b86b046f956',1,'sensor_configuration']]],
-  ['sensor_5fid_7',['sensor_id',['../structsensor__configuration.html#a20cd8a0b6a1b72ea3574d2104480d90a',1,'sensor_configuration::sensor_id'],['../structsensor__reading.html#a20cd8a0b6a1b72ea3574d2104480d90a',1,'sensor_reading::sensor_id']]],
-  ['sensor_5freading_8',['sensor_reading',['../structsensor__reading.html',1,'sensor_reading'],['../SensorManager_8h.html#a986bdc4e710a6b69a9720ec18c9229f9',1,'sensor_reading:&#160;SensorManager.h']]],
-  ['sensordriver_2eh_9',['SensorDriver.h',['../SensorDriver_8h.html',1,'']]],
-  ['sensormanager_2eh_10',['SensorManager.h',['../SensorManager_8h.html',1,'']]],
-  ['size_11',['size',['../structsensor__configuration__data.html#ab2c6b258f02add8fdf4cfc7c371dd772',1,'sensor_configuration_data']]],
-  ['smgr_5fcatastrophic_5ffailure_12',['SMGR_CATASTROPHIC_FAILURE',['../SensorManager_8h.html#a4e0ef9fac95c5e130af514553e8a4697aa432e36a3f2f7e21b0dd947fb3126104',1,'SensorManager.h']]],
-  ['smgr_5fio_5ferror_13',['SMGR_IO_ERROR',['../SensorManager_8h.html#a4e0ef9fac95c5e130af514553e8a4697aeeea786427f63e3f39367070a115b9d9',1,'SensorManager.h']]],
-  ['smgr_5fmissing_5fcalibration_14',['SMGR_MISSING_CALIBRATION',['../SensorManager_8h.html#a4e0ef9fac95c5e130af514553e8a4697a0110d373a090e7691dded50aa4291683',1,'SensorManager.h']]],
-  ['smgr_5fresult_15',['SMGR_RESULT',['../SensorManager_8h.html#a4e0ef9fac95c5e130af514553e8a4697',1,'SMGR_RESULT:&#160;SensorManager.h'],['../SensorManager_8h.html#abbcf1360dcafa4434c7ddc293ab0807c',1,'SMGR_RESULT:&#160;SensorManager.h']]],
-  ['smgr_5fsuccess_16',['SMGR_SUCCESS',['../SensorManager_8h.html#a4e0ef9fac95c5e130af514553e8a4697aa268887a6cf611cd4673bba0ccdd747f',1,'SensorManager.h']]],
-  ['smgr_5funknown_5ferror_17',['SMGR_UNKNOWN_ERROR',['../SensorManager_8h.html#a4e0ef9fac95c5e130af514553e8a4697a846c6bf89eaecf932eb310968115ee0b',1,'SensorManager.h']]],
-  ['smgr_5funknown_5fsensor_18',['SMGR_UNKNOWN_SENSOR',['../SensorManager_8h.html#a4e0ef9fac95c5e130af514553e8a4697a118b7a1846b353996b596f15ccac6f11',1,'SensorManager.h']]],
-  ['success_19',['SUCCESS',['../sensor__configuration_8h.html#a6e8e5f5d725f003074cc196050c865a6ac7f69f7c9e5aea9b8f54cf02870e2bf8',1,'sensor_configuration.h']]]
+  ['measurement_0',['measurement',['../structmeasurement.html',1,'']]]
 ];
