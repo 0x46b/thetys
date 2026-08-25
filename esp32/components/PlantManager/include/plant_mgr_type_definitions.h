@@ -16,7 +16,8 @@ typedef struct plant_T {
   sensor_handle_T sensor_handle;
   uint32_t pumping_time_ms;
   QueueHandle_t data_queue_handle;
-  TaskHandle_t *reading_task_handle;
+  TaskHandle_t reading_task_handle;
+  TaskHandle_t data_task_handle;
   bool is_active; /*!< Set to false to disable measurements and automatic
                      watering */
 } plant_T;

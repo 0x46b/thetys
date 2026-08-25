@@ -86,7 +86,7 @@ esp_err_t sensor_reading_task_create(plant_T *plant) {
 
   BaseType_t result = xTaskCreatePinnedToCore(
       plant_polling_task, task_name, CONFIG_READING_TASK_STACK_DEPTH, plant,
-      CONFIG_READING_TASK_PRIORITY, plant->reading_task_handle,
+      CONFIG_READING_TASK_PRIORITY, &(plant->reading_task_handle),
       CONFIG_SENSOR_POLLING_CORE);
   if (result != pdPASS) {
     ESP_LOGE(TAG, "Could not start sensor-reading-task for plant %s",

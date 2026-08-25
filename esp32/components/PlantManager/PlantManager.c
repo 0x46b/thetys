@@ -152,7 +152,7 @@ esp_err_t plant_mgr_initialize() {
 esp_err_t plant_mgr_add_plant(const char *plant_name, uint32_t pump_gpio,
                               uint32_t sensor_gpio, uint32_t watering_threshold,
                               plant_T *created_plant) {
-  created_plant->plant_name = plant_name;
+  created_plant->plant_name = strdup(plant_name);
   created_plant->watering_threshold = watering_threshold;
   created_plant->is_active = true;
 

@@ -68,8 +68,14 @@ void app_main(void) {
   /*             NULL // Task handle (use if you want to delete/suspend it
    * later) */
   /* ); */
-  plant_T created_plant;
-  plant_mgr_add_plant("Testpflanze", PUMP_GPIO, SENSOR_GPIO, 50,
-                      &created_plant);
+  plant_T *created_plant = malloc(sizeof(plant_T));
+  plant_T *second_plant = malloc(sizeof(plant_T));
+
+  if (created_plant == NULL || second_plant == NULL) {
+    ESP_LOGE("MAIN", "Nicht genügend Heap-Speicher für Pflanzen!");
+    return;
+  }
+  plant_mgr_add_plant("Testpflanze", PUMP_GPIO, SENSOR_GPIO, 50, created_plant);
+  plant_mgr_add_plant("Monstera", 41, 2, 99, second_plant);
   start_ui();
 }

@@ -1,0 +1,6 @@
+* TODOS
+** TODO Create PumpManager for controlling the pumps (extract code from PlantManager)
+** TODO Implement saving historic-data
+** TODO Implement bluetooth-task
+*** Read from the historic data repository
+*** Spawn a new task for every added sensor
