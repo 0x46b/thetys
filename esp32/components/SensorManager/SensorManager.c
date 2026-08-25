@@ -19,10 +19,8 @@
 #include "SensorDriver.h"
 #include "sensor_calibration.h"
 #include "sensor_register.h"
-#include "sensor_samples.h"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
-#include <math.h>
 #include <sdkconfig.h>
 #include <stdint.h>
 
@@ -48,7 +46,6 @@ sensor_mgr_subscribe_new_sensor(new_sensor_callback_t callback) {
 
 SMGR_RESULT sensor_mgr_initialize(uint32_t number_of_sensors) {
   SENSOR_REGISTER_RESULT result = sensor_register_initialize(number_of_sensors);
-  ESP_ERROR_CHECK(sensor_data_initialize(number_of_sensors));
   switch (result) {
   case SENSOR_CFG_OK:
     ESP_LOGI(TAG, "Successfully initialized configurations for %i sensors",
@@ -81,7 +78,7 @@ SMGR_RESULT sensor_manager_read_sensor(uint32_t sensor_handle,
 
   reading->sensor_id = sensor_handle;
   reading->humidity_percentage =
-      get_humidity(raw_value, sensor.calibration_data);
+      sensor_get_humidity(raw_value, sensor.calibration_data);
 
   ESP_LOGI(TAG, "Read humidity of %f percent from sensor %i",
            reading->humidity_percentage, sensor_handle);
@@ -109,7 +106,6 @@ SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_gpio,
   case SENSOR_CFG_OK:
     ESP_LOGI(TAG, "Successfully registered sensor [Handle: %i, GPIO: %i]",
              *sensor_handle, sensor_gpio);
-    ESP_ERROR_CHECK(sensor_data_insert(0));
     sensor_drv_initialize(sensor_gpio);
 
     if (on_new_sensor != NULL) {
@@ -126,57 +122,4 @@ SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_gpio,
              sensor_gpio);
     return SMGR_UNKNOWN_ERROR;
   }
-}
-
-static void sensor_polling_task(void *param) {
-  sensor_reading_T value_buffer;
-  uint32_t sensor_count = 0;
-  if (SENSOR_CFG_OK != sensor_register_get_count(&sensor_count)) {
-    ESP_LOGE(TAG, "Could not retrieve number of sensors");
-
-    vTaskDelete(NULL);
-    return;
-  }
-
-  if (sensor_count == 0) {
-    ESP_LOGW(TAG, "No sensors found. Have you forgotten to add them? Ending "
-                  "polling-task");
-    vTaskDelete(NULL);
-    return;
-  }
-
-  while (1) {
-    ESP_LOGI(TAG, "Sensor polling started");
-
-    for (uint32_t i = 0; i < sensor_count; i++) {
-      ESP_LOGI(TAG, "Polling sensor %i/%i", i + 1, sensor_count);
-
-      if (sensor_manager_read_sensor(i, &value_buffer) != SMGR_SUCCESS) {
-        ESP_LOGE(TAG, "Error reading sensor %i", i);
-        continue;
-      }
-      sensor_data_update(value_buffer.sensor_id,
-                         value_buffer.humidity_percentage);
-
-      if (on_new_measurement != NULL) {
-        on_new_measurement(value_buffer);
-      }
-    }
-
-    vTaskDelay(CONFIG_SENSOR_POLLING_TIME_IN_MS / portTICK_PERIOD_MS);
-  }
-  vTaskDelete(NULL);
-}
-
-SMGR_RESULT sensor_mgr_start_polling_task(void) {
-  BaseType_t result;
-  result =
-      xTaskCreatePinnedToCore(sensor_polling_task, "Sensor polling", 4 * 1024,
-                              NULL, 4, NULL, CONFIG_SENSOR_POLLING_CORE);
-  if (result != pdPASS) {
-    ESP_LOGE(TAG, "Could not start sensor_polling-task");
-    return SENSOR_ERROR;
-  }
-
-  return SENSOR_SUCCESS;
 }

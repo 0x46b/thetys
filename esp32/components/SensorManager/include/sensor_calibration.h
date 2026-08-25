@@ -84,5 +84,6 @@ esp_err_t clean_samples(float *sample_array, uint32_t number_of_samples,
 esp_err_t get_sample_average(float *sample_array, uint32_t number_of_samples,
                              float *sample_average);
 
-uint32_t get_humidity(int32_t raw_value, sensor_calibration_data_T calibration);
+uint32_t sensor_get_humidity(int32_t raw_value,
+                             sensor_calibration_data_T calibration);
 #endif // SENSOR_CALIBRATION_H

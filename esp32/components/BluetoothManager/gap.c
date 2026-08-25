@@ -200,7 +200,6 @@ static int gap_event_handler(struct ble_gap_event *event, void *arg) {
 
     /* Reset heart rate subscription state */
     gatt_svr_reset_heart_rate_subscription();
-    gatt_svr_reset_sensor_data_subscription();
     /* Restart advertising */
     start_advertising();
     return rc;
@@ -266,7 +265,7 @@ static int gap_event_handler(struct ble_gap_event *event, void *arg) {
 }
 
 /* Public functions */
-void adv_init(void) {
+void advertising_init(void) {
   /* Local variables */
   int rc = 0;
   char addr_str[18] = {0};

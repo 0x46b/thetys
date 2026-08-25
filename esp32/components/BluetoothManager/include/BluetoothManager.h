@@ -6,6 +6,11 @@
  * Methods for handling connections over bluettoth
  */
 /* Return codes for bluetooth-related methods */
+
+#define BLUETOOTH_DEVICE_NAME "Thetys Remote Control"
+#define PLANT_DATA_UPDATE_PERIOD_MS 1000
+#define BLUETOOTH_CPU_CORE 1
+
 typedef enum BLU_RESULT {
   BLU_OK = 0, /*!< Everything went fine */
   BLU_INITIALIZATION_ERROR =

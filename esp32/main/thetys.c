@@ -55,9 +55,6 @@ void start_ui(void) {
 }
 
 void app_main(void) {
-  led_drv_initialize();
-  led_drv_set_brightness(50);
-  led_drv_set_to(CYAN);
 
   plant_mgr_initialize();
 
@@ -71,8 +68,8 @@ void app_main(void) {
   /*             NULL // Task handle (use if you want to delete/suspend it
    * later) */
   /* ); */
-  plant_mgr_add_plant("Testpflanze", SENSOR_GPIO, PUMP_GPIO, 50, NULL);
-  plant_mgr_start();
+  plant_T created_plant;
+  plant_mgr_add_plant("Testpflanze", PUMP_GPIO, SENSOR_GPIO, 50,
+                      &created_plant);
   start_ui();
-  led_drv_set_to(GREEN);
 }

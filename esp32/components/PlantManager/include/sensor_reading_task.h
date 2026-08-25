@@ -1,6 +1,7 @@
 /*! @file
- * Dynamic store for sensor-data.
- * Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
+ * Task for reading a sensor and putting the values into an freeRTOS-Queue
+ */
+/* Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,24 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#ifndef SENSOR_READING_TASK_H
+#define SENSOR_READING_TASK_H
 
-#ifndef SENSOR_DATA_H
-#define SENSOR_DATA_H
-
-// Force ESP32 architecture definitions to settle first
+#include "plant_mgr_type_definitions.h"
 #include <esp_err.h>
-#include <stdint.h>
+#include <freertos/FreeRTOS.h>
+#include <time.h>
 
-typedef struct sensor_sample_list_T {
-  uint32_t *samples;
-  uint32_t size;
-  uint32_t used;
-} sensor_sample_list_T;
+typedef struct sensor_entry_T {
+  plant_handle_T plant;
+  uint32_t humidity_percentage;
+  time_t timestamp;
+} sensor_entry_T;
 
-esp_err_t get_data_for_sensor(uint32_t sensor_id, uint32_t *sample);
-esp_err_t sensor_data_initialize(uint32_t size);
-esp_err_t sensor_data_insert(uint32_t sample);
-esp_err_t sensor_data_update(uint32_t id, uint32_t sample);
-esp_err_t sensor_data_reset();
+esp_err_t sensor_reading_task_create(plant_T *plant);
 
-#endif // SENSOR_DATA_H
+#endif // SENSOR_READING_TASK_H

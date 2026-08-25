@@ -1,10 +1,9 @@
 #include "BluetoothManager.h"
-#include "RGBLEDDriver.h"
 #include "common.h"
 #include "gap.h"
 #include "gatt_svc.h"
-#include "heart_rate.h"
-#include "led_colors.h"
+#include "plant_service.h"
+#include "portmacro.h"
 
 static new_plant_callback_t new_plant_callback;
 
@@ -41,7 +40,7 @@ static void on_stack_reset(int reason) {
 
 static void on_stack_sync(void) {
   /* On stack sync, do advertising initialization */
-  adv_init();
+  advertising_init();
 }
 
 static void nimble_host_config_init(void) {
@@ -66,23 +65,21 @@ static void nimble_host_task(void *param) {
   vTaskDelete(NULL);
 }
 
-static void sensor_reading_task(void *param) {}
-
-static void heart_rate_task(void *param) {
+static void plant_data_task(void *param) {
   /* Task entry log */
-  ESP_LOGI(TAG, "heart rate task has been started!");
+  ESP_LOGI(TAG, "Plant data task has been started");
 
   /* Loop forever */
   while (1) {
     /* Update heart rate value every 1 second */
-    update_heart_rate();
-    ESP_LOGI(TAG, "heart rate updated to %d", get_heart_rate());
+    update_humidities();
+    ESP_LOGI(TAG, "Humidity data got updated");
 
     /* Send heart rate indication if enabled */
-    send_heart_rate_indication();
+    // send_heart_rate_indication();
 
     /* Sleep */
-    vTaskDelay(HEART_RATE_TASK_PERIOD);
+    vTaskDelay(PLANT_DATA_UPDATE_PERIOD_MS / portTICK_PERIOD_MS);
   }
 
   /* Clean up at exit */
@@ -93,7 +90,6 @@ BLU_RESULT blu_initialize(void) {
   /* Local variables */
   BaseType_t rc = 0;
   esp_err_t ret;
-  led_drv_initialize();
 
   /*
    * NVS flash initialization
@@ -117,14 +113,14 @@ BLU_RESULT blu_initialize(void) {
     return BLU_INITIALIZATION_ERROR;
   }
 
-#if CONFIG_BT_NIMBLE_GAP_SERVICE
   /* GAP service initialization */
+
+  ble_svc_gap_device_name_set(BLUETOOTH_DEVICE_NAME);
   rc = gap_init();
   if (rc != 0) {
     ESP_LOGE(TAG, "failed to initialize GAP service, error code: %d", rc);
     return BLU_INITIALIZATION_ERROR;
   }
-#endif
 
   /* GATT server initialization */
   rc = gatt_svc_init();
@@ -143,11 +139,11 @@ BLU_RESULT blu_initialize(void) {
     return BLU_TASK_CREATION_FAILED;
   }
 
-  rc = xTaskCreate(heart_rate_task, "Heart Rate", 4 * 1024, NULL, 5, NULL);
+  rc = xTaskCreate(plant_data_task, "Plant Data Updater", 4 * 1024, NULL, 5,
+                   NULL);
   if (rc != pdPASS) {
-    ESP_LOGE(TAG, "failed to create heart rate task");
+    ESP_LOGE(TAG, "failed to create plant data updater task");
     return BLU_TASK_CREATION_FAILED;
   }
-  led_drv_set_to(BLUE);
   return BLU_OK;
 }

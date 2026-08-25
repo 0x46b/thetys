@@ -146,8 +146,8 @@ esp_err_t get_calibration_factor(sensor_T sensor_conf,
   return ESP_OK;
 }
 
-uint32_t get_humidity(int32_t raw_value,
-                      sensor_calibration_data_T calibration) {
+uint32_t sensor_get_humidity(int32_t raw_value,
+                             sensor_calibration_data_T calibration) {
   ESP_LOGI(TAG, "Calculating humidity-percentage (adc: %i, air: %i, water: %i)",
            raw_value, calibration.air_measurement,
            calibration.water_measurement);

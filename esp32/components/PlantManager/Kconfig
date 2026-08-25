@@ -1,0 +1,29 @@
+menu "Plant Manager Tasks"
+     menu "Sensor Reading"
+     config READING_TASK_STACK_DEPTH
+     	  int "freeRTOS Stack Depth for the sensor reading task"
+	  default 4096
+     config READING_TASK_PRIORITY
+     	  int "Priority for the sensor reading task"
+	  default 4
+     config READING_TASK_BUFFER_SIZE
+     	    int "Buffer size for every reading task"
+	    default 10
+     endmenu
+     menu "Data Handling"
+     config DATA_TASK_STACK_DEPTH
+     	  int "freeRTOS Stack Depth for the data handling task"
+	  default 4096
+     config DATA_TASK_PRIORITY
+     	  int "Priority for the data handling task"
+	  default 4
+     endmenu
+     menu "Pump Handling"
+     config PUMP_TASK_STACK_DEPTH
+     	  int "freeRTOS Stack Depth for the pump handling task"
+	  default 4096
+     config PUMP_TASK_PRIORITY
+     	  int "Priority for the pump handling task"
+	  default 4
+     endmenu
+endmenu

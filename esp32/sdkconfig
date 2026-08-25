@@ -4252,6 +4252,38 @@ CONFIG_WL_SECTOR_SIZE=4096
 # end of Wear Levelling
 
 #
+# Plant Manager Tasks
+#
+
+#
+# Sensor Reading
+#
+CONFIG_READING_TASK_STACK_DEPTH=8192
+# default:
+CONFIG_READING_TASK_PRIORITY=4
+# default:
+CONFIG_READING_TASK_BUFFER_SIZE=10
+# end of Sensor Reading
+
+#
+# Data Handling
+#
+CONFIG_DATA_TASK_STACK_DEPTH=8192
+# default:
+CONFIG_DATA_TASK_PRIORITY=4
+# end of Data Handling
+
+#
+# Pump Handling
+#
+# default:
+CONFIG_PUMP_TASK_STACK_DEPTH=4096
+# default:
+CONFIG_PUMP_TASK_PRIORITY=4
+# end of Pump Handling
+# end of Plant Manager Tasks
+
+#
 # RGB LED
 #
 # default:
@@ -4305,6 +4337,15 @@ CONFIG_LCD_RST=46
 # default:
 CONFIG_LCD_BL=13
 # end of Thetys: UI Settings
+
+#
+# cJSON
+#
+# default:
+CONFIG_CJSON_NESTING_LIMIT=1000
+# default:
+CONFIG_CJSON_CIRCULAR_LIMIT=10000
+# end of cJSON
 
 #
 # CMake Utilities

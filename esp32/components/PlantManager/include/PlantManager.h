@@ -1,8 +1,8 @@
 /*! @file
  * PlantManager orchestrates the different other low-level-APIs to build a
  * higher-level front to the user.
- *
- * Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
+ */
+/* Copyright (C) 2026 Sebastian Murschall <sebastian.murschall@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 
 #include "esp_err.h"
 #include "plant_mgr_type_definitions.h"
+#include "plant_service.h"
 
 /*! Initializes the subsystems (like the sensor-drivers etc.) and allocates
  *  needed data-structures. Had to get called before calling any other method.
@@ -54,9 +55,7 @@ esp_err_t plant_mgr_add_plant(const char *plant_name, uint32_t pump_gpio,
  */
 esp_err_t plant_mgr_remove_plant(plant_T *remove_plant);
 esp_err_t plant_mgr_set_plant_status(plant_handle_T plant, bool is_active);
-
-/*! Start the management. Will spawn threads for periodically reading the
- * sensors, updating the UI and starting the relevant pumps, if needed */
-esp_err_t plant_mgr_start(void);
+esp_err_t plant_mgr_get_humidity(plant_handle_T plant,
+                                 humidity_data_T *humidity);
 
 #endif // PLANTMANAGER_H

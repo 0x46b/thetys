@@ -36,9 +36,17 @@ typedef struct relais_register_T {
   uint32_t used;
 } relais_register_T;
 
+typedef enum fetch_result_T {
+  FETCH_OK = 0,
+  FETCH_FAILED = 1,
+  FETCH_FINISHED = 2
+} fetch_result_T;
+
 esp_err_t relais_register_initialize(size_t initial_size);
 esp_err_t relais_register_insert(relais_T relais, relais_handle_T *handle);
 esp_err_t relais_register_fetch(relais_handle_T handle, relais_T *relais);
+esp_err_t relais_register_reset_fetch(void);
+fetch_result_T relais_register_fetch_next(relais_T *relais);
 esp_err_t relais_register_free();
 
 #endif // RELAIS_REGISTER_H

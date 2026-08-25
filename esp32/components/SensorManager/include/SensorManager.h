@@ -61,13 +61,6 @@ SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_pin,
 SMGR_RESULT sensor_manager_read_sensor(sensor_handle_T sensor_handle,
                                        sensor_reading_T *reading);
 
-/*! Starts an RTOS-Task polling all registered sensors and updating the values.
- *
- * The time between the readings is configured through menuconfig under
-"Components->Humidity Sensors->SENSOR_POLLING_TIME"
-*/
-SMGR_RESULT sensor_mgr_start_polling_task(void);
-
 SMGR_RESULT
 sensor_mgr_subscribe_new_sensor(new_sensor_callback_t callback);
 

@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 typedef struct rgb_color {
+  const char *name;
   uint32_t red;
   uint32_t green;
   uint32_t blue;
@@ -19,5 +20,6 @@ extern const rgb_color MAGENTA;
 extern const rgb_color ORANGE;
 extern const rgb_color PURPLE;
 extern const rgb_color PINK;
+#define LED_COLOR_
 
 #endif // LED_COLORS_H

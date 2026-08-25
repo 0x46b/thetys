@@ -34,7 +34,7 @@ void led_drv_initialize(void) {
                   "led_drv_initialize() will get ignored.");
     return;
   }
-
+  current_brightness_factor = 100;
   ESP_ERROR_CHECK(gpio_reset_pin(CONFIG_RGB_LED_GPIO));
   ESP_ERROR_CHECK(gpio_set_direction(CONFIG_RGB_LED_GPIO, GPIO_MODE_OUTPUT));
 
@@ -91,4 +91,5 @@ void led_drv_off() {
 
 void led_drv_set_to(rgb_color color) {
   led_drv_set_color(color.red, color.green, color.blue);
+  ESP_LOGI(TAG, "Changed color to '%s'", color.name);
 }

@@ -20,7 +20,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-static const char *TAG = "sensor_configuration";
+static const char *TAG = "sensor-register";
 static sensor_configuration_list_T sensor_configurations;
 static bool initialized = false;
 

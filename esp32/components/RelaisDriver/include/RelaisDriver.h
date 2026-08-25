@@ -5,6 +5,8 @@
 #define OPEN_LEVEL 0
 #define CLOSE_LEVEL 1
 
+typedef void (*relais_fatal_callback_T)(void);
+
 /*! Initializes the internal storage of all registered relais.
  * @param initial_number The internal storage will initially allocate enough
  *        memory for the given number of sensors
@@ -31,3 +33,11 @@ esp_err_t relais_drv_open(relais_handle_T handle);
  * @param handle The handle of the relais to open
  */
 esp_err_t relais_drv_close(relais_handle_T handle);
+
+/*! Cycles through all known relais and closes all of them. */
+esp_err_t relais_drv_emergency_off(void);
+
+/* Sets the given callback to be able to react to fatal relais-errors, like a
+ * failing emergency shutoff */
+esp_err_t
+relais_drv_subscribe_to_fatal_failure(relais_fatal_callback_T callback);

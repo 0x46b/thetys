@@ -5,358 +5,131 @@
  */
 /* Includes */
 #include "gatt_svc.h"
-#include "RGBLEDDriver.h"
 #include "common.h"
-#include "heart_rate.h"
-#include "host/ble_gatt.h"
-#include "host/ble_hs.h"
-#include "host/ble_uuid.h"
-#include "led_colors.h"
-#include "sensor_data_handler.h"
+#include "plant_service.h"
+#include <host/ble_gatt.h>
+#include <host/ble_uuid.h>
+#include <services/gatt/ble_svc_gatt.h>
 #include <stdint.h>
 
 /* Private function declarations */
-static int sensor_data_chr_access(uint16_t conn_handle, uint16_t attr_handle,
-                                  struct ble_gatt_access_ctxt *ctxt, void *arg);
-static int heart_rate_chr_access(uint16_t conn_handle, uint16_t attr_handle,
-                                 struct ble_gatt_access_ctxt *ctxt, void *arg);
-static int led_chr_access(uint16_t conn_handle, uint16_t attr_handle,
-                          struct ble_gatt_access_ctxt *ctxt, void *arg);
+static int gatt_svr_chr_access(uint16_t conn_handle, uint16_t attr_handle,
+                               struct ble_gatt_access_ctxt *ctxt, void *arg);
+static void ble_app_advertise(void);
 
 /* Private variables */
-/* Sensor data service*/
-static const ble_uuid16_t sensor_data_svc_uuid = BLE_UUID16_INIT(0x181A);
+/*GATT UUIDs*/
+/* static const ble_uuid128_t SERVICE_PLANT_UUID = { */
+/*     .u = {.type = BLE_UUID_TYPE_128}, */
+/*     .value = {0x4f, 0xaf, 0xc2, 0x01, 0x1f, 0xb5, 0x45, 0x9e, 0x8f, 0xcc,
+ * 0xc5, */
+/*               0xc9, 0xc3, 0x31, 0x91, 0x4b}}; */
 
-static uint8_t sensor_data_chr_val[2] = {0};
-static uint16_t sensor_data_chr_val_handle;
-static const ble_uuid16_t sensor_data_chr_uuid = BLE_UUID16_INIT(0x290C);
+/* static const ble_uuid128_t CHAR_MOISTURE_UUID = { */
+/*     .u = {.type = BLE_UUID_TYPE_128}, */
+/*     .value = {0xbe, 0xb5, 0x48, 0x3e, 0x36, 0xe1, 0x46, 0x88, 0xb7, 0xf5,
+ * 0xea, */
+/*               0x07, 0x36, 0x1b, 0x26, 0xa8}}; */
 
-static uint16_t sensor_data_chr_conn_handle = BLE_HS_CONN_HANDLE_NONE;
-static bool sensor_data_chr_conn_handle_inited = false;
-static bool sensor_data_ind_status = false;
+/* static const ble_uuid128_t CHAR_PUMP_UUID = { */
+/*     .u = {.type = BLE_UUID_TYPE_128}, */
+/*     .value = {0x82, 0x14, 0x2e, 0x0d, 0xa0, 0xdb, 0x46, 0x54, 0xa6, 0xec,
+ * 0xc2, */
+/*               0x50, 0x91, 0xa1, 0x82, 0xaa}}; */
 
-/* Heart rate service */
-static const ble_uuid16_t heart_rate_svc_uuid = BLE_UUID16_INIT(0x180D);
+/* static const ble_uuid128_t CHAR_CONFIG_UUID = { */
+/*     .u = {.type = BLE_UUID_TYPE_128}, */
+/*     .value = {0xb1, 0x3e, 0xd8, 0x7d, 0x87, 0x28, 0x40, 0xa2, 0x97, 0x21,
+ * 0xa1, */
+/*               0xe1, 0x27, 0x9a, 0x0e, 0xbf}}; */
 
-static uint8_t heart_rate_chr_val[2] = {0};
-static uint16_t heart_rate_chr_val_handle;
-static const ble_uuid16_t heart_rate_chr_uuid = BLE_UUID16_INIT(0x2A37);
-
-static uint16_t heart_rate_chr_conn_handle = BLE_HS_CONN_HANDLE_NONE;
-static bool heart_rate_chr_conn_handle_inited = false;
-static bool heart_rate_ind_status = false;
-
-/* Automation IO service */
-static const ble_uuid16_t auto_io_svc_uuid = BLE_UUID16_INIT(0x1815);
-static uint16_t led_chr_val_handle;
-static const ble_uuid128_t led_chr_uuid =
-    BLE_UUID128_INIT(0x23, 0xd1, 0xbc, 0xea, 0x5f, 0x78, 0x23, 0x15, 0xde, 0xef,
-                     0x12, 0x12, 0x25, 0x15, 0x00, 0x00);
+/* Handles */
+static uint16_t moisture_handle;
+static uint16_t conn_handle;
 
 /* GATT services table */
-static const struct ble_gatt_svc_def gatt_svr_svcs[] = {
-    /* sensor data service */
-    {.type = BLE_GATT_SVC_TYPE_PRIMARY,
-     .uuid = &sensor_data_svc_uuid.u,
-     .characteristics =
-         (struct ble_gatt_chr_def[]){
-             {/* sensor data characteristic */
-              .uuid = &sensor_data_chr_uuid.u,
-              .access_cb = sensor_data_chr_access,
-              .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_INDICATE,
-              .val_handle = &sensor_data_chr_val_handle},
-             {
-                 0, /* No more characteristics in this service. */
-             }}},
-    /* Heart rate service */
-    {.type = BLE_GATT_SVC_TYPE_PRIMARY,
-     .uuid = &heart_rate_svc_uuid.u,
-     .characteristics =
-         (struct ble_gatt_chr_def[]){
-             {/* Heart rate characteristic */
-              .uuid = &heart_rate_chr_uuid.u,
-              .access_cb = heart_rate_chr_access,
-              .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_INDICATE,
-              .val_handle = &heart_rate_chr_val_handle},
-             {
-                 0, /* No more characteristics in this service. */
-             }}},
-
-    /* Automation IO service */
-    {
-        .type = BLE_GATT_SVC_TYPE_PRIMARY,
-        .uuid = &auto_io_svc_uuid.u,
-        .characteristics =
-            (struct ble_gatt_chr_def[]){/* LED characteristic */
-                                        {.uuid = &led_chr_uuid.u,
-                                         .access_cb = led_chr_access,
-                                         .flags = BLE_GATT_CHR_F_WRITE,
-                                         .val_handle = &led_chr_val_handle},
-                                        {0}},
-    },
-
-    {
-        0, /* No more services. */
-    },
-};
+/* static const struct ble_gatt_svc_def gatt_svr_svcs[] = { */
+/*     { */
+/*         .type = BLE_GATT_SVC_TYPE_PRIMARY, */
+/*         .uuid = &SERVICE_PLANT_UUID.u, // Adresse der Basis-UUID-Struktur */
+/*         .characteristics = */
+/*             (struct ble_gatt_chr_def[]){ */
+/*                 { */
+/*                     .uuid = &CHAR_MOISTURE_UUID.u, */
+/*                     .access_cb = gatt_svr_chr_access, */
+/*                     .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY, */
+/*                     .val_handle = &moisture_handle, */
+/*                 }, */
+/*                 { */
+/*                     .uuid = &CHAR_PUMP_UUID.u, */
+/*                     .access_cb = gatt_svr_chr_access, */
+/*                     .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE, */
+/*                 }, */
+/*                 { */
+/*                     .uuid = &CHAR_CONFIG_UUID.u, */
+/*                     .access_cb = gatt_svr_chr_access, */
+/*                     .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE, */
+/*                 }, */
+/*                 {0}}, */
+/*     }, */
+/*     {0}}; */
 
 /* Private functions */
-static int sensor_data_chr_access(uint16_t conn_handle, uint16_t attr_handle,
-                                  struct ble_gatt_access_ctxt *ctxt,
-                                  void *arg) {
-  /* Local variables */
-  int rc = 0;
-
-  /* Handle access events */
-  /* Note: Heart rate characteristic is read only */
-  switch (ctxt->op) {
-
-  /* Read characteristic event */
-  case BLE_GATT_ACCESS_OP_READ_CHR:
-    /* Verify connection handle */
-    if (conn_handle != BLE_HS_CONN_HANDLE_NONE) {
-      ESP_LOGI(TAG, "characteristic read; conn_handle=%d attr_handle=%d",
-               conn_handle, attr_handle);
-    } else {
-      ESP_LOGI(TAG, "characteristic read by nimble stack; attr_handle=%d",
-               attr_handle);
-    }
-
-    /* Verify attribute handle */
-    if (attr_handle == sensor_data_chr_val_handle) {
-      /* Update access buffer value */
-      sensor_data_chr_val[1] = get_sensor_data(0);
-      rc = os_mbuf_append(ctxt->om, &sensor_data_chr_val,
-                          sizeof(sensor_data_chr_val));
-      return rc == 0 ? 0 : BLE_ATT_ERR_INSUFFICIENT_RES;
-    }
-    goto error;
-
-  /* Unknown event */
-  default:
-    goto error;
-  }
-
-error:
-  ESP_LOGE(
-      TAG,
-      "unexpected access operation to sensor data characteristic, opcode: %d",
-      ctxt->op);
-  return BLE_ATT_ERR_UNLIKELY;
+void fill_gatt_buffer(struct os_mbuf *gatt_buff, char *json) {
+  // os_mbuf_append(gat_buff, &moisture_value, sizeof(moisture_value));
 }
-
-static int heart_rate_chr_access(uint16_t conn_handle, uint16_t attr_handle,
-                                 struct ble_gatt_access_ctxt *ctxt, void *arg) {
-  /* Local variables */
-  int rc = 0;
-
-  /* Handle access events */
-  /* Note: Heart rate characteristic is read only */
-  switch (ctxt->op) {
-
-  /* Read characteristic event */
-  case BLE_GATT_ACCESS_OP_READ_CHR:
-    /* Verify connection handle */
-    if (conn_handle != BLE_HS_CONN_HANDLE_NONE) {
-      ESP_LOGI(TAG, "characteristic read; conn_handle=%d attr_handle=%d",
-               conn_handle, attr_handle);
-    } else {
-      ESP_LOGI(TAG, "characteristic read by nimble stack; attr_handle=%d",
-               attr_handle);
-    }
-
-    /* Verify attribute handle */
-    if (attr_handle == heart_rate_chr_val_handle) {
-      /* Update access buffer value */
-      heart_rate_chr_val[1] = get_heart_rate();
-      rc = os_mbuf_append(ctxt->om, &heart_rate_chr_val,
-                          sizeof(heart_rate_chr_val));
-      return rc == 0 ? 0 : BLE_ATT_ERR_INSUFFICIENT_RES;
-    }
-    goto error;
-
-  /* Unknown event */
-  default:
-    goto error;
-  }
-
-error:
-  ESP_LOGE(
-      TAG,
-      "unexpected access operation to heart rate characteristic, opcode: %d",
-      ctxt->op);
-  return BLE_ATT_ERR_UNLIKELY;
-}
-
-static int led_chr_access(uint16_t conn_handle, uint16_t attr_handle,
-                          struct ble_gatt_access_ctxt *ctxt, void *arg) {
-  /* Local variables */
-  int rc = 0;
-
-  /* Handle access events */
-  /* Note: LED characteristic is write only */
-  switch (ctxt->op) {
-
-  /* Write characteristic event */
-  case BLE_GATT_ACCESS_OP_WRITE_CHR:
-    /* Verify connection handle */
-    if (conn_handle != BLE_HS_CONN_HANDLE_NONE) {
-      ESP_LOGI(TAG, "characteristic write; conn_handle=%d attr_handle=%d",
-               conn_handle, attr_handle);
-    } else {
-      ESP_LOGI(TAG, "characteristic write by nimble stack; attr_handle=%d",
-               attr_handle);
-    }
-
-    /* Verify attribute handle */
-    if (attr_handle == led_chr_val_handle) {
-      /* Verify access buffer length */
-      if (ctxt->om->om_len == 1) {
-        /* Turn the LED on or off according to the operation bit */
-        if (ctxt->om->om_data[0]) {
-          led_drv_set_color(10, 10, 10);
-          ESP_LOGI(TAG, "led turned on!");
-        } else {
-          led_drv_off();
-          ESP_LOGI(TAG, "led turned off!");
-        }
-      } else {
-        goto error;
-      }
-      return rc;
-    }
-    goto error;
-
-  /* Unknown event */
-  default:
-    goto error;
-  }
-
-error:
-  ESP_LOGE(TAG, "unexpected access operation to led characteristic, opcode: %d",
-           ctxt->op);
-  return BLE_ATT_ERR_UNLIKELY;
-}
-
 /* Public functions */
-void send_heart_rate_indication(void) {
-  if (heart_rate_ind_status && heart_rate_chr_conn_handle_inited) {
-    ble_gatts_indicate(heart_rate_chr_conn_handle, heart_rate_chr_val_handle);
-    ESP_LOGI(TAG, "heart rate indication sent!");
-  }
-}
-
 /*
  *  Handle GATT attribute register events
  *      - Service register event
  *      - Characteristic register event
  *      - Descriptor register event
  */
-void gatt_svr_register_cb(struct ble_gatt_register_ctxt *ctxt, void *arg) {
-  /* Local variables */
-  char buf[BLE_UUID_STR_LEN];
-
-  /* Handle GATT attributes register events */
-  switch (ctxt->op) {
-
-  /* Service register event */
-  case BLE_GATT_REGISTER_OP_SVC:
-    ESP_LOGD(TAG, "registered service %s with handle=%d",
-             ble_uuid_to_str(ctxt->svc.svc_def->uuid, buf), ctxt->svc.handle);
-    break;
-
-  /* Characteristic register event */
-  case BLE_GATT_REGISTER_OP_CHR:
-    ESP_LOGD(TAG,
-             "registering characteristic %s with "
-             "def_handle=%d val_handle=%d",
-             ble_uuid_to_str(ctxt->chr.chr_def->uuid, buf),
-             ctxt->chr.def_handle, ctxt->chr.val_handle);
-    break;
-
-  /* Descriptor register event */
-  case BLE_GATT_REGISTER_OP_DSC:
-    ESP_LOGD(TAG, "registering descriptor %s with handle=%d",
-             ble_uuid_to_str(ctxt->dsc.dsc_def->uuid, buf), ctxt->dsc.handle);
-    break;
-
-  /* Unknown event */
-  default:
-    assert(0);
-    break;
-  }
-}
-
-/*
- *  GATT server subscribe event callback
- *      1. Update heart rate subscription status
- */
-
-void gatt_svr_subscribe_cb(struct ble_gap_event *event) {
-  /* Check connection handle */
-  if (event->subscribe.conn_handle != BLE_HS_CONN_HANDLE_NONE) {
-    ESP_LOGI(TAG, "subscribe event; conn_handle=%d attr_handle=%d",
-             event->subscribe.conn_handle, event->subscribe.attr_handle);
-  } else {
-    ESP_LOGI(TAG, "subscribe by nimble stack; attr_handle=%d",
-             event->subscribe.attr_handle);
-  }
-
-  /* Check attribute handle */
-  if (event->subscribe.attr_handle == heart_rate_chr_val_handle) {
-    /* Update heart rate subscription status */
-    heart_rate_chr_conn_handle = event->subscribe.conn_handle;
-    heart_rate_chr_conn_handle_inited = true;
-    heart_rate_ind_status = event->subscribe.cur_indicate;
-    led_drv_set_to(RED);
-  }
-
-  if (event->subscribe.attr_handle == sensor_data_chr_val_handle) {
-    sensor_data_chr_conn_handle = event->subscribe.conn_handle;
-    sensor_data_chr_conn_handle_inited = true;
-    sensor_data_ind_status = event->subscribe.cur_indicate;
-    led_drv_set_to(CYAN);
-  }
-}
-
-void gatt_svr_reset_heart_rate_subscription(void) {
-  heart_rate_chr_conn_handle = BLE_HS_CONN_HANDLE_NONE;
-  heart_rate_chr_conn_handle_inited = false;
-  heart_rate_ind_status = false;
-  led_drv_set_to(GREEN);
-}
-
-void gatt_svr_reset_sensor_data_subscription(void) {
-  sensor_data_chr_conn_handle = BLE_HS_CONN_HANDLE_NONE;
-  sensor_data_chr_conn_handle_inited = false;
-  sensor_data_ind_status = false;
-  led_drv_set_to(GREEN);
-}
-
-/*
- *  GATT server initialization
- *      1. Initialize GATT service
- *      2. Update NimBLE host GATT services counter
- *      3. Add GATT services to server
- */
-int gatt_svc_init(void) {
-  /* Local variables */
-  int rc = 0;
-
-  /* 1. GATT service initialization */
-  ble_svc_gatt_init();
-
-  /* 2. Update GATT services counter */
-  rc = ble_gatts_count_cfg(gatt_svr_svcs);
-  if (rc != 0) {
-    return rc;
-  }
-
-  /* 3. Add GATT services */
-  rc = ble_gatts_add_svcs(gatt_svr_svcs);
-  if (rc != 0) {
-    return rc;
-  }
-
+static int gatt_svr_chr_access(uint16_t conn_handle, uint16_t attr_handle,
+                               struct ble_gatt_access_ctxt *gatt_context,
+                               void *arg) {
   return 0;
+  /* uint16_t uuid16 = ble_uuid_u16(gatt_context->chr->uuid); */
+
+  /* if (gatt_context->op == BLE_GATT_ACCESS_OP_READ_CHR) { */
+  /*   if (attr_handle == moisture_handle) { */
+  /*     char *json = jsonify_humidities(); */
+  /*     fill_gatt_buffer(gatt_context->om, json); */
+  /*     return 0; */
+  /*   } */
+  /*   if (ble_uuid_cmp(gatt_context->chr->uuid, CHAR_PUMP_UUID) == 0) { */
+  /*     os_mbuf_append(gatt_context->om, &pump_state, sizeof(pump_state)); */
+  /*     return 0; */
+  /*   } */
+  /*   if (ble_uuid_cmp(gatt_context->chr->uuid, CHAR_CONFIG_UUID) == 0) { */
+  /*     uint8_t config_payload[2] = {gpio_pump, gpio_sensor}; */
+  /*     os_mbuf_append(gatt_context->om, config_payload,
+   * sizeof(config_payload)); */
+  /*     return 0; */
+  /*   } */
+  /* } */
+
+  /* /\* FALL 2: Smartphone schickt Daten (WRITE EVENT) *\/ */
+  /* if (gatt_context->op == BLE_GATT_ACCESS_OP_WRITE_CHR) { */
+  /*   if (ble_uuid_cmp(gatt_context->chr->uuid, CHAR_PUMP_UUID) == 0) { */
+  /*     if (gatt_context->om->om_len > 0) { */
+  /*       pump_state = ctxt->om->om_data[0]; */
+  /*       gpio_set_level(gpio_pump, pump_state); */
+  /*       ESP_LOGI(TAG, "Pumpe manuell geschaltet: %s", */
+  /*                pump_state ? "AN" : "AUS"); */
+  /*     } */
+  /*     return 0; */
+  /*   } */
+
+  /*   if (ble_uuid_cmp(gatt_context->chr->uuid, CHAR_CONFIG_UUID) == 0) { */
+  /*     if (gatt_context->om->om_len >= 2) { */
+  /*       gpio_pump = ctxt->om->om_data[0]; */
+  /*       gpio_sensor = ctxt->om->om_data[1]; */
+  /*       update_hardware_pins(); */
+  /*     } */
+  /*     return 0; */
+  /*   } */
+  /* } */
+
+  /* return BLE_ATT_ERR_UNLIKELY; */
 }

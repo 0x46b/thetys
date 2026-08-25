@@ -35,7 +35,7 @@ esp_err_t initialize_channel(adc_channel_t sensor_channel) {
 SENSOR_RESULT sensor_drv_initialize(uint32_t sensor_gpio) {
   adc_unit_t sensor_unit_id;
   adc_channel_t sensor_channel;
-
+  ESP_LOGI(TAG, "Trying to start ADC on GPIO %i", sensor_gpio);
   ESP_ERROR_CHECK(
       adc_oneshot_io_to_channel(sensor_gpio, &sensor_unit_id, &sensor_channel));
 
