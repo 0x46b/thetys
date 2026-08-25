@@ -52,7 +52,7 @@ void led_drv_initialize(void) {
       led_strip_new_rmt_device(&strip_config, &rmt_config, &led_strip));
   ESP_ERROR_CHECK(led_strip_clear(led_strip));
   initialized = true;
-  ESP_LOGI(TAG, "Successfully initialized RGB-LED at GPIO %i",
+  ESP_LOGV(TAG, "Successfully initialized RGB-LED at GPIO %i",
            CONFIG_RGB_LED_GPIO);
 }
 
@@ -66,7 +66,7 @@ void led_drv_set_color(uint32_t red, uint32_t green, uint32_t blue) {
                                       apply_brightness(green),
                                       apply_brightness(blue)));
   ESP_ERROR_CHECK(led_strip_refresh(led_strip));
-  ESP_LOGI(TAG, "Changed color to (%i, %i, %i)", red, green, blue);
+  ESP_LOGD(TAG, "Changed color to (%i, %i, %i)", red, green, blue);
 }
 
 void led_drv_set_brightness(uint32_t brightness) {
@@ -76,7 +76,7 @@ void led_drv_set_brightness(uint32_t brightness) {
     return;
   }
   current_brightness_factor = brightness;
-  ESP_LOGI(TAG, "Changed brightness to %i", brightness);
+  ESP_LOGD(TAG, "Changed brightness to %i", brightness);
 }
 
 void led_drv_off() {
@@ -86,10 +86,10 @@ void led_drv_off() {
     return;
   }
   ESP_ERROR_CHECK(led_strip_clear(led_strip));
-  ESP_LOGI(TAG, "Set LED off");
+  ESP_LOGD(TAG, "Set LED off");
 }
 
 void led_drv_set_to(rgb_color color) {
   led_drv_set_color(color.red, color.green, color.blue);
-  ESP_LOGI(TAG, "Changed color to '%s'", color.name);
+  ESP_LOGV(TAG, "Changed color to '%s'", color.name);
 }

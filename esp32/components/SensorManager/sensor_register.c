@@ -31,7 +31,7 @@ sensor_register_initialize(size_t initialSize) {
     return SENSOR_CFG_INITIALIZATION_ERROR;
   }
 
-  ESP_LOGI(TAG, "Initializing array for %i sensors.", initialSize);
+  ESP_LOGD(TAG, "Initializing array for %i sensors.", initialSize);
   sensor_configurations.configurations = malloc(initialSize * sizeof(sensor_T));
 
   if (sensor_configurations.configurations == NULL) {
@@ -43,7 +43,7 @@ sensor_register_initialize(size_t initialSize) {
   sensor_configurations.size = initialSize;
   initialized = true;
 
-  ESP_LOGI(TAG, "Successfully initialized memory for %i configurations.",
+  ESP_LOGD(TAG, "Successfully initialized memory for %i configurations.",
            initialSize);
   return SENSOR_CFG_OK;
 }
@@ -58,7 +58,7 @@ sensor_register_insert(sensor_T element, sensor_handle_T *handle) {
   if (sensor_configurations.used == sensor_configurations.size) {
     uint32_t new_size = sensor_configurations.size * 2;
 
-    ESP_LOGI(TAG,
+    ESP_LOGD(TAG,
              "Not enough space for added sensor_config, resizing from %i to %i",
              sensor_configurations.size, new_size);
     sensor_T *new_array = realloc(sensor_configurations.configurations,
@@ -75,7 +75,7 @@ sensor_register_insert(sensor_T element, sensor_handle_T *handle) {
   sensor_configurations.configurations[new_index] = element;
   *handle = new_index;
 
-  ESP_LOGI(
+  ESP_LOGD(
       TAG,
       "Inserted new sensor-configuration [Handle: %i, GPIO %i](%i used total)",
       *handle, element.sensor_gpio, sensor_configurations.used);
@@ -91,7 +91,7 @@ sensor_register_free() {
   sensor_configurations.size = 0;
   initialized = false;
 
-  ESP_LOGI(TAG, "Reset configurations");
+  ESP_LOGD(TAG, "Reset configurations");
   return SENSOR_CFG_OK;
 }
 
@@ -105,7 +105,7 @@ sensor_register_fetch(sensor_handle_T sensor_handle, sensor_T *sensor_config) {
       sensor_configurations.configurations[(uint32_t)sensor_handle];
   *sensor_config = stored_config;
 
-  ESP_LOGI(TAG, "Returning config for sensor %i (gpio:%i, air: %i, water:%i)",
+  ESP_LOGD(TAG, "Returning config for sensor %i (gpio:%i, air: %i, water:%i)",
            sensor_handle, stored_config.sensor_gpio,
            stored_config.calibration_data.air_measurement,
            stored_config.calibration_data.water_measurement);

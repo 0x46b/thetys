@@ -8,7 +8,7 @@
 #define STORAGE_NAMESPACE "plant_data"
 #define PLANT_KEY "plants"
 
-static const char *TAG = "sensor_repository";
+static const char *TAG = "PlantManager.plant_repository";
 static plant_repository_T plant_repository;
 
 /* Private methods */
@@ -18,7 +18,7 @@ esp_err_t plant_repo_initialize_memory(size_t initial_size) {
     return ESP_FAIL;
   }
 
-  ESP_LOGI(TAG, "Initializing array for %i plantss.", initial_size);
+  ESP_LOGD(TAG, "Initializing array for %i plants.", initial_size);
   plant_repository.plants = malloc(initial_size * sizeof(plant_T));
 
   if (plant_repository.plants == NULL) {
@@ -29,7 +29,7 @@ esp_err_t plant_repo_initialize_memory(size_t initial_size) {
   plant_repository.used = 0;
   plant_repository.size = initial_size;
 
-  ESP_LOGI(TAG, "Successfully initialized memory for %i plants.", initial_size);
+  ESP_LOGD(TAG, "Successfully initialized memory for %i plants.", initial_size);
   return ESP_OK;
 }
 
@@ -47,7 +47,7 @@ esp_err_t plant_repo_insert(plant_T plant, plant_handle_T *handle) {
   if (plant_repository.used == plant_repository.size) {
     uint32_t new_size = plant_repository.size * 2;
 
-    ESP_LOGI(TAG,
+    ESP_LOGD(TAG,
              "Not enough space for added sensor_config, resizing from %i to %i",
              plant_repository.size, new_size);
     plant_T *new_array =
@@ -65,7 +65,7 @@ esp_err_t plant_repo_insert(plant_T plant, plant_handle_T *handle) {
   plant.handle = new_index;
   plant_repository.plants[new_index] = plant;
 
-  ESP_LOGI(TAG,
+  ESP_LOGD(TAG,
            "Inserted new plant [Handle: %i, sensor handle: %i, pump handle: "
            "%i, Threshold: %i](%i used total)",
            *handle, plant.sensor_handle, plant.pump_handle,
@@ -108,7 +108,7 @@ esp_err_t plant_repo_save_plants(plant_repository_T plan_repository) {
   }
 
   // Write blob
-  ESP_LOGI(TAG, "Saving plants as blob...");
+  ESP_LOGD(TAG, "Saving plants as blob...");
   err = nvs_set_blob(my_handle, PLANT_KEY, &plan_repository,
                      sizeof(plant_repository_T));
   if (err != ESP_OK) {
@@ -135,7 +135,7 @@ esp_err_t plant_repo_load_plants(plant_repository_T *plant_repository) {
   if (err != ESP_OK)
     return err;
 
-  ESP_LOGI(TAG, "Reading plant data blob:");
+  ESP_LOGD(TAG, "Reading plant data blob:");
   plant_repository_T loaded_repository;
   size_t data_size = sizeof(plant_repository_T);
   err = nvs_get_blob(my_handle, PLANT_KEY, &loaded_repository, &data_size);
@@ -166,6 +166,6 @@ esp_err_t plant_repo_free(void) {
   plant_repository.used = 0;
   plant_repository.size = 0;
 
-  ESP_LOGI(TAG, "Reset plants");
+  ESP_LOGD(TAG, "Reset plants");
   return ESP_OK;
 }

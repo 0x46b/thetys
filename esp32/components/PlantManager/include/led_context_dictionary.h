@@ -1,6 +1,0 @@
-#ifndef LED_CONTEXT_DICTIONARY_H
-#define LED_CONTEXT_DICTIONARY_H
-
-#include <stdint.h>
-
-#endif // LED_CONTEXT_DICTIONARY

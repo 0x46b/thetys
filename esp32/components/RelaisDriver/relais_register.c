@@ -37,7 +37,7 @@ esp_err_t relais_register_initialize(size_t initial_size) {
     return ESP_ERR_INVALID_SIZE;
   }
 
-  ESP_LOGI(TAG, "Initializing array for %i relais.", initial_size);
+  ESP_LOGD(TAG, "Initializing array for %i relais.", initial_size);
   relais_register.relais = malloc(initial_size * sizeof(relais_T));
 
   if (relais_register.relais == NULL) {
@@ -48,7 +48,7 @@ esp_err_t relais_register_initialize(size_t initial_size) {
   relais_register.used = 0;
   relais_register.size = initial_size;
 
-  ESP_LOGI(TAG, "Successfully initialized memory for %i relais.", initial_size);
+  ESP_LOGD(TAG, "Successfully initialized memory for %i relais.", initial_size);
   return ESP_OK;
 }
 
@@ -61,7 +61,7 @@ esp_err_t relais_register_insert(relais_T relais, relais_handle_T *handle) {
   if (relais_register.used == relais_register.size) {
     uint32_t new_size = relais_register.size * 2;
 
-    ESP_LOGI(TAG, "Not enough space for added relais, resizing from %i to %i",
+    ESP_LOGD(TAG, "Not enough space for added relais, resizing from %i to %i",
              relais_register.size, new_size);
     relais_T *new_array =
         realloc(relais_register.relais, new_size * sizeof(relais_T));
@@ -78,7 +78,7 @@ esp_err_t relais_register_insert(relais_T relais, relais_handle_T *handle) {
   relais.handle = new_index;
   relais_register.relais[new_index] = relais;
 
-  ESP_LOGI(TAG, "Inserted new relais [Handle: %i](%i used total)", *handle,
+  ESP_LOGD(TAG, "Inserted new relais [Handle: %i](%i used total)", *handle,
            relais.handle, relais_register.used);
 
   return ESP_OK;
@@ -101,6 +101,6 @@ esp_err_t relais_register_free() {
   relais_register.used = 0;
   relais_register.size = 0;
 
-  ESP_LOGI(TAG, "Reset registered relais");
+  ESP_LOGD(TAG, "Reset registered relais");
   return ESP_OK;
 }

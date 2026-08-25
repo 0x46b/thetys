@@ -28,7 +28,7 @@ static void plant_polling_task(void *param) {
   plant_T *plant = (plant_T *)param;
 
   if (plant == NULL) {
-    ESP_LOGW(TAG, "plant is NULL, aborting task");
+    ESP_LOGE(TAG, "plant is NULL, aborting task");
     vTaskDelete(NULL);
     return;
   }

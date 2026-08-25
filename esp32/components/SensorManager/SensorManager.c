@@ -80,7 +80,7 @@ SMGR_RESULT sensor_manager_read_sensor(uint32_t sensor_handle,
   reading->humidity_percentage =
       sensor_get_humidity(raw_value, sensor.calibration_data);
 
-  ESP_LOGI(TAG, "Read humidity of %f percent from sensor %i",
+  ESP_LOGD(TAG, "Read humidity of %f percent from sensor %i",
            reading->humidity_percentage, sensor_handle);
   return SMGR_SUCCESS;
 }
@@ -104,7 +104,7 @@ SMGR_RESULT sensor_mgr_add_sensor(uint32_t sensor_gpio,
 
   switch (result) {
   case SENSOR_CFG_OK:
-    ESP_LOGI(TAG, "Successfully registered sensor [Handle: %i, GPIO: %i]",
+    ESP_LOGV(TAG, "Successfully registered sensor [Handle: %i, GPIO: %i]",
              *sensor_handle, sensor_gpio);
     sensor_drv_initialize(sensor_gpio);
 

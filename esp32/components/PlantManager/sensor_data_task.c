@@ -9,7 +9,7 @@
 static const char *TAG = "PlantManager.plant_data_saving";
 
 /* Private methods*/
-static void plant_data_saving_task(void *param) {
+static void plant_data_handling_task(void *param) {
   plant_T *plant = (plant_T *)param;
 
   if (plant == NULL) {
@@ -33,9 +33,9 @@ static void plant_data_saving_task(void *param) {
 
   while (1) {
     led_context_enter(CTX_BUSY);
-    ESP_LOGI(TAG, "Sensor data task for plant '%s' started", plant_name);
+    ESP_LOGD(TAG, "Sensor data task for plant '%s' started", plant_name);
     items_in_queue = uxQueueMessagesWaiting(queue_handle);
-    ESP_LOGI(TAG, "%i items waiting in the queue", items_in_queue);
+    ESP_LOGD(TAG, "%i items waiting in the queue", items_in_queue);
 
     result = xQueueReceive(queue_handle, &entry_buffer, pdMS_TO_TICKS(1000));
     if (result == errQUEUE_EMPTY) {
@@ -61,7 +61,7 @@ esp_err_t sensor_data_saving_task_create(plant_T *plant) {
   sprintf(task_name, "Data Handling %s", plant->plant_name);
 
   BaseType_t result = xTaskCreatePinnedToCore(
-      plant_data_saving_task, task_name, CONFIG_DATA_TASK_STACK_DEPTH, plant,
+      plant_data_handling_task, task_name, CONFIG_DATA_TASK_STACK_DEPTH, plant,
       CONFIG_DATA_TASK_PRIORITY, plant->reading_task_handle,
       CONFIG_SENSOR_POLLING_CORE);
   if (result != pdPASS) {

@@ -26,10 +26,10 @@ esp_err_t set_relais_status(relais_handle_T handle, relais_status_T status) {
 
   ESP_ERROR_CHECK(gpio_set_level(relais.relais_gpio, status));
   if (status == RELAIS_OPEN)
-    ESP_LOGI(TAG, "Opened relais [Handle: %i, GPIO: %i]", relais.handle,
+    ESP_LOGD(TAG, "Opened relais [Handle: %i, GPIO: %i]", relais.handle,
              relais.relais_gpio);
   else
-    ESP_LOGI(TAG, "Closed relais [Handle: %i, GPIO: %i]", relais.handle,
+    ESP_LOGD(TAG, "Closed relais [Handle: %i, GPIO: %i]", relais.handle,
              relais.relais_gpio);
 
   return ESP_OK;
@@ -59,7 +59,7 @@ esp_err_t relais_drv_add_relais(uint32_t relais_gpio, relais_handle_T *handle) {
   ESP_ERROR_CHECK(gpio_set_level(relais_gpio, CLOSE_LEVEL));
 
   ESP_ERROR_CHECK(relais_register_insert(new_relais, handle));
-  ESP_LOGI(TAG, "Relais at GPIO %i successfully initialized. Initial state: %i",
+  ESP_LOGD(TAG, "Relais at GPIO %i successfully initialized. Initial state: %i",
            relais_gpio, CLOSE_LEVEL);
   return ESP_OK;
 }

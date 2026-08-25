@@ -109,7 +109,7 @@ sensor_register_fetch(sensor_configuration_T *sensor_config,
       sensor_configurations.configurations[(uint32_t)sensor_handle];
   *sensor_config = stored_config;
 
-  ESP_LOGI(TAG, "Returning config for sensor %i (gpio:%i, air: %i, water:%i)",
+  ESP_LOGD(TAG, "Returning config for sensor %i (gpio:%i, air: %i, water:%i)",
            sensor_handle, stored_config.sensor_gpio,
            stored_config.calibration_data.air_measurement,
            stored_config.calibration_data.water_measurement);

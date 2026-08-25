@@ -71,7 +71,7 @@ SENSOR_RESULT sensor_drv_read(uint32_t sensor_gpio, uint32_t *sensor_value) {
 
   ESP_ERROR_CHECK(
       adc_oneshot_io_to_channel(sensor_gpio, &sensor_unit_id, &sensor_channel));
-  ESP_LOGI(TAG, "Resolved GPIO %i to Channel %i", sensor_gpio, sensor_channel);
+  ESP_LOGD(TAG, "Resolved GPIO %i to Channel %i", sensor_gpio, sensor_channel);
 
   if (sensor_unit_id == ADC_UNIT_2) {
     ESP_LOGE(TAG, "Only ADC 1 is allowed (GPIO 32..39)");
@@ -80,7 +80,7 @@ SENSOR_RESULT sensor_drv_read(uint32_t sensor_gpio, uint32_t *sensor_value) {
 
   int raw_value;
   ESP_ERROR_CHECK(adc_oneshot_read(adc1_handle, sensor_channel, &raw_value));
-  ESP_LOGI(TAG, "ADC%d Channel[%d] Raw Data: %d", ADC_UNIT_1 + 1,
+  ESP_LOGD(TAG, "ADC%d Channel[%d] Raw Data: %d", ADC_UNIT_1 + 1,
            sensor_channel, raw_value);
 
   *sensor_value = raw_value;

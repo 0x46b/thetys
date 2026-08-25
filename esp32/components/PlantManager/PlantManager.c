@@ -99,13 +99,13 @@ esp_err_t plant_mgr_set_pump_on_for(plant_handle_T handle,
   ESP_ERROR_CHECK(plant_repo_fetch(handle, &plant));
   led_context_enter(CTX_BUSY);
 
-  ESP_LOGI(TAG, "Setting pump %i on for %ims", plant.pump_handle, time_in_ms);
+  ESP_LOGD(TAG, "Setting pump %i on for %ims", plant.pump_handle, time_in_ms);
   set_pump_state(plant.pump_handle, PUMP_ON);
   vTaskDelay(time_in_ms / portTICK_PERIOD_MS);
   set_pump_state(plant.pump_handle, PUMP_OFF);
 
   led_context_leave(CTX_BUSY);
-  ESP_LOGI(TAG, "Setting pump %i off", plant.pump_handle);
+  ESP_LOGD(TAG, "Setting pump %i off", plant.pump_handle);
   return ESP_OK;
 }
 
@@ -175,6 +175,7 @@ esp_err_t plant_mgr_add_plant(const char *plant_name, uint32_t pump_gpio,
   print_plant(*created_plant);
   start_plant_tasks(created_plant);
 
+  ESP_LOGI(TAG, "Successfully added plant '%s'", created_plant->plant_name);
   return ESP_OK;
 }
 
@@ -184,6 +185,8 @@ esp_err_t plant_mgr_set_plant_status(plant_handle_T handle, bool is_active) {
   plant_T plant;
 
   ESP_ERROR_CHECK(plant_repo_fetch(handle, &plant));
+
+  ESP_LOGI(TAG, "Disabling plant '%s'", plant.plant_name);
   plant.is_active = is_active;
   ESP_ERROR_CHECK(plant_repo_update(plant));
 

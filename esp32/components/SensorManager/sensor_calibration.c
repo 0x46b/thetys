@@ -80,7 +80,7 @@ esp_err_t clean_samples(float *sample_array, uint32_t number_of_samples,
   memcpy(cleaned_samples, buffer, *number_of_cleaned_samples * sizeof(float));
 
   free(buffer);
-  ESP_LOGI(TAG, "Removed %i samples (%i clean samples total)",
+  ESP_LOGD(TAG, "Removed %i samples (%i clean samples total)",
            (number_of_samples - *number_of_cleaned_samples),
            *number_of_cleaned_samples);
   return ESP_OK;
@@ -148,7 +148,7 @@ esp_err_t get_calibration_factor(sensor_T sensor_conf,
 
 uint32_t sensor_get_humidity(int32_t raw_value,
                              sensor_calibration_data_T calibration) {
-  ESP_LOGI(TAG, "Calculating humidity-percentage (adc: %i, air: %i, water: %i)",
+  ESP_LOGD(TAG, "Calculating humidity-percentage (adc: %i, air: %i, water: %i)",
            raw_value, calibration.air_measurement,
            calibration.water_measurement);
 

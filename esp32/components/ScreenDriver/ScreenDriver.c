@@ -33,7 +33,7 @@ static const char *TAG = "UI";
 static lv_disp_t *disp_handle;
 
 UI_RESULT ui_initialize(ui_lcd_gpio_config config) {
-  ESP_LOGI(TAG, "Initialize SPI bus");
+  ESP_LOGD(TAG, "Initialize SPI bus");
   const spi_bus_config_t bus_config = ILI9341_PANEL_BUS_SPI_CONFIG(
       config.gpio_clk, config.gpio_mosi,
       DISP_HEIGHT * LVGL_DRAW_BUF_LINES * sizeof(uint16_t));
@@ -43,7 +43,7 @@ UI_RESULT ui_initialize(ui_lcd_gpio_config config) {
   const esp_lcd_panel_io_spi_config_t io_config =
       ILI9341_PANEL_IO_SPI_CONFIG(config.gpio_cs, config.gpio_dc, NULL, NULL);
 
-  ESP_LOGI(TAG, "Install ILI9341 panel driver");
+  ESP_LOGD(TAG, "Install ILI9341 panel driver");
   ili9341_vendor_config_t my_ili9341_vendor_cfg = {
       .init_cmds = ili9341_lcd_init_vendor,
       .init_cmds_size =
@@ -55,12 +55,12 @@ UI_RESULT ui_initialize(ui_lcd_gpio_config config) {
       .bits_per_pixel = 16,
       .vendor_config = &my_ili9341_vendor_cfg,
   };
-  ESP_LOGI(TAG, "Registering LCD-io-handle");
+  ESP_LOGD(TAG, "Registering LCD-io-handle");
   esp_lcd_panel_io_handle_t io_handle = NULL;
   ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t)LCD_HOST,
                                            &io_config, &io_handle));
 
-  ESP_LOGI(TAG, "Creating panel-handle");
+  ESP_LOGD(TAG, "Creating panel-handle");
   esp_lcd_panel_handle_t panel_handle = NULL;
   ESP_ERROR_CHECK(
       esp_lcd_new_panel_ili9341(io_handle, &panel_config, &panel_handle));
@@ -69,11 +69,11 @@ UI_RESULT ui_initialize(ui_lcd_gpio_config config) {
   ESP_ERROR_CHECK(esp_lcd_panel_invert_color(panel_handle, false));
   ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(panel_handle, true));
 
-  ESP_LOGI(TAG, "Initializing lvgl port");
+  ESP_LOGD(TAG, "Initializing lvgl port");
   const lvgl_port_cfg_t lvgl_cfg = ESP_LVGL_PORT_INIT_CONFIG();
   ESP_ERROR_CHECK(lvgl_port_init(&lvgl_cfg));
 
-  ESP_LOGI(TAG, "Adding lvgl display");
+  ESP_LOGD(TAG, "Adding lvgl display");
   const lvgl_port_display_cfg_t disp_cfg = {
       .io_handle = io_handle,
       .panel_handle = panel_handle,
@@ -97,6 +97,6 @@ UI_RESULT ui_initialize(ui_lcd_gpio_config config) {
     ESP_LOGE(TAG, "LVGL display-registration failed");
     return UI_LVGL_DISP_INIT_ERROR;
   }
-
+  ESP_LOGI(TAG, "Successful initialized ScreenDriver");
   return UI_SUCCESS;
 }
